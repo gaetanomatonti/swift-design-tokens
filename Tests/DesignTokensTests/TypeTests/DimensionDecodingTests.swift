@@ -1,24 +1,28 @@
-import Foundation
 import Testing
 @testable import DesignTokens
 
 @Suite
 struct DimensionDecoding {
-  @Test func successfulDimensionDecoding() throws {
-    let dimension = try Dimension("8 px")
-
-    #expect(dimension.value == 8)
-  }
-
-  @Test func invalidUnitFailure() throws {
+  @Test(
+    arguments: [
+      "8 pt",
+      "A pt",
+    ]
+  )
+  func invalidDimensionStringFailure(dimension: String) throws {
     #expect(throws: DecodingFailure.invalidValue(.invalidDimensionString)) {
-      try Dimension("8 pt")
+      try Dimension(dimension)
     }
   }
 
-  @Test func invalidValueFailure() throws {
-    #expect(throws: DecodingFailure.invalidValue(.invalidDimensionString)) {
-      try Dimension("A pt")
-    }
+  @Test(
+    arguments: [
+      SUT("8 px", expected: Dimension(8.0)),
+      SUT("1 rem", expected: Dimension(1.0)),
+    ]
+  )
+  func successfulDimensionDecoding(dimension: SUT<String, Dimension>) throws {
+    let result = try Dimension(dimension.argument)
+    #expect(result == dimension.expected)
   }
 }

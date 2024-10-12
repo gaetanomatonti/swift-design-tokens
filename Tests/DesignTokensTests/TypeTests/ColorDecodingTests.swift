@@ -4,33 +4,29 @@ import Testing
 
 @Suite
 struct ColorDecoding {
-  @Test func invalidHexStringFailure() {
+  @Test(
+    arguments: [
+      "",
+      "abcdefg",
+      "00AAB",
+    ]
+  )
+  func invalidHexStringFailure(color: String) {
     #expect(throws: DecodingFailure.invalidValue(.invalidHexString)) {
-      try Color("abcdefg")
+      try Color(color)
     }
   }
 
-  @Test func invalidHexCharactersCountFailure() {
-    #expect(throws: DecodingFailure.invalidValue(.invalidHexString)) {
-      try Color("00AAB")
+  @Test(
+    arguments: [
+      SUT("#000000", expected: Color(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)),
+      SUT("#FF00FF00", expected: Color(red: 1.0, green: 0.0, blue: 1.0, alpha: 0.0)),
+    ]
+  )
+  func successfulColorDecoding(color: SUT<String, Color>) {
+    #expect(throws: Never.self) {
+      let result = try Color(color.argument)
+      #expect(result == color.expected)
     }
-  }
-
-  @Test func successfulColorDecoding() throws {
-    let color = try Color("#000000")
-
-    #expect(color.red == 0.0)
-    #expect(color.green == 0.0)
-    #expect(color.blue == 0.0)
-    #expect(color.alpha == 1.0)
-  }
-
-  @Test func successfulColorWithAlpha() throws {
-    let color = try Color("#FF00FF00")
-
-    #expect(color.red == 1.0)
-    #expect(color.green == 0.0)
-    #expect(color.blue == 1.0)
-    #expect(color.alpha == 0.0)
   }
 }
