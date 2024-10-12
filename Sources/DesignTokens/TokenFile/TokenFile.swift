@@ -23,7 +23,7 @@ struct TokenFile: Decodable, Equatable {
     for key in container.allKeys {
       let nestedContainer = try container.nestedContainer(keyedBy: AnyCodingKey.self, forKey: key)
 
-      if nestedContainer.allKeys.allSatisfy(\.isValueKey) {
+      if nestedContainer.allKeys.allSatisfy(\.isPropertyKey) {
         let token = try container.decode(Token.self, forKey: key)
         tokens.insert(token)
       } else {
