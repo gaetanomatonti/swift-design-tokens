@@ -23,9 +23,7 @@ struct Dimension {
         Double($0)
       }
 
-      Optionally {
-        OneOrMore(.whitespace)
-      }
+      ZeroOrMore(.whitespace)
 
       ChoiceOf {
         "px"
@@ -37,7 +35,8 @@ struct Dimension {
       throw DecodingFailure.invalidValue(.invalidDimensionString)
     }
 
-    guard let value = match.output.1 else {
+    let (_, value) = match.output
+    guard let value else {
       throw DecodingFailure.invalidValue(.invalidDimensionValue)
     }
 
