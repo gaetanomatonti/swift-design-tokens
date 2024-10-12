@@ -5,19 +5,24 @@ struct Group {
 
   // MARK: - Stored Properties
 
+  /// The name of the group.
   let name: String
+
+  /// The optional description of the group.
   let description: String?
-  let type: TokenType?
-  let groups: Set<Group>
+
+  /// The subgroups of the groups.
+  let subgroups: Set<Group>
+
+  /// The tokens in the group.
   let tokens: Set<Token>
 
   // MARK: - Init
 
-  init(name: String, description: String? = nil, type: TokenType? = nil, groups: Set<Group> = [], tokens: Set<Token> = []) {
+  init(name: String, description: String? = nil, subgroups: Set<Group> = [], tokens: Set<Token> = []) {
     self.name = name
     self.description = description
-    self.type = type
-    self.groups = groups
+    self.subgroups = subgroups
     self.tokens = tokens
   }
 }
@@ -32,9 +37,9 @@ extension Group: DecodableWithConfiguration {
 
     self.name = name.stringValue
     self.description = try container.decodeIfPresent(String.self, forKey: .description)
-    self.type = try container.decodeIfPresent(TokenType.self, forKey: .type) ?? configuration.type
+    let type = try container.decodeIfPresent(TokenType.self, forKey: .type) ?? configuration.type
 
-    var groups: Set<Group> = []
+    var subgroups: Set<Group> = []
     var tokens: Set<Token> = []
 
     for key in container.allKeys where key.isNameKey {
@@ -43,11 +48,11 @@ extension Group: DecodableWithConfiguration {
         tokens.insert(token)
       } else {
         let subgroup = try container.decode(Group.self, forKey: key, configuration: GroupDecodingConfiguration(type: type))
-        groups.insert(subgroup)
+        subgroups.insert(subgroup)
       }
     }
 
-    self.groups = groups
+    self.subgroups = subgroups
     self.tokens = tokens
   }
 }

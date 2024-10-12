@@ -9,7 +9,7 @@ import Testing
 
   let expected = TokenFile(
     tokens: [
-      Token(name: "primary", value: "#FF00FF", type: .color, path: ["primary"]),
+      Token(name: "primary", value: .color(Color(red: 1, green: 0, blue: 1, alpha: 1)), path: ["primary"]),
     ],
     groups: []
   )
@@ -24,32 +24,29 @@ import Testing
 
   let expected = TokenFile(
     tokens: [
-      Token(name: "small", value: "8 px", type: .dimension, path: ["small"]),
+      Token(name: "small", value: .dimension(Dimension(8)), path: ["small"]),
     ],
     groups: [
       Group(
         name: "colors",
-        type: .color,
-        groups: [
+        subgroups: [
           Group(
             name: "background",
             description: "Background colors",
-            type: .color,
             tokens: [
-              Token(name: "base", value: "#FFFFFF", type: .color, path: ["colors", "background", "base"]),
+              Token(name: "base", value: .color(Color(red: 1, green: 1, blue: 1, alpha: 1)), path: ["colors", "background", "base"]),
             ]
           ),
           Group(
             name: "text",
             description: "Text colors",
-            type: .color,
             tokens: [
-              Token(name: "primary", value: "#000000", type: .color, path: ["colors", "text", "primary"]),
+              Token(name: "primary", value: .color(Color(red: 0, green: 0, blue: 0, alpha: 1)), path: ["colors", "text", "primary"]),
             ]
           )
         ],
         tokens: [
-          Token(name: "red", value: "#FF0000", type: .color, path: ["colors", "red"])
+          Token(name: "red", value: .color(Color(red: 1, green: 0, blue: 0, alpha: 1)), path: ["colors", "red"])
         ]
       )
     ]
