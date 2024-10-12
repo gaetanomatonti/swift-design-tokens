@@ -25,7 +25,11 @@ extension TokenFile {
     init(from decoder: any Decoder) throws {
       let container = try decoder.container(keyedBy: AnyCodingKey.self)
 
-      self.name = container.codingPath.last!.stringValue
+      guard let name = container.codingPath.last else {
+        throw Failure.invalidCodingPath
+      }
+
+      self.name = name.stringValue
       self.description = try container.decodeIfPresent(String.self, forKey: .description)
       self.type = try container.decodeIfPresent(ValueType.self, forKey: .type)
 
