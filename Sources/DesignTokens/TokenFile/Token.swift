@@ -50,8 +50,14 @@ extension Token: DecodableWithConfiguration {
       self.value = .dimension(dimension)
 
     case .none:
-      // Check alias, else fail
-      throw DecodingFailure.missingType
+      do {
+        let alias = try Alias(valueString)
+        self.value = .alias(alias.path)
+      } catch .invalidValue(.invalidReferenceSyntax) {
+        throw DecodingFailure.missingType
+      } catch {
+        throw error
+      }
     }
 
     guard let name = container.codingPath.last else {

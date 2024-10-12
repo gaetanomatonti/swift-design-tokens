@@ -25,7 +25,8 @@ let package = Package(
       name: "DesignTokensTests",
       dependencies: ["DesignTokens"],
       resources: [
-        .copy("Resources/color_token.json"),
+        .copy("Resources/alias.json"),
+        .copy("Resources/color.json"),
         .copy("Resources/groups.json"),
       ]
     ),

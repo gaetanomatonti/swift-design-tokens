@@ -2,8 +2,30 @@ import Foundation
 import Testing
 @testable import DesignTokens
 
+@Test func decodeAliasToken() throws {
+  let data = try #require(loadJSON(named: "alias"))
+  let decoder = JSONDecoder()
+  let file = try decoder.decode(TokenFile.self, from: data)
+
+  let expected = TokenFile(
+    tokens: [
+      Token(name: "primary", value: .alias(["colors", "text"]), path: ["primary"]),
+    ],
+    groups: [
+      Group(
+        name: "colors",
+        tokens: [
+          Token(name: "text", value: .color(Color(red: 0, green: 0, blue: 0, alpha: 1)), path: ["colors", "text"])
+        ]
+      )
+    ]
+  )
+
+  #expect(file == expected)
+}
+
 @Test func decodeColorToken() throws {
-  let data = try #require(loadJSON(named: "color_token"))
+  let data = try #require(loadJSON(named: "color"))
   let decoder = JSONDecoder()
   let file = try decoder.decode(TokenFile.self, from: data)
 

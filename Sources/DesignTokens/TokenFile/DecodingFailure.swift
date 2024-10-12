@@ -12,6 +12,12 @@ enum DecodingFailure: Error {
 
     /// The value of the dimension is not a valid number.
     case invalidDimensionValue
+
+    /// The value of the alias is not a valid token reference.
+    case invalidReferenceSyntax
+
+    /// The value of the token reference is not valid.
+    case invalidReferenceValue
   }
 
   /// The coding path from the decoding process is invalid.

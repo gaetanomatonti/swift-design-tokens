@@ -37,6 +37,7 @@ extension Group: DecodableWithConfiguration {
 
     self.name = name.stringValue
     self.description = try container.decodeIfPresent(String.self, forKey: .description)
+    
     let type = try container.decodeIfPresent(TokenType.self, forKey: .type) ?? configuration.type
 
     var nestedGroups: Set<Group> = []
