@@ -1,8 +1,15 @@
 import Foundation
 import RegexBuilder
 
+/// A type representing a dimension.
 struct Dimension {
+
+  // MARK: - Stored Properties
+
+  /// The value of the dimension.
   let value: Double
+
+  // MARK: - Init
 
   init(_ value: Double) {
     self.value = value

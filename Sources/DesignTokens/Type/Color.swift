@@ -1,17 +1,25 @@
 import Foundation
 
+/// A type representing a color.
 struct Color {
+
+  // MARK: - Stored Properties
+  
+  /// The red component of the color.
   let red: Double
 
+  /// The green component of the color.
   let green: Double
 
+  /// The blue component of the color.
   let blue: Double
 
+  /// The alpha component of the color.
   let alpha: Double
 
   // MARK: - Init
 
-  init (red: Double, green: Double, blue: Double, alpha: Double) {
+  init(red: Double, green: Double, blue: Double, alpha: Double) {
     self.red = red
     self.green = green
     self.blue = blue
