@@ -4,9 +4,9 @@
     "$type": "dimension"
   },
   "colors": {
+    "$type": "color",
     "red": {
       "$value": "#FF0000",
-      "$type": "color"
     },
     "text": {
       "$description": "Text colors",

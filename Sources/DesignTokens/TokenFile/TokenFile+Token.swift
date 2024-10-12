@@ -1,40 +1,50 @@
 import Foundation
 
+struct TokenConfiguration {
+  let type: TokenFile.ValueType?
+
+  init(type: TokenFile.ValueType? = nil) {
+    self.type = type
+  }
+}
+
 extension TokenFile {
   /// A type representing a token in a design token file.
-  struct Token: Decodable, Equatable, Hashable {
+  struct Token: DecodableWithConfiguration, Equatable, Hashable {
 
     // MARK: - Stored Properties
     
     let name: String
-    let value: String
     let description: String?
-    let type: ValueType?
+    let value: String
+    let type: ValueType
     let path: [String]
 
     // MARK: - Init
 
-    init(name: String, value: String, description: String? = nil, type: ValueType? = nil, path: [String]) {
+    init(name: String, description: String? = nil, value: String, type: ValueType, path: [String]) {
       self.name = name
-      self.value = value
       self.description = description
+      self.value = value
       self.type = type
       self.path = path
     }
 
-    init(from decoder: any Decoder) throws {
+    init(from decoder: any Decoder, configuration: TokenConfiguration) throws {
       let container = try decoder.container(keyedBy: AnyCodingKey.self)
+
+      guard let type = try container.decodeIfPresent(ValueType.self, forKey: .type) ?? configuration.type else {
+        throw Failure.missingType
+      }
 
       guard let name = container.codingPath.last else {
         throw Failure.invalidCodingPath
       }
 
       self.name = name.stringValue
-
-      self.value = try container.decode(String.self, forKey: .value)
       self.description = try container.decodeIfPresent(String.self, forKey: .description)
-      self.type = try container.decodeIfPresent(ValueType.self, forKey: .type)
-
+      self.value = try container.decode(String.self, forKey: .value)
+      self.type = type
       self.path = container.codingPath.map(\.stringValue)
     }
 

@@ -29,10 +29,12 @@ import Testing
     groups: [
       TokenFile.Group(
         name: "colors",
+        type: .color,
         groups: [
           TokenFile.Group(
             name: "background",
             description: "Background colors",
+            type: .color,
             tokens: [
               TokenFile.Token(name: "base", value: "#FFFFFF", type: .color, path: ["colors", "background", "base"]),
             ]
@@ -40,6 +42,7 @@ import Testing
           TokenFile.Group(
             name: "text",
             description: "Text colors",
+            type: .color,
             tokens: [
               TokenFile.Token(name: "primary", value: "#000000", type: .color, path: ["colors", "text", "primary"]),
             ]
@@ -52,7 +55,8 @@ import Testing
     ]
   )
 
-  #expect(file == expected)
+  #expect(file.tokens == expected.tokens)
+  #expect(file.groups == expected.groups)
 }
 
 fileprivate func loadJSON(named fileName: String) -> Data? {
