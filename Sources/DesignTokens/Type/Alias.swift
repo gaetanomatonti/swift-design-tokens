@@ -27,15 +27,11 @@ struct Alias {
       One("}")
     }
 
-    do {
-      guard let match = try regex.wholeMatch(in: stringValue) else {
-        throw DecodingFailure.invalidValue(.invalidReferenceSyntax)
-      }
-
-      let (_, value) = match.output
-      self.path = value.components(separatedBy: ".")
-    } catch {
-      throw DecodingFailure.invalidValue(.invalidReferenceValue)
+    guard let match = stringValue.wholeMatch(of: regex) else {
+      throw DecodingFailure.invalidValue(.invalidReferenceSyntax)
     }
+    
+    let (_, value) = match.output
+    self.path = value.components(separatedBy: ".")
   }
 }

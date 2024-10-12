@@ -15,9 +15,6 @@ enum DecodingFailure: Error {
 
     /// The value of the alias is not a valid token reference.
     case invalidReferenceSyntax
-
-    /// The value of the token reference is not valid.
-    case invalidReferenceValue
   }
 
   /// The coding path from the decoding process is invalid.
@@ -29,3 +26,7 @@ enum DecodingFailure: Error {
   /// The token has an invalid value.
   case invalidValue(ValueFailure)
 }
+
+extension DecodingFailure: Equatable {}
+
+extension DecodingFailure.ValueFailure: Equatable {}

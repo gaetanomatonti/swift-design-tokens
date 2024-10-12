@@ -28,6 +28,8 @@ let package = Package(
         .copy("Resources/alias.json"),
         .copy("Resources/color.json"),
         .copy("Resources/groups.json"),
+        .copy("Resources/missingTypeFailure.json"),
+        .copy("Resources/missingTypeWithAlias.json"),
       ]
     ),
   ]
