@@ -9,7 +9,7 @@ import Testing
 
   let expected = TokenFile(
     tokens: [
-      TokenFile.Token(name: "primary", value: "#FF00FF", description: nil, type: "color", path: ["primary"]),
+      TokenFile.Token(name: "primary", value: "#FF00FF", type: .color, path: ["primary"]),
     ],
     groups: []
   )
@@ -24,7 +24,7 @@ import Testing
 
   let expected = TokenFile(
     tokens: [
-      TokenFile.Token(name: "small", value: "8 px", type: "dimension", path: ["small"]),
+      TokenFile.Token(name: "small", value: "8 px", type: .dimension, path: ["small"]),
     ],
     groups: [
       TokenFile.Group(
@@ -34,19 +34,19 @@ import Testing
             name: "background",
             description: "Background colors",
             tokens: [
-              TokenFile.Token(name: "base", value: "#FFFFFF", type: "color", path: ["colors", "background", "base"]),
+              TokenFile.Token(name: "base", value: "#FFFFFF", type: .color, path: ["colors", "background", "base"]),
             ]
           ),
           TokenFile.Group(
             name: "text",
             description: "Text colors",
             tokens: [
-              TokenFile.Token(name: "primary", value: "#000000", type: "color", path: ["colors", "text", "primary"]),
+              TokenFile.Token(name: "primary", value: "#000000", type: .color, path: ["colors", "text", "primary"]),
             ]
           )
         ],
         tokens: [
-          TokenFile.Token(name: "red", value: "#FF0000", type: "color", path: ["colors", "red"])
+          TokenFile.Token(name: "red", value: "#FF0000", type: .color, path: ["colors", "red"])
         ]
       )
     ]

@@ -8,13 +8,13 @@ extension TokenFile {
 
     let name: String
     let description: String?
-    let type: String?
+    let type: ValueType?
     let groups: Set<Group>
     let tokens: Set<Token>
 
     // MARK: - Init
 
-    init(name: String, description: String? = nil, type: String? = nil, groups: Set<Group> = [], tokens: Set<Token> = []) {
+    init(name: String, description: String? = nil, type: ValueType? = nil, groups: Set<Group> = [], tokens: Set<Token> = []) {
       self.name = name
       self.description = description
       self.type = type
@@ -26,16 +26,14 @@ extension TokenFile {
       let container = try decoder.container(keyedBy: AnyCodingKey.self)
 
       self.name = container.codingPath.last!.stringValue
-      self.description = try container.decodeIfPresent(String.self, forKey: AnyCodingKey(stringValue: "$description")!)
-      self.type = try container.decodeIfPresent(String.self, forKey: AnyCodingKey(stringValue: "$type")!)
+      self.description = try container.decodeIfPresent(String.self, forKey: .description)
+      self.type = try container.decodeIfPresent(ValueType.self, forKey: .type)
 
       var groups: Set<Group> = []
       var tokens: Set<Token> = []
 
       for key in container.allKeys where key.isNameKey {
-        let nestedContainer = try container.nestedContainer(keyedBy: AnyCodingKey.self, forKey: key)
-
-        if nestedContainer.allKeys.allSatisfy(\.isPropertyKey) {
+        if try container.isTokenContainer(for: key) {
           let token = try container.decode(Token.self, forKey: key)
           tokens.insert(token)
         } else {

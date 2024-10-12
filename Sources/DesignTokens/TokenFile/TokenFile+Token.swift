@@ -3,20 +3,13 @@ import Foundation
 extension TokenFile {
   /// A type representing a token in a design token file.
   struct Token: Decodable, Equatable, Hashable {
-    enum CodingKeys: String, CodingKey {
-      case name
-      case value = "$value"
-      case description = "$description"
-      case type = "$type"
-    }
-
     let name: String
     let value: String
     let description: String?
-    let type: String?
+    let type: ValueType?
     let path: [String]
 
-    init(name: String, value: String, description: String? = nil, type: String? = nil, path: [String]) {
+    init(name: String, value: String, description: String? = nil, type: ValueType? = nil, path: [String]) {
       self.name = name
       self.value = value
       self.description = description
@@ -25,13 +18,13 @@ extension TokenFile {
     }
 
     init(from decoder: any Decoder) throws {
-      let container = try decoder.container(keyedBy: CodingKeys.self)
+      let container = try decoder.container(keyedBy: AnyCodingKey.self)
 
       self.name = container.codingPath.last!.stringValue
 
       self.value = try container.decode(String.self, forKey: .value)
       self.description = try container.decodeIfPresent(String.self, forKey: .description)
-      self.type = try container.decodeIfPresent(String.self, forKey: .type)
+      self.type = try container.decodeIfPresent(ValueType.self, forKey: .type)
 
       self.path = container.codingPath.map(\.stringValue)
     }
