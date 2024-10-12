@@ -24,10 +24,10 @@ struct TokenFile: Decodable, Equatable {
 
     for key in container.allKeys {
       if try container.isTokenContainer(for: key) {
-        let token = try container.decode(Token.self, forKey: key, configuration: TokenConfiguration())
+        let token = try container.decode(Token.self, forKey: key, configuration: TokenDecodingConfiguration())
         tokens.insert(token)
       } else {
-        let group = try container.decode(Group.self, forKey: key, configuration: GroupConfiguration())
+        let group = try container.decode(Group.self, forKey: key, configuration: GroupDecodingConfiguration())
         groups.insert(group)
       }
     }
