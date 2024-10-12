@@ -29,7 +29,7 @@ import Testing
     groups: [
       Group(
         name: "colors",
-        subgroups: [
+        nestedGroups: [
           Group(
             name: "background",
             description: "Background colors",
