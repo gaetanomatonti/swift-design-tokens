@@ -29,3 +29,7 @@ enum DecodingFailure: Error {
   /// The token has an invalid value.
   case invalidValue(ValueFailure)
 }
+
+extension DecodingFailure: Equatable {}
+
+extension DecodingFailure.ValueFailure: Equatable {}
