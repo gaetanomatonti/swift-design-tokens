@@ -1,23 +1,34 @@
 import Foundation
 
-/// A type representing a token in a design token file.
+// A type defining the structure of a design token.
 struct Token {
+  /// The possible values of a design token.
+  enum Value: Equatable {
+    case color(Color)
+    case dimension(Dimension)
+    case alias(Path)
+  }
 
-  // MARK: - Stored Properties
+  typealias Path = [String]
 
+  /// The name of the token.
   let name: String
+
+  /// The optional description of the token.
   let description: String?
-  let value: String
-  let type: TokenType
-  let path: [String]
 
-  // MARK: - Init
+  /// The value of the token.
+  let value: Value
 
-  init(name: String, description: String? = nil, value: String, type: TokenType, path: [String]) {
+  /// The path to the token.
+  ///
+  /// If the token is not contained in a group, this array contains only the `name` of the token.
+  let path: Path
+
+  init(name: String, description: String? = nil, value: Value, path: Path) {
     self.name = name
     self.description = description
     self.value = value
-    self.type = type
     self.path = path
   }
 }
@@ -26,8 +37,27 @@ extension Token: DecodableWithConfiguration {
   init(from decoder: any Decoder, configuration: TokenDecodingConfiguration) throws {
     let container = try decoder.container(keyedBy: AnyCodingKey.self)
 
-    guard let type = try container.decodeIfPresent(TokenType.self, forKey: .type) ?? configuration.type else {
-      throw DecodingFailure.missingType
+    let type = try container.decodeIfPresent(TokenType.self, forKey: .type) ?? configuration.type
+    let valueString = try container.decode(String.self, forKey: .value)
+
+    switch type {
+    case .some(.color):
+      let color = try Color(valueString)
+      self.value = .color(color)
+
+    case .some(.dimension):
+      let dimension = try Dimension(valueString)
+      self.value = .dimension(dimension)
+
+    case .none:
+      do {
+        let alias = try Alias(valueString)
+        self.value = .alias(alias.path)
+      } catch .invalidValue(.invalidReferenceSyntax) {
+        throw DecodingFailure.missingType
+      } catch {
+        throw error
+      }
     }
 
     guard let name = container.codingPath.last else {
@@ -36,8 +66,6 @@ extension Token: DecodableWithConfiguration {
 
     self.name = name.stringValue
     self.description = try container.decodeIfPresent(String.self, forKey: .description)
-    self.value = try container.decode(String.self, forKey: .value)
-    self.type = type
     self.path = container.codingPath.map(\.stringValue)
   }
 }

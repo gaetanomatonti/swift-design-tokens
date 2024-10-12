@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
   name: "DesignTokens",
   platforms: [
-    .macOS(.v12)
+    .macOS(.v13)
   ],
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -25,7 +25,8 @@ let package = Package(
       name: "DesignTokensTests",
       dependencies: ["DesignTokens"],
       resources: [
-        .copy("Resources/color_token.json"),
+        .copy("Resources/alias.json"),
+        .copy("Resources/color.json"),
         .copy("Resources/groups.json"),
       ]
     ),
