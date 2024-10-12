@@ -24,10 +24,8 @@ struct AliasDecoding {
       SUT("{group.token.name}", expected: ["group", "token", "name"]),
     ]
   )
-  func successfulAliasDecoding(reference: SUT<String, [String]>) {
-    #expect(throws: Never.self) {
-      let alias = try Alias(reference.argument)
-      #expect(alias.path == reference.expected)
-    }
+  func successfulAliasDecoding(reference: SUT<String, [String]>) throws {
+    let alias = try Alias(reference.argument)
+    #expect(alias.path == reference.expected)
   }
 }

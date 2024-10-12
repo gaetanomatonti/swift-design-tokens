@@ -23,10 +23,8 @@ struct ColorDecoding {
       SUT("#FF00FF00", expected: Color(red: 1.0, green: 0.0, blue: 1.0, alpha: 0.0)),
     ]
   )
-  func successfulColorDecoding(color: SUT<String, Color>) {
-    #expect(throws: Never.self) {
-      let result = try Color(color.argument)
-      #expect(result == color.expected)
-    }
+  func successfulColorDecoding(color: SUT<String, Color>) throws {
+    let result = try Color(color.argument)
+    #expect(result == color.expected)
   }
 }
