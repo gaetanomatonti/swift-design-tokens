@@ -15,7 +15,7 @@ extension TokenFile {
     let type: String?
     let path: [String]
 
-    init(name: String, value: String, description: String?, type: String?, path: [String]) {
+    init(name: String, value: String, description: String? = nil, type: String? = nil, path: [String]) {
       self.name = name
       self.value = value
       self.description = description
