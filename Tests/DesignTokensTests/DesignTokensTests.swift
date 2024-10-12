@@ -1,0 +1,61 @@
+import Foundation
+import Testing
+@testable import DesignTokens
+
+@Test func decodeColorToken() throws {
+  let data = try #require(loadJSON(named: "color_token"))
+  let decoder = JSONDecoder()
+  let file = try decoder.decode(TokenFile.self, from: data)
+
+  let expected = TokenFile(
+    tokens: [
+      TokenFile.Token(name: "primary", value: "#FF00FF", description: nil, type: "color", path: ["primary"]),
+    ],
+    groups: []
+  )
+
+  #expect(file == expected)
+}
+
+@Test func decodeGroups() throws {
+  let data = try #require(loadJSON(named: "groups"))
+  let decoder = JSONDecoder()
+  let file = try decoder.decode(TokenFile.self, from: data)
+
+  let expected = TokenFile(
+    tokens: [
+      TokenFile.Token(name: "small", value: "8 px", description: nil, type: "dimension", path: ["small"]),
+    ],
+    groups: [
+      TokenFile.Group(
+        name: "colors",
+        groups: [
+          TokenFile.Group(
+            name: "background",
+            description: "Background colors",
+            tokens: [
+              TokenFile.Token(name: "base", value: "#FFFFFF", description: nil, type: "color", path: ["colors", "background", "base"]),
+            ]
+          ),
+          TokenFile.Group(
+            name: "text",
+            description: "Text colors",
+            tokens: [
+              TokenFile.Token(name: "primary", value: "#000000", description: nil, type: "color", path: ["colors", "text", "primary"]),
+            ]
+          )
+        ]
+      )
+    ]
+  )
+
+  #expect(file == expected)
+}
+
+fileprivate func loadJSON(named fileName: String) -> Data? {
+  guard let url = Bundle.module.url(forResource: fileName, withExtension: "json") else {
+    return nil
+  }
+
+  return try? Data(contentsOf: url)
+}

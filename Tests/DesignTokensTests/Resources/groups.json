@@ -1,0 +1,22 @@
+{
+  "small": {
+    "$value": "8 px",
+    "$type": "dimension"
+  },
+  "colors": {
+    "text": {
+      "$description": "Text colors",
+      "primary": {
+        "$value": "#000000",
+        "$type": "color"
+      }
+    },
+    "background": {
+      "$description": "Background colors",
+      "base": {
+        "$value": "#FFFFFF",
+        "$type": "color"
+      }
+    }
+  }
+}
