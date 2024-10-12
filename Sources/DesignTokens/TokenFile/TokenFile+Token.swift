@@ -1,6 +1,7 @@
 import Foundation
 
 extension TokenFile {
+  /// A type representing a token in a design token file.
   struct Token: Decodable, Equatable, Hashable {
     enum CodingKeys: String, CodingKey {
       case name

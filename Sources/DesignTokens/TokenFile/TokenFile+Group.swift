@@ -1,6 +1,7 @@
 import Foundation
 
 extension TokenFile {
+  /// A type representing a group in a design token file.
   struct Group: Decodable, Equatable, Hashable {
 
     // MARK: - Stored Properties

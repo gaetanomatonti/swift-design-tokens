@@ -1,10 +1,12 @@
 import Foundation
 
+/// A type representing a design tokens file.
 struct TokenFile: Decodable, Equatable {
 
   // MARK: - Stored Properties
   
   let tokens: Set<Token>
+
   let groups: Set<Group>
 
   // MARK: - Init

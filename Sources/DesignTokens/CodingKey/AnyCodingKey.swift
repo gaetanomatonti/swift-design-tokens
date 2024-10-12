@@ -1,5 +1,8 @@
 import Foundation
 
+/// A type representing any key value.
+///
+/// Use this type as a `CodingKey` when the keys of a container are unknown.
 struct AnyCodingKey: CodingKey {
   let stringValue: String
   let intValue: Int?
