@@ -8,12 +8,12 @@ struct Token {
   let name: String
   let description: String?
   let value: String
-  let type: ValueType
+  let type: TokenType
   let path: [String]
 
   // MARK: - Init
 
-  init(name: String, description: String? = nil, value: String, type: ValueType, path: [String]) {
+  init(name: String, description: String? = nil, value: String, type: TokenType, path: [String]) {
     self.name = name
     self.description = description
     self.value = value
@@ -26,7 +26,7 @@ extension Token: DecodableWithConfiguration {
   init(from decoder: any Decoder, configuration: TokenDecodingConfiguration) throws {
     let container = try decoder.container(keyedBy: AnyCodingKey.self)
 
-    guard let type = try container.decodeIfPresent(ValueType.self, forKey: .type) ?? configuration.type else {
+    guard let type = try container.decodeIfPresent(TokenType.self, forKey: .type) ?? configuration.type else {
       throw DecodingFailure.missingType
     }
 

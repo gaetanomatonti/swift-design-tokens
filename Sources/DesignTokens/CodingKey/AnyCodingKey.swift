@@ -4,8 +4,14 @@ import Foundation
 ///
 /// Use this type as a `CodingKey` when the keys of a container are unknown.
 struct AnyCodingKey: CodingKey {
+
+  // MARK: - Stored Properties
+  
   let stringValue: String
+
   let intValue: Int?
+
+  // MARK: - Init
 
   init(_ stringValue: String) {
     self.stringValue = stringValue
@@ -22,6 +28,8 @@ struct AnyCodingKey: CodingKey {
     self.intValue = intValue
   }
 }
+
+extension AnyCodingKey: Equatable {}
 
 extension AnyCodingKey: ExpressibleByStringLiteral {
   init(stringLiteral value: StringLiteralType) {
