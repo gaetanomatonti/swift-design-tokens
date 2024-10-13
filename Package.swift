@@ -10,20 +10,24 @@ let package = Package(
   ],
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
-    .library(
-      name: "DesignTokens",
-      targets: ["DesignTokens"]
-    ),
+    .executable(
+      name: "DesignTokensTool",
+      targets: [
+        "DesignTokensTool"
+      ]
+    )
   ],
   targets: [
-    // Targets are the basic building blocks of a package, defining a module or a test suite.
-    // Targets can depend on other targets in this package and products from dependencies.
+    .executableTarget(
+      name: "DesignTokensTool",
+      dependencies: ["DesignTokensCore"]
+    ),
     .target(
-      name: "DesignTokens"
+      name: "DesignTokensCore"
     ),
     .testTarget(
-      name: "DesignTokensTests",
-      dependencies: ["DesignTokens"],
+      name: "DesignTokensCoreTests",
+      dependencies: ["DesignTokensCore"],
       resources: [
         .copy("Resources/alias.json"),
         .copy("Resources/color.json"),

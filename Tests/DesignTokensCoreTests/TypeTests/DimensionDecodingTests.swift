@@ -1,5 +1,5 @@
 import Testing
-@testable import DesignTokens
+@testable import DesignTokensCore
 
 @Suite
 struct DimensionDecoding {
