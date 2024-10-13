@@ -1,14 +1,14 @@
 import Foundation
 
 struct ConfigurationLoader {
-  private let configurationFileURL: URL
+  private let configurationLocator: ConfigurationLocator
 
-  init(using locator: ConfigurationLocator) {
-    configurationFileURL = locator.fileURL
+  package init(using locator: ConfigurationLocator) {
+    self.configurationLocator = locator
   }
 
   func load() throws -> Configuration {
-    let data = try Data(contentsOf: configurationFileURL)
+    let data = try Data(contentsOf: configurationLocator.fileURL)
     let decoder = JSONDecoder()
     return try decoder.decode(Configuration.self, from: data)
   }
