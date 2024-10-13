@@ -21,13 +21,13 @@ struct DesignTokenDecoding {
     
     let expected = TokenFile(
       tokens: [
-        Token(name: "red", value: .alias(["colors", "red"]), path: ["red"]),
+        Token(name: "red", type: nil, value: .alias(["colors", "red"]), path: ["red"]),
       ],
       groups: [
         Group(
           name: "colors",
           tokens: [
-            Token(name: "red", value: .color(Color(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)), path: ["colors", "red"]),
+            Token(name: "red", type: .color, value: .color(Color(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)), path: ["colors", "red"]),
           ]
         )
       ]
@@ -44,7 +44,7 @@ struct DesignTokenDecoding {
 
     let expected = TokenFile(
       tokens: [
-        Token(name: "small", value: .dimension(Dimension(8)), path: ["small"]),
+        Token(name: "small", type: .dimension, value: .dimension(Dimension(8)), path: ["small"]),
       ],
       groups: [
         Group(
@@ -54,19 +54,19 @@ struct DesignTokenDecoding {
               name: "background",
               description: "Background colors",
               tokens: [
-                Token(name: "base", value: .color(Color(red: 1, green: 1, blue: 1, alpha: 1)), path: ["colors", "background", "base"]),
+                Token(name: "base", type: .color, value: .color(Color(red: 1, green: 1, blue: 1, alpha: 1)), path: ["colors", "background", "base"]),
               ]
             ),
             Group(
               name: "text",
               description: "Text colors",
               tokens: [
-                Token(name: "primary", value: .color(Color(red: 0, green: 0, blue: 0, alpha: 1)), path: ["colors", "text", "primary"]),
+                Token(name: "primary", type: .color, value: .color(Color(red: 0, green: 0, blue: 0, alpha: 1)), path: ["colors", "text", "primary"]),
               ]
             )
           ],
           tokens: [
-            Token(name: "red", value: .color(Color(red: 1, green: 0, blue: 0, alpha: 1)), path: ["colors", "red"])
+            Token(name: "red", type: .color, value: .color(Color(red: 1, green: 0, blue: 0, alpha: 1)), path: ["colors", "red"]),
           ]
         )
       ]
@@ -74,6 +74,29 @@ struct DesignTokenDecoding {
 
     #expect(file.tokens == expected.tokens)
     #expect(file.groups == expected.groups)
+  }
+
+  @Test(
+    arguments: [
+      SUT(
+        TokenType.dimension,
+        expected: [Token(name: "small", type: .dimension, value: .dimension(Dimension(8)), path: ["small"]),]
+      ),
+      SUT(
+        TokenType.color,
+        expected: [
+          Token(name: "base", type: .color, value: .color(Color(red: 1, green: 1, blue: 1, alpha: 1)), path: ["colors", "background", "base"]),
+          Token(name: "primary", type: .color, value: .color(Color(red: 0, green: 0, blue: 0, alpha: 1)), path: ["colors", "text", "primary"]),
+          Token(name: "red", type: .color, value: .color(Color(red: 1, green: 0, blue: 0, alpha: 1)), path: ["colors", "red"]),
+        ]
+      )
+    ]
+  )
+  func fetchTypedTokens(sut: SUT<TokenType, [Token]>) async throws {
+    let data = try #require(loadJSON(named: "groups"))
+    let tree = try decoder.decode(DesignTokenTree.self, from: data)
+
+    #expect(tree.tokens(of: sut.argument).sorted(by: { $0.name < $1.name }) == sut.expected)
   }
 
   fileprivate func loadJSON(named fileName: String) -> Data? {

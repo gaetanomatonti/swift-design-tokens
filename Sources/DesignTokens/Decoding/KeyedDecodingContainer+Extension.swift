@@ -28,8 +28,7 @@ extension KeyedDecodingContainer<AnyCodingKey> {
   ///
   /// - Parameter key: The key of the nested container.
   /// - Returns: A `Bool` indicating whether the nested container contains token properties.
-  func isTokenContainer(for key: AnyCodingKey) throws -> Bool {
-    let container = try nestedContainer(keyedBy: AnyCodingKey.self, forKey: key)
-    return container.allKeys.contains { $0 == .value }
+  var isTokenContainer: Bool {
+    allKeys.contains { $0 == .value }
   }
 }
