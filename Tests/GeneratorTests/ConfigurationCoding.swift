@@ -29,15 +29,18 @@ struct ConfigurationCoding {
 
     let configuration = Configuration(
       .output(
-        at: "",
+        at: "Output",
         with: .sourceCode([.swiftUI])
       ),
-      from: ""
+      from: "design-tokens.json"
     )
 
     let data = try encoder.encode(configuration)
-    let json = try #require(String(data: data, encoding: .utf8))
-    print(json)
+
+    let decoder = JSONDecoder()
+    let result = try decoder.decode(Configuration.self, from: data)
+
+    #expect(result == configuration)
   }
 
   fileprivate func loadJSON(named fileName: String) -> Data? {
