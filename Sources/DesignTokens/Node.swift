@@ -1,17 +1,30 @@
 import Foundation
 
+/// A type representing a token, or group node in a design token tree.
 struct Node {
+  /// The name of the node.
   let name: String
+
+  /// The description of the node.
   let description: String?
+
+  /// The type of the node.
   let type: TokenType?
+
+  /// The value of the node.
+  ///
+  /// This property has a value when the node represents a token.
   let value: TokenValue?
+
+  /// The path to the node.
   let path: [String]
 
+  /// The children of the node.
+  ///
+  /// This array should contain nodes only if the node represents a group.
   var children: [Node] = []
 
-  var isToken: Bool {
-    value != nil
-  }
+  // MARK: - Init
 
   init(name: String, description: String? = nil, type: TokenType? = nil, value: TokenValue? = nil, path: [String] = [], children: [Node] = []) {
     self.name = name
@@ -22,26 +35,16 @@ struct Node {
     self.children = children
   }
 
+  // MARK: - Functions
+
   mutating func add(_ child: Node) {
     children.append(child)
   }
 
-  func depthFirstTraversal(visit: (Node) -> Void) {
+  func depthFirstTraversal(_ visit: (Node) -> Void) {
     visit(self)
     children.forEach {
-      $0.depthFirstTraversal(visit: visit)
-    }
-  }
-
-  func levelOrderTraversal(visit: (Node) -> Void) {
-    visit(self)
-    var queue = [Node]()
-    children.forEach { queue.append($0) }
-
-    while !queue.isEmpty {
-      let node = queue.removeFirst()
-      visit(node)
-      node.children.forEach { queue.append($0) }
+      $0.depthFirstTraversal(visit)
     }
   }
 

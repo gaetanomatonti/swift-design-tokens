@@ -1,7 +1,7 @@
 import Foundation
 
 /// A protocol defining requirements for a token.
-protocol Token {
+protocol Token: Equatable {
   /// The name of the token.
   var name: String { get }
 
