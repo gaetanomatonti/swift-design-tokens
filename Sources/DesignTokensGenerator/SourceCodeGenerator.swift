@@ -33,7 +33,13 @@ extension Color {
   static let red = Color(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
 }
 
-struct ColorToken {
+protocol Token {
+  var name: String { get }
+  var description: String? { get }
+  var path: [String] { get }
+}
+
+struct ColorToken: Token {
   let name: String
   let description: String?
   let color: Color
@@ -48,7 +54,7 @@ struct ColorToken {
 }
 
 struct SourceCodeGenerator {
-  let tokens: [ColorToken]
+  let tokens: [Token]
 
   let frameworks: [Configuration.Output.Format.Framework]
 
@@ -56,8 +62,15 @@ struct SourceCodeGenerator {
     let loader = FileSystemLoader(bundle: [Bundle.module])
     let environment = Stencil.Environment(loader: loader, trimBehaviour: .smart)
 
+    let colorTokens = tokens.compactMap { token in
+      token as? ColorToken
+    }
+
+    // TODO: - Save the path of processed color tokens in a storage
+    // TODO: - Generate a separate file for color aliases
+
     return try frameworks.reduce(into: []) { result, framework in
-      let file = try generate(tokens, for: framework, in: environment)
+      let file = try generate(colorTokens, for: framework, in: environment)
       result.append(file)
     }
   }

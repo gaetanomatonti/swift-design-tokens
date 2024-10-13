@@ -1,7 +1,7 @@
 import Foundation
 
 /// A type representing a design tokens file.
-struct TokenFile: Decodable, Equatable {
+package struct TokenFile: Decodable, Equatable {
 
   // MARK: - Stored Properties
   
@@ -16,7 +16,7 @@ struct TokenFile: Decodable, Equatable {
     self.groups = groups
   }
 
-  init(from decoder: any Decoder) throws {
+  package init(from decoder: any Decoder) throws {
     let container = try decoder.container(keyedBy: AnyCodingKey.self)
 
     var tokens: Set<Token> = []

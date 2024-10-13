@@ -15,13 +15,16 @@ package struct OutputGenerator {
     let configuration = try configurationLoader.load()
 
     guard
-      let input = URL(string: configuration.input, relativeTo: configurationLocator.directoryURL.appending(path: configuration.input)),
-      let output = URL(string: configuration.output.path, relativeTo: configurationLocator.directoryURL.appending(path: configuration.output.path))
+      let inputURL = URL(string: configuration.input, relativeTo: configurationLocator.directoryURL.appending(path: configuration.input)),
+      let outputURL = URL(string: configuration.output.path, relativeTo: configurationLocator.directoryURL.appending(path: configuration.output.path))
     else {
       return
     }
 
-    try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
+    let designTokensDecoder = DesignTokensDecoder(inputURL: inputURL)
+    let tokens = try designTokensDecoder.decode()
+
+    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
 
     switch configuration.output.format {
     case let .sourceCode(frameworks):
@@ -35,7 +38,7 @@ package struct OutputGenerator {
       let files = try sourceCodeGenerator.generate()
 
       for file in files {
-        let outputFileURL = output
+        let outputFileURL = outputURL
           .appending(path: file.name)
 
         try file.content.write(to: outputFileURL, atomically: false, encoding: .utf8)
