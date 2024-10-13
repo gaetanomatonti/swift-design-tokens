@@ -1,6 +1,6 @@
 import Foundation
 
-struct Configuration: Codable {
+struct Configuration: Codable, Equatable {
   let input: String
   let output: Output
 
@@ -11,7 +11,7 @@ struct Configuration: Codable {
 }
 
 extension Configuration {
-  struct Output: Codable {
+  struct Output: Codable, Equatable {
     let path: String
     let format: Format
 
@@ -27,12 +27,26 @@ extension Configuration {
 }
 
 extension Configuration.Output {
-  enum Format: Codable {
+  enum Format: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
       case sourceCode
     }
 
     case sourceCode([Framework])
+
+    init(from decoder: any Decoder) throws {
+      let container = try decoder.container(keyedBy: CodingKeys.self)
+
+      assert(container.allKeys.count == 1, "Container should not contain more than one key.")
+
+      let key = container.allKeys.first!
+
+      switch key {
+      case .sourceCode:
+        let frameworks = try container.decode([Framework].self, forKey: .sourceCode)
+        self = .sourceCode(frameworks)
+      }
+    }
 
     func encode(to encoder: any Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
@@ -46,7 +60,7 @@ extension Configuration.Output {
 }
 
 extension Configuration.Output.Format {
-  enum Framework: String, Codable {
+  enum Framework: String, Codable, Equatable {
     case uiKit = "UIKit"
     case swiftUI = "SwiftUI"
   }

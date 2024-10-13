@@ -50,6 +50,9 @@ let package = Package(
       name: "GeneratorTests",
       dependencies: [
         "DesignTokensGenerator"
+      ],
+      resources: [
+        .copy("Resources/configuration.json"),
       ]
     )
   ]

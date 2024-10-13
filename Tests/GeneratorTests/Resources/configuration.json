@@ -1,0 +1,11 @@
+{
+  "input" : "design-tokens.json",
+  "output" : {
+    "format" : {
+      "sourceCode" : [
+        "SwiftUI"
+      ]
+    },
+    "path" : "../Output"
+  }
+}
