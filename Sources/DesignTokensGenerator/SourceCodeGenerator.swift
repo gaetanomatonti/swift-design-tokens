@@ -1,84 +1,47 @@
+import DesignTokensCore
 import Foundation
 import Stencil
 
-/// A type representing a color.
-struct Color {
-
-  // MARK: - Stored Properties
-
-  /// The red component of the color.
-  let red: Double
-
-  /// The green component of the color.
-  let green: Double
-
-  /// The blue component of the color.
-  let blue: Double
-
-  /// The alpha component of the color.
-  let alpha: Double
-
-  // MARK: - Init
-
-  init(red: Double, green: Double, blue: Double, alpha: Double) {
-    self.red = red
-    self.green = green
-    self.blue = blue
-    self.alpha = alpha
-  }
-}
-
-extension Color {
-  static let black = Color(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
-  static let red = Color(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
-}
-
-protocol Token {
-  var name: String { get }
-  var description: String? { get }
-  var path: [String] { get }
-}
-
-struct ColorToken: Token {
-  let name: String
-  let description: String?
-  let color: Color
-  let path: [String]
-
-  init(name: String, description: String?, color: Color, path: [String]) {
-    self.name = name
-    self.description = description
-    self.color = color
-    self.path = path
-  }
-}
-
 struct SourceCodeGenerator {
-  let tokens: [Token]
+  let designTokens: TokenFile
 
   let frameworks: [Configuration.Output.Format.Framework]
 
   func generate() throws -> [SourceCodeFile] {
-    let loader = FileSystemLoader(bundle: [Bundle.module])
+    let loader = Stencil.FileSystemLoader(bundle: [Bundle.module])
     let environment = Stencil.Environment(loader: loader, trimBehaviour: .smart)
 
-    let colorTokens = tokens.compactMap { token in
-      token as? ColorToken
+    let sourceCodeFiles: [SourceCodeFile] = try TokenType.allCases.reduce(into: []) { result, type in
+      let files = try generate(for: type, in: environment)
+      result.append(contentsOf: files)
     }
 
-    // TODO: - Save the path of processed color tokens in a storage
     // TODO: - Generate a separate file for color aliases
 
-    return try frameworks.reduce(into: []) { result, framework in
-      let file = try generate(colorTokens, for: framework, in: environment)
-      result.append(file)
+    return sourceCodeFiles
+  }
+
+  private func generate(
+    for type: TokenType,
+    in environment: Stencil.Environment
+  ) throws -> [SourceCodeFile] {
+    switch type {
+    case .color:
+      // TODO: - Save the path of processed color tokens in a storage
+      return try frameworks.reduce(into: []) { result, framework in
+        let file = try generate(colors: designTokens.colorTokens(), for: framework, in: environment)
+        result.append(file)
+      }
+
+    case .dimension:
+      return []
     }
   }
 
   private func generate(
-    _ tokens: [ColorToken],
+    colors tokens: [DesignTokensCore.ColorToken],
     for framework: Configuration.Output.Format.Framework,
-    in environment: Environment
+    in environment: Stencil.Environment
   ) throws -> SourceCodeFile {
     let context = [
       "tokens": tokens

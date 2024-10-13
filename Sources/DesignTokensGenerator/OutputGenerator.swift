@@ -22,17 +22,14 @@ package struct OutputGenerator {
     }
 
     let designTokensDecoder = DesignTokensDecoder(inputURL: inputURL)
-    let tokens = try designTokensDecoder.decode()
+    let designTokens = try designTokensDecoder.decode()
 
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
 
     switch configuration.output.format {
     case let .sourceCode(frameworks):
       let sourceCodeGenerator = SourceCodeGenerator(
-        tokens: [
-          ColorToken(name: "black", description: nil, color: .black, path: ["black"]),
-          ColorToken(name: "red", description: "Red color", color: .red, path: ["red"]),
-        ],
+        designTokens: designTokens,
         frameworks: frameworks
       )
       let files = try sourceCodeGenerator.generate()
