@@ -1,0 +1,14 @@
+// Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
+
+#if canImport(SwiftUI)
+import SwiftUI
+
+extension Color {
+  {% for token in tokens %}
+  {% if token.description %}
+  /// {{ token.description }}
+  {% endif %}
+  static let {{ token.name }} = Color(red: {{ token.color.red }}, blue: {{ token.color.blue }}, green: {{ token.color.green }}, opacity: {{ token.color.alpha }})
+  {% endfor %}
+}
+#endif

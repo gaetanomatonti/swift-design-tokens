@@ -1,4 +1,6 @@
+import DesignTokensCore
 import Foundation
+import Stencil
 
 /// An object that generates the output for the specified configuration file.
 package struct OutputGenerator {
@@ -20,6 +22,24 @@ package struct OutputGenerator {
     }
 
     try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
-    try "test".write(to: output.appending(path: "test").appendingPathExtension("txt"), atomically: false, encoding: .utf8)
+
+    switch configuration.output.format {
+    case let .sourceCode(frameworks):
+      let sourceCodeGenerator = SourceCodeGenerator(
+        tokens: [
+          ColorToken(name: "black", description: nil, color: .black, path: ["black"]),
+          ColorToken(name: "red", description: "Red color", color: .red, path: ["red"]),
+        ],
+        frameworks: frameworks
+      )
+      let files = try sourceCodeGenerator.generate()
+
+      for file in files {
+        let outputFileURL = output
+          .appending(path: file.name)
+
+        try file.content.write(to: outputFileURL, atomically: false, encoding: .utf8)
+      }
+    }
   }
 }

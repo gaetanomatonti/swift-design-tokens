@@ -1,0 +1,14 @@
+// Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
+
+#if canImport(UIKit)
+import UIKit
+
+extension UIColor {
+  {% for token in tokens %}
+  {% if token.description %}
+  /// {{ token.description }}
+  {% endif %}
+  static let {{ token.name }} = UIColor(red: {{ token.color.red }}, blue: {{ token.color.blue }}, green: {{ token.color.green }}, alpha: {{ token.color.alpha }})
+  {% endfor %}
+}
+#endif
