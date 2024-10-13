@@ -13,7 +13,7 @@ let package = Package(
     .executable(
       name: "DesignTokensTool",
       targets: [
-        "DesignTokensTool"
+        "DesignTokensTool",
       ]
     )
   ],
@@ -25,11 +25,15 @@ let package = Package(
       name: "DesignTokensTool",
       dependencies: [
         "DesignTokensCore",
+        "DesignTokensGenerator",
         .product(name: "ArgumentParser", package: "swift-argument-parser"),
       ]
     ),
     .target(
       name: "DesignTokensCore"
+    ),
+    .target(
+      name: "DesignTokensGenerator"
     ),
     .testTarget(
       name: "DesignTokensCoreTests",
@@ -42,5 +46,11 @@ let package = Package(
         .copy("Resources/missingTypeWithAlias.json"),
       ]
     ),
+    .testTarget(
+      name: "GeneratorTests",
+      dependencies: [
+        "DesignTokensGenerator"
+      ]
+    )
   ]
 )
