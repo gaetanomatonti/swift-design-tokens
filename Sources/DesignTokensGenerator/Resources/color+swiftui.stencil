@@ -4,7 +4,8 @@
 import SwiftUI
 
 {% import "common.stencil" %}
-{% macro colorValue color %}Color(red: {{ color.red }}, blue: {{ color.blue }}, green: {{ color.green }}, opacity: {{ color.alpha }}){% endmacro %}
+{% set tokenType %}Color{% endset %}
+{% macro colorValue color %}{{tokenType}}(red: {{ color.red }}, blue: {{ color.blue }}, green: {{ color.green }}, opacity: {{ color.alpha }}){% endmacro %}
 {% macro tokensBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
@@ -15,7 +16,7 @@ import SwiftUI
   {% endfor %}
 {% endmacro %}
 
-extension Color {
+extension {{tokenType}} {
 
   // MARK: - Tokens
 
@@ -23,6 +24,6 @@ extension Color {
 
   // MARK: - Aliases
 
-{% call aliasesBlock aliases %}
+{% call aliasesBlock aliases tokenType %}
 }
 #endif

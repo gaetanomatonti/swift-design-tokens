@@ -4,17 +4,18 @@
 import Foundation
 
 {% import "common.stencil" %}
+{% set tokenType %}CGFloat{% endset %}
 {% macro tokensBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  static let {{ tokenName }}: CGFloat = {{ token.dimension.value }}
+  static let {{ tokenName }}: {{tokenType}} = {{ token.dimension.value }}
   {% endfor %}
 {% endmacro %}
 
-extension CGFloat {
+extension {{tokenType}} {
 
   // MARK: - Tokens
 
@@ -22,6 +23,6 @@ extension CGFloat {
 
   // MARK: - Aliases
 
-{% call aliasesBlock aliases %}
+{% call aliasesBlock aliases tokenType %}
 }
 #endif
