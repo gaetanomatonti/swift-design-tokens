@@ -1,5 +1,9 @@
 import Foundation
 
+enum ConfigurationFailure: Error {
+  case noOutputProvided
+}
+
 /// A type representing the configuration of the tool.
 struct Configuration: Codable, Equatable {
   /// The path to the input file.
@@ -31,6 +35,11 @@ extension Configuration {
     
     init(from decoder: any Decoder) throws {
       let container = try decoder.container(keyedBy: CodingKeys.self)
+      
+      guard !container.allKeys.isEmpty else {
+        throw ConfigurationFailure.noOutputProvided
+      }
+      
       self.colorConfiguration = try container.decodeIfPresent(ColorConfiguration.self, forKey: .colorConfiguration)
       self.dimensionConfiguration = try container.decodeIfPresent(DimensionConfiguration.self, forKey: .dimensionConfiguration)
     }

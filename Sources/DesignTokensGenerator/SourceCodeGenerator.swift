@@ -2,52 +2,38 @@ import DesignTokensCore
 import Foundation
 import Stencil
 
-struct SourceCodeGenerator {
+struct ColorSourceCodeGenerator {
   let designTokens: DesignTokenTree
 
-  let frameworks: [ColorConfiguration.Format]
+  let format: ColorConfiguration.Format
 
   func generate() throws -> [SourceCodeFile] {
     let loader = Stencil.FileSystemLoader(bundle: [Bundle.module])
     let environment = Stencil.Environment(loader: loader, trimBehaviour: .smart)
 
-    let sourceCodeFiles: [SourceCodeFile] = try TokenType.allCases.reduce(into: []) { result, type in
-      let files = try generate(for: type, in: environment)
-      result.append(contentsOf: files)
-    }
-
-    // TODO: - Generate a separate file for color aliases
-
-    return sourceCodeFiles
-  }
-
-  private func generate(
-    for type: TokenType,
-    in environment: Stencil.Environment
-  ) throws -> [SourceCodeFile] {
-    switch type {
-    case .color:
-      // TODO: - Save the path of processed color tokens in a storage
-      return try frameworks.reduce(into: []) { result, framework in
-        let file = try generate(colors: designTokens.colorTokens(), for: framework, in: environment)
-        result.append(file)
-      }
-
-    case .dimension:
+    let tokens = designTokens.colorTokens()
+    
+    guard !tokens.isEmpty else {
       return []
     }
+    
+    let file = try generate(colors: tokens, for: format, in: environment)
+    
+    // TODO: - Generate a separate file for color aliases
+
+    return [file]
   }
 
   private func generate(
     colors tokens: [DesignTokensCore.ColorToken],
-    for framework: ColorConfiguration.Format,
+    for format: ColorConfiguration.Format,
     in environment: Stencil.Environment
   ) throws -> SourceCodeFile {
     let context = [
       "tokens": tokens
     ]
 
-    switch framework {
+    switch format {
     case .swiftUI:
       let content = try environment.renderTemplate(name: "color+swiftui.stencil", context: context)
       return SourceCodeFile(name: "Color+DesignTokens.swift", content: content)

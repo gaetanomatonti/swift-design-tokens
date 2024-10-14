@@ -15,31 +15,60 @@ package struct OutputGenerator {
     let configuration = try configurationLoader.load()
 
     guard
-      let inputURL = URL(string: configuration.input, relativeTo: configurationLocator.directoryURL.appending(path: configuration.input)),
-      let outputURL = URL(string: configuration.output.path, relativeTo: configurationLocator.directoryURL.appending(path: configuration.output.path))
+      let inputURL = URL(
+        string: configuration.input,
+        relativeTo: configurationLocator.directoryURL.appending(path: configuration.input)
+      )
     else {
       return
     }
-
+    
     let designTokensDecoder = DesignTokensDecoder(inputURL: inputURL)
-    let designTokens = try designTokensDecoder.decode()
-
+    let designTokenTree = try designTokensDecoder.decode()
+    
+    if let colorConfiguration = configuration.output.colorConfiguration {
+      try generate(with: colorConfiguration, from: designTokenTree)
+    }
+    
+    if let dimensionConfiguration = configuration.output.dimensionConfiguration {
+      try generate(with: dimensionConfiguration, from: designTokenTree)
+    }
+  }
+  
+  private func generate(with configuration: ColorConfiguration, from tree: DesignTokenTree) throws {
+    let outputURL = outputURL(with: configurationLocator, for: configuration.path)
+    
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
+    
+    for format in configuration.formats {
+      switch format {
+      case .swiftUI, .uiKit:
+        let sourceCodeGenerator = ColorSourceCodeGenerator(
+          designTokens: tree,
+          format: format
+        )
+        let files = try sourceCodeGenerator.generate()
 
-    switch configuration.output.format {
-    case let .sourceCode(frameworks):
-      let sourceCodeGenerator = SourceCodeGenerator(
-        designTokens: designTokens,
-        frameworks: frameworks
-      )
-      let files = try sourceCodeGenerator.generate()
+        for file in files {
+          let outputFileURL = outputURL
+            .appending(path: file.name)
 
-      for file in files {
-        let outputFileURL = outputURL
-          .appending(path: file.name)
-
-        try file.content.write(to: outputFileURL, atomically: false, encoding: .utf8)
+          try file.content.write(to: outputFileURL, atomically: false, encoding: .utf8)
+        }
       }
     }
+  }
+  
+  private func generate(with configuration: DimensionConfiguration, from tree: DesignTokenTree) throws {
+    let outputURL = outputURL(with: configurationLocator, for: configuration.path)
+
+    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
+    
+    // TODO: Generate dimensions
+  }
+  
+  private func outputURL(with configurationLocator: ConfigurationLocator, for path: String) -> URL {
+    configurationLocator.directoryURL
+      .appending(path: path)
   }
 }
