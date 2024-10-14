@@ -1,7 +1,7 @@
 import Foundation
 
 /// The configuration for the decoding of a `Token`.
-struct TokenDecodingConfiguration {
+package struct TokenDecodingConfiguration {
 
   // MARK: - Stored properties
 
