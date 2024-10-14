@@ -12,8 +12,8 @@ package struct DesignTokenTree {
 
   // MARK: - Functions
 
-  /// Retrieves all color tokens in the tree.
-  /// - Returns: An array of `ColorToken`.
+  /// Retrieves all color tokens, and aliases in the tree.
+  /// - Returns: A tuple of `[ColorToken]`, and `[AliasToken]` that reference color tokens.
   package func colorTokens() -> (tokens: [ColorToken], aliases: [AliasToken]) {
     var tokens: [ColorToken] = []
     var aliases: [AliasToken] = []
@@ -43,8 +43,8 @@ package struct DesignTokenTree {
     return (tokens, aliases)
   }
 
-  /// Retrieves all color tokens in the tree.
-  /// - Returns: An array of `DimensionToken`.
+  /// Retrieves all dimension tokens in the tree.
+  /// - Returns: A tuple of `[DimensionToken]`, and `[AliasToken]` that reference dimension tokens.
   package func dimensionTokens() -> (tokens: [DimensionToken], aliases: [AliasToken]) {
     var tokens: [DimensionToken] = []
     var aliases: [AliasToken] = []

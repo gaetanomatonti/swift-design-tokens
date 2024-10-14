@@ -15,6 +15,7 @@ protocol Token: Equatable {
 }
 
 extension Array where Element: Token {
+  /// Sorts the tokens in place by the length of their paths, and lexicographic order.
   mutating func sort() {
     sort {
       guard $0.path.count != $1.path.count else {
