@@ -39,7 +39,7 @@ struct Init: ParsableCommand {
     ],
     help: "The path to the folder where the output files will be generated (default: current directory)"
   )
-  var outputPath: String = URL(filePath: FileManager.default.currentDirectoryPath).relativePath
+  var outputPath: String = "Output"
 
   func run() throws {
     let configurationGenerator = ConfigurationGenerator(
