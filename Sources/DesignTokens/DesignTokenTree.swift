@@ -12,6 +12,8 @@ package struct DesignTokenTree {
 
   // MARK: - Functions
 
+  /// Retrieves all color tokens in the tree.
+  /// - Returns: An array of `ColorToken`.
   package func colorTokens() -> [ColorToken] {
     var tokens: [ColorToken] = []
     root.depthFirstTraversal { node in
@@ -25,6 +27,8 @@ package struct DesignTokenTree {
     return tokens
   }
 
+  /// Retrieves all color tokens in the tree.
+  /// - Returns: An array of `DimensionToken`.
   package func dimensionTokens() -> [DimensionToken] {
     var tokens: [DimensionToken] = []
     root.depthFirstTraversal { node in
