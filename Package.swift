@@ -42,6 +42,7 @@ let package = Package(
       resources: [
         .copy("Resources/color+swiftui.stencil"),
         .copy("Resources/color+uikit.stencil"),
+        .copy("Resources/dimension+foundation.stencil"),
       ]
     ),
     .testTarget(

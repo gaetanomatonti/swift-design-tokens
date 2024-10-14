@@ -15,11 +15,11 @@ package struct ConfigurationGenerator {
     let configuration = Configuration(
       .output()
         .color(
-          path: "Output/",
+          path: "Output/Colors/",
           formats: .swiftUI
         )
         .dimension(
-          path: "Output/"
+          path: "Output/Dimensions/"
         )
       ,
       from: "design-tokens.json"

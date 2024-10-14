@@ -1,0 +1,14 @@
+// Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
+
+#if canImport(Foundation)
+import Foundation
+
+extension CGFloat {
+  {% for token in tokens %}
+  {% if token.description %}
+  /// {{ token.description }}
+  {% endif %}
+  static let {{ token.name }}: CGFloat = {{ token.dimension.value }}
+  {% endfor %}
+}
+#endif

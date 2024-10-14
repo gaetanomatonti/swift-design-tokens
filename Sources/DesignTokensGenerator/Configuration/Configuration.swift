@@ -54,7 +54,7 @@ extension Configuration {
       Output()
     }
     
-    func color(path: String, formats: ColorConfiguration.Format...) -> Output {
+    func color(path: String, formats: ColorFormat...) -> Output {
       color(ColorConfiguration(path: path, formats: formats))
     }
     
@@ -73,31 +73,5 @@ extension Configuration {
       output.dimensionConfiguration = configuration
       return output
     }
-  }
-}
-
-struct ColorConfiguration: Codable, Equatable {
-  let path: String
-  
-  let formats: [Format]
-  
-  init(path: String, formats: [Format]) {
-    self.path = path
-    self.formats = formats
-  }
-}
-
-struct DimensionConfiguration: Codable, Equatable {
-  let path: String
-  
-  init(path: String) {
-    self.path = path
-  }
-}
-
-extension ColorConfiguration {
-  enum Format: String, Codable, Equatable {
-    case uiKit = "UIKit"
-    case swiftUI = "SwiftUI"
   }
 }

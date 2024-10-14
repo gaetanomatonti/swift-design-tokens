@@ -49,12 +49,7 @@ package struct OutputGenerator {
         )
         let files = try sourceCodeGenerator.generate()
 
-        for file in files {
-          let outputFileURL = outputURL
-            .appending(path: file.name)
-
-          try file.content.write(to: outputFileURL, atomically: false, encoding: .utf8)
-        }
+        try write(files, at: outputURL)
       }
     }
   }
@@ -63,12 +58,28 @@ package struct OutputGenerator {
     let outputURL = outputURL(with: configurationLocator, for: configuration.path)
 
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
-    
-    // TODO: Generate dimensions
+
+    let sourceCodeGenerator = DimensionSourceCodeGenerator(designTokens: tree)
+    let files = try sourceCodeGenerator.generate()
+
+    try write(files, at: outputURL)
   }
   
   private func outputURL(with configurationLocator: ConfigurationLocator, for path: String) -> URL {
     configurationLocator.directoryURL
       .appending(path: path)
+  }
+
+  private func write(_ files: [SourceCodeFile], at outputURL: URL) throws {
+    for file in files {
+      try write(file, at: outputURL)
+    }
+  }
+
+  private func write(_ file: SourceCodeFile, at outputURL: URL) throws {
+    let outputFileURL = outputURL
+      .appending(path: file.name)
+
+    try file.content.write(to: outputFileURL, atomically: false, encoding: .utf8)
   }
 }
