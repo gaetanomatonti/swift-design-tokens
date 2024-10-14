@@ -1,11 +1,15 @@
 {
-  "input": "design-tokens.json",
-  "output": {
-    "format": {
-      "sourceCode": [
-        "SwiftUI"
+  "input" : "design-tokens.json",
+  "output" : {
+    "colors": {
+      "path" : "Output/Colors/",
+      "formats": [
+        "SwiftUI",
+        "UIKit",
       ]
     },
-    "path": "../Output"
+    "dimensions": {
+      "path" : "Output/Dimensions/"
+    }
   }
 }

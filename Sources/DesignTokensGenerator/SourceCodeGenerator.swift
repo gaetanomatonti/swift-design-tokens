@@ -5,7 +5,7 @@ import Stencil
 struct SourceCodeGenerator {
   let designTokens: DesignTokenTree
 
-  let frameworks: [Configuration.Output.Format.Framework]
+  let frameworks: [ColorConfiguration.Format]
 
   func generate() throws -> [SourceCodeFile] {
     let loader = Stencil.FileSystemLoader(bundle: [Bundle.module])
@@ -40,7 +40,7 @@ struct SourceCodeGenerator {
 
   private func generate(
     colors tokens: [DesignTokensCore.ColorToken],
-    for framework: Configuration.Output.Format.Framework,
+    for framework: ColorConfiguration.Format,
     in environment: Stencil.Environment
   ) throws -> SourceCodeFile {
     let context = [

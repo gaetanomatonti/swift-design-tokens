@@ -16,8 +16,16 @@ package struct ConfigurationGenerator {
 
   package func generate() throws {
     let configuration = Configuration(
-      .output(at: outputPath, with: .sourceCode([.swiftUI])),
-      from: inputPath
+      .output()
+        .color(
+          path: "Output/",
+          formats: .swiftUI
+        )
+        .dimension(
+          path: "Output/"
+        )
+      ,
+      from: "design-tokens.json"
     )
 
     let encoder = JSONEncoder()

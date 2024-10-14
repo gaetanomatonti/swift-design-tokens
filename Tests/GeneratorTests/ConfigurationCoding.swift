@@ -9,10 +9,15 @@ struct ConfigurationCoding {
     let decoder = JSONDecoder()
 
     let configuration = Configuration(
-      .output(
-        at: "../Output",
-        with: .sourceCode([.swiftUI])
-      ),
+      .output()
+        .color(
+          path: "Output/Colors/",
+          formats: .swiftUI, .uiKit
+        )
+        .dimension(
+          path: "Output/Dimensions/"
+        )
+      ,
       from: "design-tokens.json"
     )
 
@@ -28,10 +33,15 @@ struct ConfigurationCoding {
     encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
 
     let configuration = Configuration(
-      .output(
-        at: "Output",
-        with: .sourceCode([.swiftUI])
-      ),
+      .output()
+        .color(
+          path: "Output/Colors/",
+          formats: .swiftUI, .uiKit
+        )
+        .dimension(
+          path: "Output/Dimensions/"
+        )
+      ,
       from: "design-tokens.json"
     )
 

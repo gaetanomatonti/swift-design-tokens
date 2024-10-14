@@ -1,7 +1,11 @@
 import Foundation
 
+/// A type representing the configuration of the tool.
 struct Configuration: Codable, Equatable {
+  /// The path to the input file.
   let input: String
+  
+  /// The output configuration.
   let output: Output
 
   init(_ output: Output, from input: String) {
@@ -12,55 +16,78 @@ struct Configuration: Codable, Equatable {
 
 extension Configuration {
   struct Output: Codable, Equatable {
-    let path: String
-    let format: Format
-
-    private init(path: String, format: Format) {
-      self.path = path
-      self.format = format
-    }
-
-    static func output(at path: String, with format: Format) -> Output {
-      Output(path: path, format: format)
-    }
-  }
-}
-
-extension Configuration.Output {
-  enum Format: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
-      case sourceCode
+      case colorConfiguration = "colors"
+      case dimensionConfiguration = "dimensions"
     }
-
-    case sourceCode([Framework])
-
+    
+    private(set) var colorConfiguration: ColorConfiguration?
+    private(set) var dimensionConfiguration: DimensionConfiguration?
+    
+    init() {
+      colorConfiguration = nil
+      dimensionConfiguration = nil
+    }
+    
     init(from decoder: any Decoder) throws {
       let container = try decoder.container(keyedBy: CodingKeys.self)
-
-      assert(container.allKeys.count == 1, "Container should not contain more than one key.")
-
-      let key = container.allKeys.first!
-
-      switch key {
-      case .sourceCode:
-        let frameworks = try container.decode([Framework].self, forKey: .sourceCode)
-        self = .sourceCode(frameworks)
-      }
+      self.colorConfiguration = try container.decodeIfPresent(ColorConfiguration.self, forKey: .colorConfiguration)
+      self.dimensionConfiguration = try container.decodeIfPresent(DimensionConfiguration.self, forKey: .dimensionConfiguration)
     }
-
+    
     func encode(to encoder: any Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
-
-      switch self {
-      case .sourceCode(let frameworks):
-        try container.encode(frameworks, forKey: .sourceCode)
-      }
+      try container.encodeIfPresent(self.colorConfiguration, forKey: .colorConfiguration)
+      try container.encodeIfPresent(self.dimensionConfiguration, forKey: .dimensionConfiguration)
+    }
+    
+    static func output() -> Output {
+      Output()
+    }
+    
+    func color(path: String, formats: ColorConfiguration.Format...) -> Output {
+      color(ColorConfiguration(path: path, formats: formats))
+    }
+    
+    func dimension(path: String) -> Output {
+      dimension(DimensionConfiguration(path: path))
+    }
+    
+    private func color(_ configuration: ColorConfiguration) -> Output {
+      var output = self
+      output.colorConfiguration = configuration
+      return output
+    }
+    
+    private func dimension(_ configuration: DimensionConfiguration) -> Output {
+      var output = self
+      output.dimensionConfiguration = configuration
+      return output
     }
   }
 }
 
-extension Configuration.Output.Format {
-  enum Framework: String, Codable, Equatable {
+struct ColorConfiguration: Codable, Equatable {
+  let path: String
+  
+  let formats: [Format]
+  
+  init(path: String, formats: [Format]) {
+    self.path = path
+    self.formats = formats
+  }
+}
+
+struct DimensionConfiguration: Codable, Equatable {
+  let path: String
+  
+  init(path: String) {
+    self.path = path
+  }
+}
+
+extension ColorConfiguration {
+  enum Format: String, Codable, Equatable {
     case uiKit = "UIKit"
     case swiftUI = "SwiftUI"
   }
