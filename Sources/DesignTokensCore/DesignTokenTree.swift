@@ -33,6 +33,9 @@ package struct DesignTokenTree {
       }
     }
 
+    tokens.sort()
+    aliases.sort()
+
     aliases.removeAll { alias in
       !tokens.contains { $0.path == alias.path }
     }
@@ -60,6 +63,9 @@ package struct DesignTokenTree {
         break
       }
     }
+
+    tokens.sort()
+    aliases.sort()
 
     aliases.removeAll { alias in
       !tokens.contains { $0.path == alias.path }
