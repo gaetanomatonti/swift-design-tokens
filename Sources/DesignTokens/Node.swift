@@ -85,26 +85,7 @@ extension Node: DecodableWithConfiguration {
       return
     }
 
-    let valueString = try container.decode(String.self, forKey: .value)
-
-    switch type {
-    case .some(.color):
-      let color = try Color(valueString)
-      self.value = .color(color)
-
-    case .some(.dimension):
-      let dimension = try Dimension(valueString)
-      self.value = .dimension(dimension)
-
-    case .none:
-      do {
-        let alias = try Alias(valueString)
-        self.value = .alias(alias.path)
-      } catch .invalidValue(.invalidReferenceSyntax) {
-        throw DecodingFailure.missingType
-      } catch {
-        throw error
-      }
-    }
+    let stringValue = try container.decode(String.self, forKey: .value)
+    self.value = try .from(stringValue, type: type)
   }
 }
