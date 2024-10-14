@@ -2,22 +2,12 @@ import DesignTokensCore
 import Foundation
 import Stencil
 
-struct ColorSourceCodeGenerator {
+struct ColorSourceCodeGenerator: SourceCodeGenerator {
   let designTokens: DesignTokenTree
 
   let format: ColorFormat
 
-  func generate() throws -> [SourceCodeFile] {
-    let loader = Stencil.FileSystemLoader(bundle: [Bundle.module])
-    let stencilSwiftExtension = Extension()
-    stencilSwiftExtension.registerStencilSwiftExtensions()
-
-    let environment = Stencil.Environment(
-      loader: loader,
-      extensions: [stencilSwiftExtension],
-      trimBehaviour: .smart
-    )
-
+  func generate(with environment: Stencil.Environment) throws -> [SourceCodeFile] {
     let tokens = designTokens.colorTokens()
     
     guard !tokens.isEmpty else {
@@ -25,7 +15,7 @@ struct ColorSourceCodeGenerator {
     }
     
     let file = try generate(tokens, for: format, in: environment)
-    
+
     // TODO: - Generate a separate file for color aliases
 
     return [file]

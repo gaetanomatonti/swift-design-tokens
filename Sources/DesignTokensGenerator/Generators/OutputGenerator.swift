@@ -47,7 +47,7 @@ package struct OutputGenerator {
           designTokens: tree,
           format: format
         )
-        let files = try sourceCodeGenerator.generate()
+        let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.main())
 
         try write(files, at: outputURL)
       }
@@ -60,7 +60,7 @@ package struct OutputGenerator {
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
 
     let sourceCodeGenerator = DimensionSourceCodeGenerator(designTokens: tree)
-    let files = try sourceCodeGenerator.generate()
+    let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.main())
 
     try write(files, at: outputURL)
   }
