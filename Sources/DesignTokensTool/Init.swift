@@ -32,21 +32,11 @@ struct Init: ParsableCommand {
   )
   var inputPath: String
 
-  @Option(
-    name: [
-      .customShort("o"),
-      .customLong("output")
-    ],
-    help: "The path to the folder where the output files will be generated (default: current directory)"
-  )
-  var outputPath: String = "Output"
-
   func run() throws {
     let configurationGenerator = ConfigurationGenerator(
       fileName: name,
       configurationURL: configurationURL,
-      inputPath: inputPath,
-      outputPath: outputPath
+      inputPath: inputPath
     )
     try configurationGenerator.generate()
   }

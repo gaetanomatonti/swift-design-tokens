@@ -6,12 +6,9 @@ package struct ConfigurationGenerator {
 
   private let inputPath: String
 
-  private let outputPath: String
-
-  package init(fileName: String?, configurationURL: URL, inputPath: String, outputPath: String) {
+  package init(fileName: String?, configurationURL: URL, inputPath: String) {
     self.configurationLocator = ConfigurationLocator(fileName: fileName, configurationURL: configurationURL)
     self.inputPath = inputPath
-    self.outputPath = outputPath
   }
 
   package func generate() throws {
