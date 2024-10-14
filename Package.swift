@@ -20,6 +20,7 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "1.5.0"),
     .package(url: "https://github.com/stencilproject/Stencil", from: "0.15.1"),
+    .package(url: "https://github.com/SwiftGen/StencilSwiftKit", from: "2.10.1"),
   ],
   targets: [
     .executableTarget(
@@ -37,7 +38,7 @@ let package = Package(
       name: "DesignTokensGenerator",
       dependencies: [
         "DesignTokensCore",
-        .product(name: "Stencil", package: "Stencil"),
+        .product(name: "StencilSwiftKit", package: "StencilSwiftKit"),
       ],
       resources: [
         .copy("Resources/color+swiftui.stencil"),

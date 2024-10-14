@@ -8,7 +8,8 @@ extension CGFloat {
   {% if token.description %}
   /// {{ token.description }}
   {% endif %}
-  static let {{ token.name }}: CGFloat = {{ token.dimension.value }}
+  {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
+  static let {{ tokenName }}: CGFloat = {{ token.dimension.value }}
   {% endfor %}
 }
 #endif

@@ -3,12 +3,18 @@
 #if canImport(UIKit)
 import UIKit
 
-extension UIColor {
+{% macro colorValue color %}UIColor(red: {{ color.red }}, blue: {{ color.blue }}, green: {{ color.green }}, alpha: {{ color.alpha }}){% endmacro %}
+{% macro enumBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
   /// {{ token.description }}
   {% endif %}
-  static let {{ token.name }} = UIColor(red: {{ token.color.red }}, blue: {{ token.color.blue }}, green: {{ token.color.green }}, alpha: {{ token.color.alpha }})
+  {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
+  static let {{ tokenName }} = {%+  call colorValue token.color +%}
   {% endfor %}
+{% endmacro %}
+
+extension UIColor {
+{% call enumBlock tokens %}
 }
 #endif

@@ -3,12 +3,18 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
-extension Color {
+{% macro colorValue color %}Color(red: {{ color.red }}, blue: {{ color.blue }}, green: {{ color.green }}, opacity: {{ color.alpha }}){% endmacro %}
+{% macro enumBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
   /// {{ token.description }}
   {% endif %}
-  static let {{ token.name }} = Color(red: {{ token.color.red }}, blue: {{ token.color.blue }}, green: {{ token.color.green }}, opacity: {{ token.color.alpha }})
+  {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
+  static let {{ tokenName }} = {%+  call colorValue token.color +%}
   {% endfor %}
+{% endmacro %}
+
+extension Color {
+{% call enumBlock tokens %}
 }
 #endif

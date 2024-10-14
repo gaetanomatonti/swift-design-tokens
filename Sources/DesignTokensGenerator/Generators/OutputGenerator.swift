@@ -1,6 +1,6 @@
 import DesignTokensCore
 import Foundation
-import Stencil
+import StencilSwiftKit
 
 /// An object that generates the output for the specified configuration file.
 package struct OutputGenerator {

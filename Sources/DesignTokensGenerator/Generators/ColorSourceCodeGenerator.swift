@@ -9,7 +9,14 @@ struct ColorSourceCodeGenerator {
 
   func generate() throws -> [SourceCodeFile] {
     let loader = Stencil.FileSystemLoader(bundle: [Bundle.module])
-    let environment = Stencil.Environment(loader: loader, trimBehaviour: .smart)
+    let stencilSwiftExtension = Extension()
+    stencilSwiftExtension.registerStencilSwiftExtensions()
+
+    let environment = Stencil.Environment(
+      loader: loader,
+      extensions: [stencilSwiftExtension],
+      trimBehaviour: .smart
+    )
 
     let tokens = designTokens.colorTokens()
     
