@@ -8,9 +8,9 @@ struct DesignTokensDecoder {
     self.inputURL = inputURL
   }
 
-  func decode() throws -> TokenFile {
+  func decode() throws -> DesignTokenTree {
     let decoder = JSONDecoder()
     let data = try Data(contentsOf: inputURL)
-    return try decoder.decode(TokenFile.self, from: data)
+    return try decoder.decode(DesignTokenTree.self, from: data)
   }
 }

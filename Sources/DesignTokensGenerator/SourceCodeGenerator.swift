@@ -3,7 +3,7 @@ import Foundation
 import Stencil
 
 struct SourceCodeGenerator {
-  let designTokens: TokenFile
+  let designTokens: DesignTokenTree
 
   let frameworks: [Configuration.Output.Format.Framework]
 

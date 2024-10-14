@@ -2,7 +2,7 @@ import Foundation
 import RegexBuilder
 
 /// A type representing a dimension.
-struct Dimension {
+package struct Dimension {
 
   // MARK: - Stored Properties
 
