@@ -19,21 +19,22 @@ package struct DesignTokenTree {
     var aliases: [AliasToken] = []
 
     root.depthFirstTraversal { node in
-      guard case .color(let color) = node.value else {
-        return
-      }
+      switch node.value {
+      case let .color(color):
+        let token =  ColorToken(name: node.name, description: node.description, color: color, path: node.path)
+        tokens.append(token)
 
-      let token =  ColorToken(name: node.name, description: node.description, color: color, path: node.path)
-      tokens.append(token)
+      case let .alias(path):
+        let alias = AliasToken(name: node.name, description: node.description, path: path)
+        aliases.append(alias)
+
+      default:
+        break
+      }
     }
 
-    root.depthFirstTraversal { node in
-      guard case .alias(let path) = node.value, tokens.contains(where: { $0.path == path }) else {
-        return
-      }
-
-      let alias = AliasToken(name: node.name, description: node.description, path: path)
-      aliases.append(alias)
+    aliases.removeAll { alias in
+      !tokens.contains { $0.path == alias.path }
     }
 
     return (tokens, aliases)
@@ -46,21 +47,22 @@ package struct DesignTokenTree {
     var aliases: [AliasToken] = []
 
     root.depthFirstTraversal { node in
-      guard case .dimension(let dimension) = node.value else {
-        return
-      }
+      switch node.value {
+      case let .dimension(dimension):
+        let token = DimensionToken(name: node.name, description: node.description, dimension: dimension, path: node.path)
+        tokens.append(token)
 
-      let token =  DimensionToken(name: node.name, description: node.description, dimension: dimension, path: node.path)
-      tokens.append(token)
+      case let .alias(path):
+        let alias = AliasToken(name: node.name, description: node.description, path: path)
+        aliases.append(alias)
+
+      default:
+        break
+      }
     }
 
-    root.depthFirstTraversal { node in
-      guard case .alias(let path) = node.value, tokens.contains(where: { $0.path == path }) else {
-        return
-      }
-
-      let alias = AliasToken(name: node.name, description: node.description, path: path)
-      aliases.append(alias)
+    aliases.removeAll { alias in
+      !tokens.contains { $0.path == alias.path }
     }
 
     return (tokens, aliases)
