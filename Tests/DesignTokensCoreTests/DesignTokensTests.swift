@@ -43,7 +43,7 @@ struct DesignTokenDecoding {
     let tree = try decoder.decode(DesignTokenTree.self, from: data)
 
     #expect(
-      tree.colorTokens().sorted(by: { $0.name < $1.name }) == [
+      tree.colorTokens().tokens.sorted(by: { $0.name < $1.name }) == [
         ColorToken(name: "base", color: Color(red: 1, green: 1, blue: 1, alpha: 1), path: ["colors", "background", "base"]),
         ColorToken(name: "primary", color: Color(red: 0, green: 0, blue: 0, alpha: 1), path: ["colors", "text", "primary"]),
         ColorToken(name: "red", color: Color(red: 1, green: 0, blue: 0, alpha: 1), path: ["colors", "red"]),

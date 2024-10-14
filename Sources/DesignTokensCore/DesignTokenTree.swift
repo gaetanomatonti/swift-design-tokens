@@ -14,8 +14,10 @@ package struct DesignTokenTree {
 
   /// Retrieves all color tokens in the tree.
   /// - Returns: An array of `ColorToken`.
-  package func colorTokens() -> [ColorToken] {
+  package func colorTokens() -> (tokens: [ColorToken], aliases: [AliasToken]) {
     var tokens: [ColorToken] = []
+    var aliases: [AliasToken] = []
+
     root.depthFirstTraversal { node in
       guard case .color(let color) = node.value else {
         return
@@ -24,13 +26,25 @@ package struct DesignTokenTree {
       let token =  ColorToken(name: node.name, description: node.description, color: color, path: node.path)
       tokens.append(token)
     }
-    return tokens
+
+    root.depthFirstTraversal { node in
+      guard case .alias(let path) = node.value, tokens.contains(where: { $0.path == path }) else {
+        return
+      }
+
+      let alias = AliasToken(name: node.name, description: node.description, path: path)
+      aliases.append(alias)
+    }
+
+    return (tokens, aliases)
   }
 
   /// Retrieves all color tokens in the tree.
   /// - Returns: An array of `DimensionToken`.
-  package func dimensionTokens() -> [DimensionToken] {
+  package func dimensionTokens() -> (tokens: [DimensionToken], aliases: [AliasToken]) {
     var tokens: [DimensionToken] = []
+    var aliases: [AliasToken] = []
+
     root.depthFirstTraversal { node in
       guard case .dimension(let dimension) = node.value else {
         return
@@ -39,7 +53,17 @@ package struct DesignTokenTree {
       let token =  DimensionToken(name: node.name, description: node.description, dimension: dimension, path: node.path)
       tokens.append(token)
     }
-    return tokens
+
+    root.depthFirstTraversal { node in
+      guard case .alias(let path) = node.value, tokens.contains(where: { $0.path == path }) else {
+        return
+      }
+
+      let alias = AliasToken(name: node.name, description: node.description, path: path)
+      aliases.append(alias)
+    }
+
+    return (tokens, aliases)
   }
 }
 

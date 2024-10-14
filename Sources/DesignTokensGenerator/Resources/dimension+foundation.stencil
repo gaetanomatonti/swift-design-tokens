@@ -3,7 +3,8 @@
 #if canImport(Foundation)
 import Foundation
 
-extension CGFloat {
+{% import "common.stencil" %}
+{% macro tokensBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
   /// {{ token.description }}
@@ -11,5 +12,16 @@ extension CGFloat {
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
   static let {{ tokenName }}: CGFloat = {{ token.dimension.value }}
   {% endfor %}
+{% endmacro %}
+
+extension CGFloat {
+
+  // MARK: - Tokens
+
+{% call tokensBlock tokens %}
+
+  // MARK: - Aliases
+
+{% call aliasesBlock aliases %}
 }
 #endif

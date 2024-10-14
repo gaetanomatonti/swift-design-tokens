@@ -3,8 +3,9 @@
 #if canImport(SwiftUI)
 import SwiftUI
 
+{% import "common.stencil" %}
 {% macro colorValue color %}Color(red: {{ color.red }}, blue: {{ color.blue }}, green: {{ color.green }}, opacity: {{ color.alpha }}){% endmacro %}
-{% macro enumBlock tokens %}
+{% macro tokensBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
   /// {{ token.description }}
@@ -15,6 +16,13 @@ import SwiftUI
 {% endmacro %}
 
 extension Color {
-{% call enumBlock tokens %}
+
+  // MARK: - Tokens
+
+{% call tokensBlock tokens %}
+
+  // MARK: - Aliases
+
+{% call aliasesBlock aliases %}
 }
 #endif

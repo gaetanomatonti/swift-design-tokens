@@ -6,22 +6,24 @@ struct DimensionSourceCodeGenerator: SourceCodeGenerator {
   let designTokens: DesignTokenTree
 
   func generate(with environment: Stencil.Environment) throws -> [SourceCodeFile] {
-    let tokens = designTokens.dimensionTokens()
+    let (tokens, aliases) = designTokens.dimensionTokens()
 
     guard !tokens.isEmpty else {
       return []
     }
 
-    let file = try generate(tokens, in: environment)
+    let file = try generate(tokens, aliases: aliases, in: environment)
     return [file]
   }
 
   private func generate(
     _ tokens: [DesignTokensCore.DimensionToken],
+    aliases: [DesignTokensCore.AliasToken],
     in environment: Stencil.Environment
   ) throws -> SourceCodeFile {
-    let context = [
-      "tokens": tokens
+    let context: [String: Any] = [
+      "tokens": tokens,
+      "aliases": aliases,
     ]
 
     let content = try environment.renderTemplate(name: "dimension+foundation.stencil", context: context)

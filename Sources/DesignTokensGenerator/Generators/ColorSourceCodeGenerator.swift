@@ -8,26 +8,25 @@ struct ColorSourceCodeGenerator: SourceCodeGenerator {
   let format: ColorFormat
 
   func generate(with environment: Stencil.Environment) throws -> [SourceCodeFile] {
-    let tokens = designTokens.colorTokens()
-    
+    let (tokens, aliases) = designTokens.colorTokens()
+
     guard !tokens.isEmpty else {
       return []
     }
     
-    let file = try generate(tokens, for: format, in: environment)
-
-    // TODO: - Generate a separate file for color aliases
-
+    let file = try generate(tokens, aliases: aliases, for: format, in: environment)
     return [file]
   }
 
   private func generate(
     _ tokens: [DesignTokensCore.ColorToken],
+    aliases: [DesignTokensCore.AliasToken],
     for format: ColorFormat,
     in environment: Stencil.Environment
   ) throws -> SourceCodeFile {
-    let context = [
-      "tokens": tokens
+    let context: [String: Any] = [
+      "tokens": tokens,
+      "aliases": aliases
     ]
 
     switch format {

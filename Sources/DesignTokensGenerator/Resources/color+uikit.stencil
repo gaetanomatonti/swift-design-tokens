@@ -3,8 +3,9 @@
 #if canImport(UIKit)
 import UIKit
 
+{% import "common.stencil" %}
 {% macro colorValue color %}UIColor(red: {{ color.red }}, blue: {{ color.blue }}, green: {{ color.green }}, alpha: {{ color.alpha }}){% endmacro %}
-{% macro enumBlock tokens %}
+{% macro tokensBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
   /// {{ token.description }}
@@ -15,6 +16,13 @@ import UIKit
 {% endmacro %}
 
 extension UIColor {
-{% call enumBlock tokens %}
+
+  // MARK: - Tokens
+
+{% call tokensBlock tokens %}
+
+  // MARK: - Aliases
+
+{% call aliasesBlock aliases %}
 }
 #endif

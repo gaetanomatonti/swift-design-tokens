@@ -19,7 +19,6 @@ let package = Package(
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "1.5.0"),
-    .package(url: "https://github.com/stencilproject/Stencil", from: "0.15.1"),
     .package(url: "https://github.com/SwiftGen/StencilSwiftKit", from: "2.10.1"),
   ],
   targets: [
@@ -41,6 +40,7 @@ let package = Package(
         .product(name: "StencilSwiftKit", package: "StencilSwiftKit"),
       ],
       resources: [
+        .copy("Resources/common.stencil"),
         .copy("Resources/color+swiftui.stencil"),
         .copy("Resources/color+uikit.stencil"),
         .copy("Resources/dimension+foundation.stencil"),

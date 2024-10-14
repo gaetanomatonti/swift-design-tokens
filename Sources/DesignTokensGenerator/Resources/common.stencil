@@ -1,0 +1,7 @@
+{% macro aliasesBlock aliases %}
+  {% for alias in aliases %}
+  {% set aliasName %}{{ alias.name|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
+  {% set referenceName %}{{ alias.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
+  static var {{ aliasName }}: Color { {{ referenceName }} }
+  {% endfor %}
+{% endmacro %}
