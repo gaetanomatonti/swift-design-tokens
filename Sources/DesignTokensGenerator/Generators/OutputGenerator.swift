@@ -47,13 +47,17 @@ package struct OutputGenerator {
   private func generate(with configuration: ColorConfiguration, from tree: DesignTokenTree) throws {
     let outputURL = outputURL(with: configurationLocator, for: configuration.path)
     
-    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
     
+    let (tokens, aliases) = tree.colorTokens()
+    
+    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
+
     for format in configuration.formats {
       switch format {
       case .swiftUI, .uiKit:
         let sourceCodeGenerator = ColorSourceCodeGenerator(
-          designTokens: tree,
+          tokens: tokens,
+          aliases: aliases,
           format: format
         )
         let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
@@ -66,11 +70,12 @@ package struct OutputGenerator {
   private func generate(with configuration: DimensionConfiguration, from tree: DesignTokenTree) throws {
     let outputURL = outputURL(with: configurationLocator, for: configuration.path)
 
-    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
+    let (tokens, aliases) = tree.dimensionTokens()
 
-    let sourceCodeGenerator = DimensionSourceCodeGenerator(designTokens: tree)
+    let sourceCodeGenerator = DimensionSourceCodeGenerator(tokens: tokens, aliases: aliases)
     let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
 
+    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
     try write(files, at: outputURL)
   }
   

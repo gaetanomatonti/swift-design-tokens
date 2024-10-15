@@ -8,8 +8,11 @@ struct DimensionSourceCodeGenerator: SourceCodeGenerator {
   // MARK: - Stored Properties
   
   // TODO: Traverse the tree outside the generator to improve performance.
-  /// The design tokens tree.
-  let designTokens: DesignTokenTree
+  /// The dimension tokens.
+  let tokens: [DimensionToken]
+  
+  /// The aliases for the tokens.
+  let aliases: [AliasToken]
 
   // MARK: - Functions
   
@@ -17,8 +20,6 @@ struct DimensionSourceCodeGenerator: SourceCodeGenerator {
   /// - Parameter environment: The `Stencil` environment used to generate the source code.
   /// - Returns: The list of source code files generated.
   func generate(with environment: Stencil.Environment) throws -> [SourceCodeFile] {
-    let (tokens, aliases) = designTokens.dimensionTokens()
-
     guard !tokens.isEmpty else {
       return []
     }
