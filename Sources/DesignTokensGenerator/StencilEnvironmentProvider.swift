@@ -2,8 +2,10 @@ import Foundation
 import Stencil
 import StencilSwiftKit
 
+/// A provider of `Stencil.Environment`.
 enum StencilEnvironmentProvider {
-  static func main() -> Environment {
+  /// Creates the environment used to generate Swift source code.
+  static func swift() -> Environment {
     let loader = Stencil.FileSystemLoader(bundle: [Bundle.module])
     let stencilSwiftExtension = Extension()
     stencilSwiftExtension.registerStencilSwiftExtensions()

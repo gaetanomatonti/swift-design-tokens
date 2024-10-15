@@ -1,12 +1,14 @@
 import Foundation
 
-/// An object to locate the configuration file.
+/// An object that locates the configuration file.
 struct ConfigurationLocator {
 
   // MARK: - Stored Properties
 
+  /// The name of the configuration manifest file.
   private let fileName: String?
 
+  /// The `URL` to the configuration manifest.
   private let configurationURL: URL
 
   // MARK: - Computed Properties

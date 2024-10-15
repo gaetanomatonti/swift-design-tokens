@@ -2,11 +2,23 @@ import DesignTokensCore
 import Foundation
 import Stencil
 
+/// The object that generates source code for the color tokens.
 struct ColorSourceCodeGenerator: SourceCodeGenerator {
+  
+  // MARK: - Stored Properties
+  
+  // TODO: Traverse the tree outside the generator to improve performance.
+  /// The design tokens tree.
   let designTokens: DesignTokenTree
 
+  /// The format of the colors source code.
   let format: ColorFormat
+  
+  // MARK: - Functions
 
+  /// Generates the colors source code with the passed `Stencil` environment.
+  /// - Parameter environment: The `Stencil` environment used to generate the source code.
+  /// - Returns: The list of source code files generated.
   func generate(with environment: Stencil.Environment) throws -> [SourceCodeFile] {
     let (tokens, aliases) = designTokens.colorTokens()
 

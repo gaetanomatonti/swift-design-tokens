@@ -4,12 +4,21 @@ import StencilSwiftKit
 
 /// An object that generates the output for the specified configuration file.
 package struct OutputGenerator {
+  
+  // MARK: - Stored Properties
+  
+  /// The locator for the configuration manifest.
   private let configurationLocator: ConfigurationLocator
 
+  // MARK: - Stored Properties
+  
   package init(configurationURL: URL) {
     self.configurationLocator = ConfigurationLocator(configurationURL: configurationURL)
   }
+  
+  // MARK: - Functions
 
+  /// Generates the output for the design tokens.
   package func generate() throws {
     let configurationLoader = ConfigurationLoader(using: configurationLocator)
     let configuration = try configurationLoader.load()
@@ -47,7 +56,7 @@ package struct OutputGenerator {
           designTokens: tree,
           format: format
         )
-        let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.main())
+        let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
 
         try write(files, at: outputURL)
       }
@@ -60,7 +69,7 @@ package struct OutputGenerator {
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
 
     let sourceCodeGenerator = DimensionSourceCodeGenerator(designTokens: tree)
-    let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.main())
+    let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
 
     try write(files, at: outputURL)
   }
