@@ -11,7 +11,7 @@ let package = Package(
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
     .executable(
-      name: "DesignTokensTool",
+      name: "design-tokens",
       targets: [
         "DesignTokensTool",
       ]
