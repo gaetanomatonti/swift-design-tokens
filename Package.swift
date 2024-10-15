@@ -10,20 +10,45 @@ let package = Package(
   ],
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
-    .library(
-      name: "DesignTokens",
-      targets: ["DesignTokens"]
-    ),
+    .executable(
+      name: "design-tokens",
+      targets: [
+        "DesignTokensTool",
+      ]
+    )
+  ],
+  dependencies: [
+    .package(url: "https://github.com/apple/swift-argument-parser", from: "1.5.0"),
+    .package(url: "https://github.com/SwiftGen/StencilSwiftKit", from: "2.10.1"),
   ],
   targets: [
-    // Targets are the basic building blocks of a package, defining a module or a test suite.
-    // Targets can depend on other targets in this package and products from dependencies.
+    .executableTarget(
+      name: "DesignTokensTool",
+      dependencies: [
+        "DesignTokensCore",
+        "DesignTokensGenerator",
+        .product(name: "ArgumentParser", package: "swift-argument-parser"),
+      ]
+    ),
     .target(
-      name: "DesignTokens"
+      name: "DesignTokensCore"
+    ),
+    .target(
+      name: "DesignTokensGenerator",
+      dependencies: [
+        "DesignTokensCore",
+        .product(name: "StencilSwiftKit", package: "StencilSwiftKit"),
+      ],
+      resources: [
+        .copy("Resources/common.stencil"),
+        .copy("Resources/color+swiftui.stencil"),
+        .copy("Resources/color+uikit.stencil"),
+        .copy("Resources/dimension+foundation.stencil"),
+      ]
     ),
     .testTarget(
-      name: "DesignTokensTests",
-      dependencies: ["DesignTokens"],
+      name: "DesignTokensCoreTests",
+      dependencies: ["DesignTokensCore"],
       resources: [
         .copy("Resources/alias.json"),
         .copy("Resources/color.json"),
@@ -32,5 +57,14 @@ let package = Package(
         .copy("Resources/missingTypeWithAlias.json"),
       ]
     ),
+    .testTarget(
+      name: "GeneratorTests",
+      dependencies: [
+        "DesignTokensGenerator"
+      ],
+      resources: [
+        .copy("Resources/configuration.json"),
+      ]
+    )
   ]
 )

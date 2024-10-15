@@ -1,0 +1,15 @@
+{
+  "input" : "design-tokens.json",
+  "output" : {
+    "colors": {
+      "path" : "Output/Colors/",
+      "formats": [
+        "SwiftUI",
+        "UIKit",
+      ]
+    },
+    "dimensions": {
+      "path" : "Output/Dimensions/"
+    }
+  }
+}
