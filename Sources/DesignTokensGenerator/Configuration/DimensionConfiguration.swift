@@ -9,10 +9,8 @@ struct DimensionConfiguration: ConfigurationProtocol, Equatable {
   
   // MARK: - Stored Properties
   
-  /// The path to the input file.
   private(set) var inputPaths: [String]?
 
-  /// The path of the directory where the output will be generated.
   private(set) var outputPath: String?
 
   // MARK: - Init

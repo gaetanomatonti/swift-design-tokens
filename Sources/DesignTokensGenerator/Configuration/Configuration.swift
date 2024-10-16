@@ -11,10 +11,8 @@ struct Configuration: ConfigurationProtocol, Equatable {
   
   // MARK: - Stored Properties
   
-  /// The path to the input file.
   private(set) var inputPaths: [String]?
     
-  /// The path to the output directory.
   private(set) var outputPath: String?
     
   // MARK: - Stored Properties
@@ -36,6 +34,9 @@ struct Configuration: ConfigurationProtocol, Equatable {
   
   // MARK: - Functions
   
+  /// Sets the path of the global input file.
+  /// - Parameter path: The path of the input file.
+  /// - Returns: The configuration with an input.
   func input(_ path: String) -> Configuration {
     var configuration = self
     
@@ -47,6 +48,9 @@ struct Configuration: ConfigurationProtocol, Equatable {
     return configuration
   }
   
+  /// Sets the paths of the global input files.
+  /// - Parameter path: The paths of the input files.
+  /// - Returns: The configuration with some inputs.
   func inputs(_ paths: [String]) -> Configuration {
     var configuration = self
     
@@ -58,6 +62,9 @@ struct Configuration: ConfigurationProtocol, Equatable {
     return configuration
   }
   
+  /// Sets the paths of the global output directory.
+  /// - Parameter path: The path of the output directory.
+  /// - Returns: The configuration with an output.
   func output(_ path: String) -> Configuration {
     var configuration = self
     configuration.outputPath = path
@@ -66,7 +73,8 @@ struct Configuration: ConfigurationProtocol, Equatable {
     
   /// Sets the configuration for the color tokens.
   /// - Parameters:
-  ///   - path: The path of the directory where the output will be generated.
+  ///   - inputPath: The path of the input file.
+  ///   - outputPath: The path of the directory where the output will be generated.
   ///   - formats: The formats of the output.
   /// - Returns: The output configuration with a new color configuration.
   func color(inputPath: String , outputPath: String? = nil, formats: ColorFormat...) -> Configuration {
@@ -83,7 +91,8 @@ struct Configuration: ConfigurationProtocol, Equatable {
   
   /// Sets the configuration for the color tokens.
   /// - Parameters:
-  ///   - path: The path of the directory where the output will be generated.
+  ///   - inputPaths: The path of the input files.
+  ///   - outputPath: The path of the directory where the output will be generated.
   ///   - formats: The formats of the output.
   /// - Returns: The output configuration with a new color configuration.
   func color(inputPaths: [String]? = nil , outputPath: String? = nil, formats: ColorFormat...) -> Configuration {
@@ -92,7 +101,8 @@ struct Configuration: ConfigurationProtocol, Equatable {
 
   /// Sets the configuration for the dimension tokens.
   /// - Parameters:
-  ///   - path: The path of the directory where the output will be generated.
+  ///   - inputPaths: The path of the input files.
+  ///   - outputPath: The path of the directory where the output will be generated.
   /// - Returns: The output configuration with a new dimension configuration.
   func dimension(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
     dimension(DimensionConfiguration(inputPaths: inputPaths, outputPath: outputPath))
