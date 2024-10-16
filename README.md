@@ -44,16 +44,16 @@ design-tokens generate
 
 ```json
 {
-  "input" : "design-tokens.json",
-  "colors" : {
-    "formats" : [
+  "input": "design-tokens.json",
+  "colors": {
+    "formats": [
       "SwiftUI",
-      "UIKit",
+      "UIKit"
     ],
-    "path" : "Output/Colors/"
+    "output": "Output/Colors/"
   },
-  "dimensions" : {
-    "path" : "Output/Dimensions/"
+  "dimensions": {
+    "output": "Output/Dimensions/"
   }
 }
 ```
