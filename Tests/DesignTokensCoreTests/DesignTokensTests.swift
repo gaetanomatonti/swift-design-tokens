@@ -9,7 +9,7 @@ struct DesignTokenDecoding {
   @Test
   func missingTypeFailure() throws {
     let data = try #require(loadJSON(named: "missingTypeFailure"))
-    #expect(throws: DecodingFailure.missingType) {
+    #expect(throws: DecodingFailure.missingType(tokenName: "red", tokenPath: ["colors", "red"])) {
       try decoder.decode(DesignTokenTree.self, from: data)
     }
   }
