@@ -23,6 +23,9 @@ package struct OutputGenerator {
     let configurationLoader = ConfigurationLoader(using: configurationLocator)
     let configuration = try configurationLoader.load()
     
+    let configurationValidator = ConfigurationValidator(configuration: configuration)
+    try configurationValidator.validate()
+    
     guard let inputPath = configuration.inputPath else {
       return
     }
