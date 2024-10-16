@@ -19,29 +19,34 @@ extension TokenValue {
     do {
       return try attemptAliasDecoding(stringValue, name: name, path: path)
     } catch {
-      switch type {
-      case .some(.color):
-        do {
-          let color = try Color(stringValue)
-          return .color(color)
-        } catch {
-          throw .invalidColorValue(tokenName: name, tokenPath: path, valueFailure: error)
-        }
-        
-      case .some(.dimension):
-        do {
-          let dimension = try Dimension(stringValue)
-          return .dimension(dimension)
-        } catch {
-          throw .invalidDimensionValue(tokenName: name, tokenPath: path, valueFailure: error)
-        }
-        
-      case .none:
+      guard let type else {
         do {
           return try attemptAliasDecoding(stringValue, name: name, path: path)
         } catch {
-          throw .missingType
+          throw .missingType(tokenName: name, tokenPath: path)
         }
+      }
+      
+      return try decodeValue(stringValue, of: type, name: name, path: path)
+    }
+  }
+  
+  private static func decodeValue(_ stringValue: String, of type: TokenType, name: String, path: [String]) throws(DecodingFailure) -> TokenValue {
+    switch type {
+    case .color:
+      do {
+        let color = try Color(stringValue)
+        return .color(color)
+      } catch {
+        throw .invalidColorValue(tokenName: name, tokenPath: path, valueFailure: error)
+      }
+      
+    case .dimension:
+      do {
+        let dimension = try Dimension(stringValue)
+        return .dimension(dimension)
+      } catch {
+        throw .invalidDimensionValue(tokenName: name, tokenPath: path, valueFailure: error)
       }
     }
   }
