@@ -19,7 +19,7 @@ struct ConfigurationTests {
         outputPath: "Output/Dimensions/"
       )
 
-    #expect(configuration.inputPath == "design-tokens.json")
+    #expect(configuration.inputPaths == ["design-tokens.json"])
     #expect(configuration.outputPath == "Output/")
     #expect(configuration.colorConfiguration == ColorConfiguration(inputPath: "design-tokens-colors.json", outputPath: "Output/Colors/", formats: [.swiftUI, .uiKit]))
     #expect(configuration.dimensionConfiguration == DimensionConfiguration(inputPath: "design-tokens-dimensions.json", outputPath: "Output/Dimensions/"))

@@ -1,9 +1,9 @@
 import Foundation
 
 /// A type representing the configuration of the tool.
-struct Configuration: ConfigurationProtocol, Codable, Equatable {
+struct Configuration: ConfigurationProtocol, Equatable {
   enum CodingKeys: String, CodingKey {
-    case inputPath = "input"
+    case inputPaths = "input"
     case outputPath = "output"
     case colorConfiguration = "colors"
     case dimensionConfiguration = "dimensions"
@@ -12,7 +12,7 @@ struct Configuration: ConfigurationProtocol, Codable, Equatable {
   // MARK: - Stored Properties
   
   /// The path to the input file.
-  private(set) var inputPath: String?
+  private(set) var inputPaths: [String]?
     
   /// The path to the output directory.
   private(set) var outputPath: String?
@@ -28,7 +28,7 @@ struct Configuration: ConfigurationProtocol, Codable, Equatable {
   // MARK: - Init
 
   init() {
-    self.inputPath = nil
+    self.inputPaths = nil
     self.outputPath = nil
     self.colorConfiguration = nil
     self.dimensionConfiguration = nil
@@ -38,7 +38,23 @@ struct Configuration: ConfigurationProtocol, Codable, Equatable {
   
   func input(_ path: String) -> Configuration {
     var configuration = self
-    configuration.inputPath = path
+    
+    if configuration.inputPaths == nil {
+      configuration.inputPaths = []
+    }
+
+    configuration.inputPaths?.append(path)
+    return configuration
+  }
+  
+  func inputs(_ paths: [String]) -> Configuration {
+    var configuration = self
+    
+    if configuration.inputPaths == nil {
+      configuration.inputPaths = []
+    }
+    
+    configuration.inputPaths?.append(contentsOf: paths)
     return configuration
   }
   
@@ -47,22 +63,39 @@ struct Configuration: ConfigurationProtocol, Codable, Equatable {
     configuration.outputPath = path
     return configuration
   }
-  
+    
   /// Sets the configuration for the color tokens.
   /// - Parameters:
   ///   - path: The path of the directory where the output will be generated.
   ///   - formats: The formats of the output.
   /// - Returns: The output configuration with a new color configuration.
-  func color(inputPath: String? = nil , outputPath: String? = nil, formats: ColorFormat...) -> Configuration {
-    color(ColorConfiguration(inputPath: inputPath, outputPath: outputPath, formats: formats))
+  func color(inputPath: String , outputPath: String? = nil, formats: ColorFormat...) -> Configuration {
+    color(ColorConfiguration(inputPaths: [inputPath], outputPath: outputPath, formats: formats))
   }
 
   /// Sets the configuration for the dimension tokens.
   /// - Parameters:
   ///   - path: The path of the directory where the output will be generated.
   /// - Returns: The output configuration with a new dimension configuration.
-  func dimension(inputPath: String? = nil , outputPath: String? = nil) -> Configuration {
-    dimension(DimensionConfiguration(inputPath: inputPath, outputPath: outputPath))
+  func dimension(inputPath: String, outputPath: String? = nil) -> Configuration {
+    dimension(DimensionConfiguration(inputPaths: [inputPath], outputPath: outputPath))
+  }
+  
+  /// Sets the configuration for the color tokens.
+  /// - Parameters:
+  ///   - path: The path of the directory where the output will be generated.
+  ///   - formats: The formats of the output.
+  /// - Returns: The output configuration with a new color configuration.
+  func color(inputPaths: [String]? = nil , outputPath: String? = nil, formats: ColorFormat...) -> Configuration {
+    color(ColorConfiguration(inputPaths: inputPaths, outputPath: outputPath, formats: formats))
+  }
+
+  /// Sets the configuration for the dimension tokens.
+  /// - Parameters:
+  ///   - path: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new dimension configuration.
+  func dimension(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
+    dimension(DimensionConfiguration(inputPaths: inputPaths, outputPath: outputPath))
   }
   
   private func color(_ colorConfiguration: ColorConfiguration) -> Configuration {
@@ -75,6 +108,26 @@ struct Configuration: ConfigurationProtocol, Codable, Equatable {
     var configuration = self
     configuration.dimensionConfiguration = dimensionConfiguration
     return configuration
+  }
+}
+
+extension Configuration {
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+    do {
+      if let inputPath = try container.decodeIfPresent(String.self, forKey: .inputPaths) {
+        self.inputPaths = [inputPath]
+      }
+    } catch DecodingError.typeMismatch {
+      if let inputPaths = try container.decodeIfPresent([String].self, forKey: .inputPaths) {
+        self.inputPaths = inputPaths
+      }
+    }
+
+    self.outputPath = try container.decodeIfPresent(String.self, forKey: .outputPath)
+    self.colorConfiguration = try container.decodeIfPresent(ColorConfiguration.self, forKey: .colorConfiguration)
+    self.dimensionConfiguration = try container.decodeIfPresent(DimensionConfiguration.self, forKey: .dimensionConfiguration)
   }
 }
 

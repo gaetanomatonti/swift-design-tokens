@@ -1,14 +1,14 @@
 import Foundation
 
 protocol ConfigurationProtocol: Codable {
-  var inputPath: String? { get }
+  var inputPaths: [String]? { get }
   
   var outputPath: String? { get }
 }
 
 extension ConfigurationProtocol {
   var hasInput: Bool {
-    inputPath != nil
+    inputPaths != nil
   }
   
   var hasOutput: Bool {
