@@ -12,17 +12,9 @@ To compile the binary, run the following command in the directory of the cloned 
 swift build -c release design-tokens
 ```
 
-## Configuration manifest
+## Configuration
 
-The tool must be configured via a configuration manifest JSON file to run. The manifest has the following parameters:
-
-- `input`: The path to the input design tokens JSON.
-- `outputs`: An array of outputs that should be generated.
-  - `colors`: The tool will generate outputs for any color tokens in the design tokens JSON.
-    - `path`: The path of the directory where the output should be generated.
-    - `formats`: The list of formats for the generated outputs. (Possible values: SwiftUI, UIKit).
-  - `dimensions`: The tool will generate outputs for any dimension tokens in the design tokens JSON.
-    - `path`: The path of the directory where the output should be generated.
+The tool must be configured via a [configuration manifest](Documentation/Configuration.md) JSON file to run. 
 
 ## Usage
 

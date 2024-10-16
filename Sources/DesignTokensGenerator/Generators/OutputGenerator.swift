@@ -22,37 +22,86 @@ package struct OutputGenerator {
   package func generate() throws {
     let configurationLoader = ConfigurationLoader(using: configurationLocator)
     let configuration = try configurationLoader.load()
-
-    guard
-      let inputURL = URL(
-        string: configuration.input,
-        relativeTo: configurationLocator.directoryURL.appending(path: configuration.input)
-      )
-    else {
+    
+    let configurationValidator = ConfigurationValidator(configuration: configuration)
+    try configurationValidator.validate()
+    
+    try generateTokens(with: configuration)
+  }
+  
+  private func generateTokens(with configuration: Configuration) throws {
+    guard let inputPaths = configuration.inputPaths else {
+      try generateColors(with: configuration)
+      try generateDimensions(with: configuration)
       return
     }
     
-    let designTokensDecoder = DesignTokensDecoder(inputURL: inputURL)
-    let designTokenTree = try designTokensDecoder.decode()
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
     
-    if let colorConfiguration = configuration.output.colorConfiguration {
-      try generate(with: colorConfiguration, from: designTokenTree)
-    }
-    
-    if let dimensionConfiguration = configuration.output.dimensionConfiguration {
-      try generate(with: dimensionConfiguration, from: designTokenTree)
-    }
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
+    try generateColors(with: configuration, from: trees)
+    try generateDimensions(with: configuration, from: trees)
   }
   
-  private func generate(with configuration: ColorConfiguration, from tree: DesignTokenTree) throws {
-    let outputURL = outputURL(with: configurationLocator, for: configuration.path)
+  private func generateColors(with configuration: Configuration) throws {
+    guard let colorConfiguration = configuration.colorConfiguration else {
+      return
+    }
     
+    guard let inputPaths = colorConfiguration.inputPaths else {
+      return
+    }
+
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
     
-    let (tokens, aliases) = tree.colorTokens()
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
+    try generateColors(with: configuration, from: trees)
+  }
+  
+  private func generateDimensions(with configuration: Configuration) throws {
+    guard let dimensionConfiguration = configuration.dimensionConfiguration else {
+      return
+    }
+    
+    guard let inputPaths = dimensionConfiguration.inputPaths else {
+      return
+    }
+
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
+    
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
+    try generateDimensions(with: configuration, from: trees)
+  }
+  
+  private func generateColors(with configuration: Configuration, from trees: [DesignTokenTree]) throws {
+    guard let colorConfiguration = configuration.colorConfiguration else {
+      return
+    }
+    
+    guard let outputPath = colorConfiguration.outputPath ?? configuration.outputPath else {
+      return
+    }
+    
+    let outputURL = outputURL(with: configurationLocator, for: outputPath)
+    
+    let (tokens, aliases): ([ColorToken], [AliasToken]) = trees.reduce(into: (resultingTokens: [], resultingAliases: [])) { result, tree in
+      let (tokens, aliases) = tree.colorTokens()
+      result.resultingTokens.append(contentsOf: tokens)
+      result.resultingAliases.append(contentsOf: aliases)
+    }
     
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
 
-    for format in configuration.formats {
+    for format in colorConfiguration.formats {
       switch format {
       case .swiftUI, .uiKit:
         let sourceCodeGenerator = ColorSourceCodeGenerator(
@@ -67,10 +116,22 @@ package struct OutputGenerator {
     }
   }
   
-  private func generate(with configuration: DimensionConfiguration, from tree: DesignTokenTree) throws {
-    let outputURL = outputURL(with: configurationLocator, for: configuration.path)
+  private func generateDimensions(with configuration: Configuration, from trees: [DesignTokenTree]) throws {
+    guard let dimensionConfiguration = configuration.dimensionConfiguration else {
+      return
+    }
+    
+    guard let outputPath = dimensionConfiguration.outputPath ?? configuration.outputPath else {
+      return
+    }
+    
+    let outputURL = outputURL(with: configurationLocator, for: outputPath)
 
-    let (tokens, aliases) = tree.dimensionTokens()
+    let (tokens, aliases): ([DimensionToken], [AliasToken]) = trees.reduce(into: (resultingTokens: [], resultingAliases: [])) { result, tree in
+      let (tokens, aliases) = tree.dimensionTokens()
+      result.resultingTokens.append(contentsOf: tokens)
+      result.resultingAliases.append(contentsOf: aliases)
+    }
 
     let sourceCodeGenerator = DimensionSourceCodeGenerator(tokens: tokens, aliases: aliases)
     let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
