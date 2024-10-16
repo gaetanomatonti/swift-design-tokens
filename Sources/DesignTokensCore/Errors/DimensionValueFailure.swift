@@ -8,3 +8,15 @@ enum DimensionValueFailure: ValueFailure {
   /// The value of the dimension is not a valid number.
   case invalidValue
 }
+
+extension DimensionValueFailure: LocalizedError {
+  var errorDescription: String? {
+    switch self {
+    case .invalidStringValue:
+      return "The value does not represent a valid dimension."
+      
+    case .invalidValue:
+      return "The value of the dimension is not a valid number."
+    }
+  }
+}

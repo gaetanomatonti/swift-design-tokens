@@ -2,6 +2,15 @@ import Foundation
 
 /// The possible failures related to alias values.
 enum AliasValueFailure: ValueFailure {
-  /// The value of the alias is not a valid token reference.
+  /// The syntax of the reference value is not valid.
   case invalidReferenceSyntax
+}
+
+extension AliasValueFailure: LocalizedError {
+  var errorDescription: String? {
+    switch self {
+    case .invalidReferenceSyntax:
+      return "The syntax of the reference value is not valid."
+    }
+  }
 }
