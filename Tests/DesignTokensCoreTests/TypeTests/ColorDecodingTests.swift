@@ -12,7 +12,7 @@ struct ColorDecoding {
     ]
   )
   func invalidHexStringFailure(color: String) {
-    #expect(throws: DecodingFailure.invalidValue(.invalidHexString)) {
+    #expect(throws: ColorValueFailure.invalidHexString) {
       try Color(color)
     }
   }

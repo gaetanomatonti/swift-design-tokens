@@ -26,7 +26,7 @@ package struct Color {
     self.alpha = alpha
   }
 
-  init(_ hex: String) throws {
+  init(_ hex: String) throws(ColorValueFailure) {
     let hex = hex
       .trimmingCharacters(in: .whitespacesAndNewlines)
       .replacingOccurrences(of: "#", with: "")
@@ -39,7 +39,7 @@ package struct Color {
     var alpha: Double = 1.0
 
     guard Scanner(string: hex).scanHexInt64(&rgb) else {
-      throw DecodingFailure.invalidValue(.invalidHexString)
+      throw .invalidHexString
     }
 
     switch hex.count {
@@ -55,7 +55,7 @@ package struct Color {
       alpha = Double(rgb & 0x000000FF) / 255.0
 
     default:
-      throw DecodingFailure.invalidValue(.invalidHexString)
+      throw .invalidHexString
     }
 
     self.red = red

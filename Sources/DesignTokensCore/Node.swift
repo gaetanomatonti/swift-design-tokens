@@ -64,13 +64,15 @@ extension Node: DecodableWithConfiguration {
   init(from decoder: any Decoder, configuration: TokenDecodingConfiguration) throws {
     let container = try decoder.container(keyedBy: AnyCodingKey.self)
 
-    guard let name = container.codingPath.last else {
+    guard let name = container.codingPath.last?.stringValue else {
       throw DecodingFailure.invalidCodingPath
     }
 
-    self.name = name.stringValue
+    self.name = name
     self.description = try container.decodeIfPresent(String.self, forKey: .description)
-    self.path = container.codingPath.map(\.stringValue)
+    
+    let path = container.codingPath.map(\.stringValue)
+    self.path = path
 
     let type = try container.decodeIfPresent(TokenType.self, forKey: .type) ?? configuration.type
     self.type = type
@@ -86,6 +88,6 @@ extension Node: DecodableWithConfiguration {
     }
 
     let stringValue = try container.decode(String.self, forKey: .value)
-    self.value = try .from(stringValue, type: type)
+    self.value = try .from(stringValue, name: name, path: path, type: type)
   }
 }

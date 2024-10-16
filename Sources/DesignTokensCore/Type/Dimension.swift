@@ -15,7 +15,7 @@ package struct Dimension {
     self.value = value
   }
 
-  init(_ valueString: String) throws {
+  init(_ valueString: String) throws(DimensionValueFailure) {
     let regex = Regex {
       Capture {
         OneOrMore(.digit)
@@ -32,12 +32,12 @@ package struct Dimension {
     }
 
     guard let match = valueString.wholeMatch(of: regex) else {
-      throw DecodingFailure.invalidValue(.invalidDimensionString)
+      throw .invalidStringValue
     }
 
     let (_, value) = match.output
     guard let value else {
-      throw DecodingFailure.invalidValue(.invalidDimensionValue)
+      throw .invalidValue
     }
 
     self.value = value
