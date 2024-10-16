@@ -10,7 +10,7 @@ struct DimensionDecoding {
     ]
   )
   func invalidDimensionStringFailure(dimension: String) throws {
-    #expect(throws: DecodingFailure.invalidValue(.invalidDimensionString)) {
+    #expect(throws: DimensionValueFailure.invalidStringValue) {
       try Dimension(dimension)
     }
   }

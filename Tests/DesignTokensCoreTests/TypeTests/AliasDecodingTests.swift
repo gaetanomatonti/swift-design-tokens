@@ -12,7 +12,7 @@ struct AliasDecoding {
     ]
   )
   func invalidReferenceSyntaxFailure(reference: String) {
-    #expect(throws: DecodingFailure.invalidValue(.invalidReferenceSyntax)) {
+    #expect(throws: AliasValueFailure.invalidReferenceSyntax) {
       try Alias(reference)
     }
   }
@@ -22,6 +22,7 @@ struct AliasDecoding {
       SUT("{group}", expected: ["group"]),
       SUT("{group.token}", expected: ["group", "token"]),
       SUT("{group.token.name}", expected: ["group", "token", "name"]),
+      SUT("{group.color-50}", expected: ["group", "color-50"]),
     ]
   )
   func successfulAliasDecoding(reference: SUT<String, [String]>) throws {

@@ -11,16 +11,18 @@ struct Alias {
 
   // MARK: - Init
 
-  init(_ stringValue: String) throws(DecodingFailure) {
+  init(_ stringValue: String) throws(AliasValueFailure) {
+    let allowedNameCharacters: CharacterClass = .word.union(.digit).union(.generalCategory(.dashPunctuation))
+    
     let regex = Regex {
       One("{")
 
       Capture {
-        OneOrMore(.word)
+        OneOrMore(allowedNameCharacters)
 
         ZeroOrMore {
           "."
-          OneOrMore(.word)
+          OneOrMore(allowedNameCharacters)
         }
       }
 
@@ -28,7 +30,7 @@ struct Alias {
     }
 
     guard let match = stringValue.wholeMatch(of: regex) else {
-      throw DecodingFailure.invalidValue(.invalidReferenceSyntax)
+      throw .invalidReferenceSyntax
     }
     
     let (_, value) = match.output
