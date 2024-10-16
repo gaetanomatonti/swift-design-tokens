@@ -1,3 +1,9 @@
+<picture>
+  <source srcset="images/header/dark.png" media="(prefers-color-scheme: dark)"/>
+  <source srcset="images/header/light.png"  media="(prefers-color-scheme: light)"/>
+  <img src="images/header/dark.png"/>
+</picture>
+
 ## What's `design-tokens`?
 
 `design-tokens` is a command line tool to translate design tokens into Swift source code.
