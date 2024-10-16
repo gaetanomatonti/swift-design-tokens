@@ -26,20 +26,59 @@ package struct OutputGenerator {
     let configurationValidator = ConfigurationValidator(configuration: configuration)
     try configurationValidator.validate()
     
+    try generateTokens(with: configuration)
+  }
+  
+  private func generateTokens(with configuration: Configuration) throws {
     guard let inputPaths = configuration.inputPaths else {
+      try generateColors(with: configuration)
+      try generateDimensions(with: configuration)
+      return
+    }
+    
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
+    
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
+    try generateColors(with: configuration, from: trees)
+    try generateDimensions(with: configuration, from: trees)
+  }
+  
+  private func generateColors(with configuration: Configuration) throws {
+    guard let colorConfiguration = configuration.colorConfiguration else {
+      return
+    }
+    
+    guard let inputPaths = colorConfiguration.inputPaths else {
       return
     }
 
-    let trees: [DesignTokenTree] = try inputPaths.reduce(into: []) { result, inputPath in
-      let inputURL = configurationLocator.directoryURL.appending(path: inputPath)
-      
-      let designTokensDecoder = DesignTokensDecoder(inputURL: inputURL)
-      let designTokenTree = try designTokensDecoder.decode()
-      
-      result.append(designTokenTree)
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
+    
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
+    try generateColors(with: configuration, from: trees)
+  }
+  
+  private func generateDimensions(with configuration: Configuration) throws {
+    guard let dimensionConfiguration = configuration.dimensionConfiguration else {
+      return
     }
     
-    try generateColors(with: configuration, from: trees)
+    guard let inputPaths = dimensionConfiguration.inputPaths else {
+      return
+    }
+
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
+    
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
     try generateDimensions(with: configuration, from: trees)
   }
   
