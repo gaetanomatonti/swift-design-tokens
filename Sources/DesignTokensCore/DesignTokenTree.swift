@@ -25,7 +25,7 @@ package struct DesignTokenTree {
         tokens.append(token)
 
       case let .alias(path):
-        let alias = AliasToken(name: node.name, description: node.description, path: path)
+        let alias = AliasToken(name: node.name, description: node.description, path: node.path, reference: path)
         aliases.append(alias)
 
       default:
@@ -35,10 +35,6 @@ package struct DesignTokenTree {
 
     tokens.sort()
     aliases.sort()
-
-    aliases.removeAll { alias in
-      !tokens.contains { $0.path == alias.path }
-    }
 
     return (tokens, aliases)
   }
@@ -56,7 +52,7 @@ package struct DesignTokenTree {
         tokens.append(token)
 
       case let .alias(path):
-        let alias = AliasToken(name: node.name, description: node.description, path: path)
+        let alias = AliasToken(name: node.name, description: node.description, path: node.path, reference: path)
         aliases.append(alias)
 
       default:
@@ -66,10 +62,6 @@ package struct DesignTokenTree {
 
     tokens.sort()
     aliases.sort()
-
-    aliases.removeAll { alias in
-      !tokens.contains { $0.path == alias.path }
-    }
 
     return (tokens, aliases)
   }
