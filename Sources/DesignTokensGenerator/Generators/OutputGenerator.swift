@@ -22,37 +22,36 @@ package struct OutputGenerator {
   package func generate() throws {
     let configurationLoader = ConfigurationLoader(using: configurationLocator)
     let configuration = try configurationLoader.load()
-
-    guard
-      let inputURL = URL(
-        string: configuration.input,
-        relativeTo: configurationLocator.directoryURL.appending(path: configuration.input)
-      )
-    else {
+    
+    guard let inputPath = configuration.inputPath else {
       return
     }
+
+    let inputURL = configurationLocator.directoryURL.appending(path: inputPath)
     
     let designTokensDecoder = DesignTokensDecoder(inputURL: inputURL)
     let designTokenTree = try designTokensDecoder.decode()
     
-    if let colorConfiguration = configuration.output.colorConfiguration {
-      try generate(with: colorConfiguration, from: designTokenTree)
-    }
-    
-    if let dimensionConfiguration = configuration.output.dimensionConfiguration {
-      try generate(with: dimensionConfiguration, from: designTokenTree)
-    }
+    try generateColors(with: configuration, from: designTokenTree)
+    try generateDimensions(with: configuration, from: designTokenTree)
   }
   
-  private func generate(with configuration: ColorConfiguration, from tree: DesignTokenTree) throws {
-    let outputURL = outputURL(with: configurationLocator, for: configuration.path)
+  private func generateColors(with configuration: Configuration, from tree: DesignTokenTree) throws {
+    guard let colorConfiguration = configuration.colorConfiguration else {
+      return
+    }
     
+    guard let outputPath = colorConfiguration.outputPath ?? configuration.outputPath else {
+      return
+    }
+    
+    let outputURL = outputURL(with: configurationLocator, for: outputPath)
     
     let (tokens, aliases) = tree.colorTokens()
     
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
 
-    for format in configuration.formats {
+    for format in colorConfiguration.formats {
       switch format {
       case .swiftUI, .uiKit:
         let sourceCodeGenerator = ColorSourceCodeGenerator(
@@ -67,8 +66,16 @@ package struct OutputGenerator {
     }
   }
   
-  private func generate(with configuration: DimensionConfiguration, from tree: DesignTokenTree) throws {
-    let outputURL = outputURL(with: configurationLocator, for: configuration.path)
+  private func generateDimensions(with configuration: Configuration, from tree: DesignTokenTree) throws {
+    guard let dimensionConfiguration = configuration.dimensionConfiguration else {
+      return
+    }
+    
+    guard let outputPath = dimensionConfiguration.outputPath ?? configuration.outputPath else {
+      return
+    }
+    
+    let outputURL = outputURL(with: configurationLocator, for: outputPath)
 
     let (tokens, aliases) = tree.dimensionTokens()
 

@@ -34,16 +34,16 @@ struct OutputConfiguration: Equatable {
   ///   - path: The path of the directory where the output will be generated.
   ///   - formats: The formats of the output.
   /// - Returns: The output configuration with a new color configuration.
-  func color(path: String, formats: ColorFormat...) -> OutputConfiguration {
-    color(ColorConfiguration(path: path, formats: formats))
+  func color(inputPath: String? = nil , outputPath: String, formats: ColorFormat...) -> OutputConfiguration {
+    color(ColorConfiguration(inputPath: inputPath, outputPath: outputPath, formats: formats))
   }
 
   /// Sets the configuration for the dimension tokens.
   /// - Parameters:
   ///   - path: The path of the directory where the output will be generated.
   /// - Returns: The output configuration with a new dimension configuration.
-  func dimension(path: String) -> OutputConfiguration {
-    dimension(DimensionConfiguration(path: path))
+  func dimension(inputPath: String? = nil , outputPath: String) -> OutputConfiguration {
+    dimension(DimensionConfiguration(inputPath: inputPath, outputPath: outputPath))
   }
   
   private func color(_ configuration: ColorConfiguration) -> OutputConfiguration {
