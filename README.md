@@ -39,17 +39,15 @@ design-tokens generate
 ```json
 {
   "input" : "design-tokens.json",
-  "output" : {
-    "colors" : {
-      "formats" : [
-        "SwiftUI",
-        "UIKit",
-      ],
-      "path" : "Output/Colors/"
-    },
-    "dimensions" : {
-      "path" : "Output/Dimensions/"
-    }
+  "colors" : {
+    "formats" : [
+      "SwiftUI",
+      "UIKit",
+    ],
+    "path" : "Output/Colors/"
+  },
+  "dimensions" : {
+    "path" : "Output/Dimensions/"
   }
 }
 ```
