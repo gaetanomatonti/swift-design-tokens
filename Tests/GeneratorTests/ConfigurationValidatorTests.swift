@@ -35,8 +35,11 @@ struct ConfigurationValidatorTests {
   @Test(
     arguments: [
       Configuration().output("Output/"),
+      Configuration().inputs([]).output("Output/"),
       Configuration().color(outputPath: "Output", formats: .swiftUI),
+      Configuration().color(inputPaths: [], outputPath: "Output", formats: .swiftUI),
       Configuration().dimension(outputPath: "Output"),
+      Configuration().dimension(inputPaths: [], outputPath: "Output"),
     ]
   )
   func configurationHasNoInput(_ configuration: Configuration) throws {
