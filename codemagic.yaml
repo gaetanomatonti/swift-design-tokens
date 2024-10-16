@@ -1,0 +1,20 @@
+workflows:
+  test:
+    name: Test
+    environment:
+      xcode: 16.0
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: develop
+          include: true
+          source: true
+        - pattern: develop
+          include: true
+          source: false
+      cancel_previous_builds: true
+    scripts:
+      - name: Test
+        script: swift test
