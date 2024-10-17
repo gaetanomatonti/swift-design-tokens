@@ -9,20 +9,27 @@ package struct ConfigurationGenerator {
   private let configurationLocator: ConfigurationLocator
 
   /// The path to the input design tokens file.
-  private let inputPath: String
+  private let inputPaths: [String]
+
+  /// The path to the directory where the output will be generated.
+  private let outputPath: String
 
   // MARK: - Init
   
-  package init(fileName: String?, configurationURL: URL, inputPath: String) {
+  package init(fileName: String?, configurationURL: URL, inputPaths: [String], outputPath: String) {
     self.configurationLocator = ConfigurationLocator(fileName: fileName, configurationURL: configurationURL)
-    self.inputPath = inputPath
+    self.inputPaths = inputPaths
+    self.outputPath = outputPath
   }
 
   // MARK: - Functions
   
   /// Generates the configuration manifest.
   package func generate() throws {
-    let configuration = Configuration.scaffold()
+    let configuration = Configuration.scaffold(
+      inputPaths: inputPaths,
+      outputPath: outputPath
+    )
 
     let encoder = JSONEncoder()
     encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]

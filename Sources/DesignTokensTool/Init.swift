@@ -7,9 +7,9 @@ struct Init: ParsableCommand {
 
   @Option(
     name: .shortAndLong,
-    help: "The name of the configuration file. (default: \(defaultConfigurationFileName)"
+    help: "The name of the configuration file."
   )
-  var name: String?
+  var name: String = defaultConfigurationFileName
 
   @Option(
     name: [
@@ -30,13 +30,23 @@ struct Init: ParsableCommand {
     ],
     help: "The path to the design tokens JSON file."
   )
-  var inputPath: String
+  var inputPaths: [String] = ["design-tokens.json"]
+
+  @Option(
+    name: [
+      .customShort("o"),
+      .customLong("output")
+    ],
+    help: "The path to the directory where the output will be generated."
+  )
+  var outputPath: String = "Output/"
 
   func run() throws {
     let configurationGenerator = ConfigurationGenerator(
       fileName: name,
       configurationURL: configurationURL,
-      inputPath: inputPath
+      inputPaths: inputPaths,
+      outputPath: outputPath
     )
     try configurationGenerator.generate()
   }

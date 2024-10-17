@@ -143,10 +143,10 @@ extension Configuration {
 
 extension Configuration {
   /// Creates a default instance for the `Configuration`.
-  static func scaffold() -> Configuration {
+  static func scaffold(inputPaths: [String], outputPath: String) -> Configuration {
     Configuration()
-      .input("design-tokens.json")
-      .output("Output/")
+      .inputs(inputPaths)
+      .output(outputPath)
       .color(
         formats: .swiftUI, .uiKit
       )
