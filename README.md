@@ -4,6 +4,8 @@
   <img src="images/header/dark.png"/>
 </picture>
 
+[![Codemagic build status](https://api.codemagic.io/apps/670fb761a6132888f126d3dd/test/status_badge.svg)](https://codemagic.io/app/670fb761a6132888f126d3dd/test/latest_build)
+
 ## What's `design-tokens`?
 
 `design-tokens` is a command line tool to translate design tokens into Swift source code.
