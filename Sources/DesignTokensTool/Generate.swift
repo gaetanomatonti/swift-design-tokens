@@ -7,8 +7,8 @@ struct Generate: ParsableCommand {
 
   @Option(
     name: [
-      .customShort("p"),
-      .customLong("path")
+      .customShort("c"),
+      .customLong("configuration")
     ],
     help: """
       The path to the tool configuration file.
