@@ -6,7 +6,7 @@ import Testing
 struct ConfigurationValidatorTests {
   @Test(
     arguments: [
-      Configuration.scaffold(),
+      Configuration.scaffold(inputPaths: ["design-tokens.json"], outputPath: "Output/"),
       Configuration().input("design-tokens.json").output("Output/"),
       Configuration().color(inputPath: "design-tokens.json", outputPath: "Output", formats: .swiftUI),
       Configuration().dimension(inputPath: "design-tokens.json", outputPath: "Output"),
