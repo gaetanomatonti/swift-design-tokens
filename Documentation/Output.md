@@ -1,6 +1,6 @@
 #  Output
 
-The command line tool generates source code output for the specified design tokens files. The format for some tokens can also be customized.
+The command line tool generates source code as the resulting output of the design tokens translation. Some tokens also support several formats for source code customization.
 
 ## Name spacing
 
@@ -23,7 +23,7 @@ To prevent naming conflicts between tokens, `design-tokens` preserves the name s
 
 For example, the generated source code output for the above color tokens will contain a property named `black` for the `black` color token, and `textPrimary` for the token at path `"text" / "primary"`. 
 
-## Tokens
+## Token Formats
 
 ### Colors
 
@@ -48,7 +48,7 @@ Similarly to the SwiftUI format, the UIKit format extends the `UIColor` type.
 
 ```swift
   extension UIColor {
-    static let black = Color(red: 0, green: 0, blue: 0, alpha: 0)
+    static let black = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
     
     static var textPrimary: UIColor { black }
   }
@@ -57,7 +57,7 @@ Similarly to the SwiftUI format, the UIKit format extends the `UIColor` type.
 
 ### Dimension
 
-Dimension tokens do not support format customization, as the generated source code is an extension on Foundation's `CGFloat` type.
+Dimension tokens do not support format customization, as the generated source code is always an extension on Foundation's `CGFloat` type.
 
 ```json
 {
