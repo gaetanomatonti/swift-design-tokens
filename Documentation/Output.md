@@ -25,6 +25,10 @@ For example, the generated source code output for the above color tokens will co
 
 ## Token Formats
 
+### Aliases
+
+Alias tokens will always use the format of their referenced token's type, and will be formatted as a computed property.
+
 ### Colors
 
 Color tokens support different source code formats for SwiftUI, and UIKit.
