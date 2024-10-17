@@ -59,3 +59,5 @@ design-tokens generate
 ```
 
 Using the manifest above, the `generate` command will generate `SwiftUI`, and `UIKit` source code for the color tokens in the `Output/Colors/` directory. It will also generate source code (default) for the `dimension` tokens in the `Output/Dimensions/` directory.
+
+Some tokens also support different formats for the generated source code [output](Documentation/Output.md).
