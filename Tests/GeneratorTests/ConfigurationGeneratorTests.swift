@@ -8,7 +8,12 @@ struct ConfigurationGeneratorTests {
   func configurationManifestGeneration() throws {
     let directoryURL = FileManager.default.temporaryDirectory
     
-    let configurationGenerator = ConfigurationGenerator(fileName: "configuration", configurationURL: directoryURL, inputPath: "design-tokens.json")
+    let configurationGenerator = ConfigurationGenerator(
+      fileName: "configuration",
+      configurationURL: directoryURL,
+      inputPaths: ["design-tokens.json"],
+      outputPath: "Output/"
+    )
     try configurationGenerator.generate()
     
     let outputURL = directoryURL
