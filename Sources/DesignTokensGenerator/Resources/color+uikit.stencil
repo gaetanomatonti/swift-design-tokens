@@ -5,7 +5,7 @@ import UIKit
 
 {% import "common.stencil" %}
 {% set tokenType %}UIColor{% endset %}
-{% macro colorValue color %}{{tokenType}}(red: {{ color.red }}, blue: {{ color.blue }}, green: {{ color.green }}, alpha: {{ color.alpha }}){% endmacro %}
+{% macro colorValue color %}{{tokenType}}(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, alpha: {{ color.alpha }}){% endmacro %}
 {% macro tokensBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
