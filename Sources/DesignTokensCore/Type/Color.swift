@@ -1,7 +1,7 @@
 import Foundation
 
 /// A type representing a color.
-package struct Color {
+struct Color {
 
   // MARK: - Stored Properties
   
