@@ -1,12 +1,11 @@
 import Foundation
 
-typealias Path = [String]
-
 /// The possible values of a design token.
 enum TokenValue: Equatable {
   case color(Color)
   case dimension(Dimension)
   case alias(Path)
+  case gradient(Gradient)
 }
 
 extension TokenValue: DecodableWithConfiguration {
@@ -35,6 +34,9 @@ extension TokenValue {
 
     case .dimension:
       return try Self.decodeDimension(from: decoder, with: configuration)
+
+    case .gradient:
+      return try Self.decodeGradient(from: decoder, with: configuration)
     }
   }
 
@@ -67,6 +69,17 @@ extension TokenValue {
       return .dimension(dimension)
     } catch {
       throw DecodingFailure.invalidDimensionValue(tokenName: configuration.name, tokenPath: configuration.path, valueFailure: error)
+    }
+  }
+
+  private static func decodeGradient(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    let container = try decoder.singleValueContainer()
+
+    do {
+      let gradient = try container.decode(Gradient.self)
+      return .gradient(gradient)
+    } catch {
+      throw DecodingFailure.invalidGradientValue(tokenName: configuration.name, tokenPath: configuration.path)
     }
   }
 }

@@ -52,6 +52,7 @@ let package = Package(
       resources: [
         .copy("Resources/alias.json"),
         .copy("Resources/color.json"),
+        .copy("Resources/gradient.json"),
         .copy("Resources/groups.json"),
         .copy("Resources/missingTypeFailure.json"),
         .copy("Resources/missingTypeWithAlias.json"),
