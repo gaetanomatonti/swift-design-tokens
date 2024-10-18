@@ -5,3 +5,19 @@
   static var {{aliasName}}: {{aliasType}} { {{referenceName}} }
   {% endfor %}
 {% endmacro %}
+
+{% macro swiftUIColor color %}Color(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, opacity: {{ color.alpha }}){% endmacro %}
+
+{% macro uiKitColor color %}UIColor(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, alpha: {{ color.alpha }}){% endmacro %}
+
+{% macro swiftUIGradient gradient %}Gradient(
+    stops: [
+      {% for stop in gradient.stops %}
+      Gradient.Stop(
+        color: {%+ call swiftUIColor stop.color %},
+        location: {{ stop.position }}
+      ),
+      {% endfor %}
+    ]
+  )
+{% endmacro %}
