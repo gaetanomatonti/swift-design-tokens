@@ -9,7 +9,7 @@
 ## What's `design-tokens`?
 
 `design-tokens` is a command line tool to translate design tokens into Swift source code.
-This package follows the [W3C Design Token standard](https://tr.designtokens.org/format/#:~:text=The%20names%20of%20the%20groups,which%20is%20a%20computed%20property) for the translation.
+This package follows the [W3C Design Token standard](https://tr.designtokens.org/format/) for the translation.
 
 ## Install
 
