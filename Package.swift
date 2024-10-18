@@ -44,6 +44,7 @@ let package = Package(
         .copy("Resources/color+swiftui.stencil"),
         .copy("Resources/color+uikit.stencil"),
         .copy("Resources/dimension+foundation.stencil"),
+        .copy("Resources/gradient+swiftui.stencil"),
       ]
     ),
     .testTarget(
@@ -52,6 +53,7 @@ let package = Package(
       resources: [
         .copy("Resources/alias.json"),
         .copy("Resources/color.json"),
+        .copy("Resources/gradient.json"),
         .copy("Resources/groups.json"),
         .copy("Resources/missingTypeFailure.json"),
         .copy("Resources/missingTypeWithAlias.json"),

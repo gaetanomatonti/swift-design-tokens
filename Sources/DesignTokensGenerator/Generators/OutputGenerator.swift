@@ -44,6 +44,7 @@ package struct OutputGenerator {
 
     try generateColors(with: configuration, from: trees)
     try generateDimensions(with: configuration, from: trees)
+    try generateGradients(with: configuration, from: trees)
   }
   
   private func generateColors(with configuration: Configuration) throws {
@@ -80,6 +81,24 @@ package struct OutputGenerator {
     let trees = try designTokensDecoder.decode()
 
     try generateDimensions(with: configuration, from: trees)
+  }
+  
+  private func generateGradients(with configuration: Configuration) throws {
+    guard let gradientConfiguration = configuration.gradientConfiguration else {
+      return
+    }
+    
+    guard let inputPaths = gradientConfiguration.inputPaths else {
+      return
+    }
+
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
+    
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
+    try generateGradients(with: configuration, from: trees)
   }
   
   private func generateColors(with configuration: Configuration, from trees: [DesignTokenTree]) throws {
@@ -134,6 +153,29 @@ package struct OutputGenerator {
     }
 
     let sourceCodeGenerator = DimensionSourceCodeGenerator(tokens: tokens, aliases: aliases)
+    let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
+
+    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
+    try write(files, at: outputURL)
+  }
+  
+  private func generateGradients(with configuration: Configuration, from trees: [DesignTokenTree]) throws {
+    guard let gradientConfiguration = configuration.gradientConfiguration else {
+      return
+    }
+    
+    guard let outputPath = gradientConfiguration.outputPath ?? configuration.outputPath else {
+      return
+    }
+    
+    let outputURL = outputURL(with: configurationLocator, for: outputPath)
+
+    let tokens: [GradientToken] = trees.reduce(into: []) { result, tree in
+      let tokens = tree.gradientTokens()
+      result.append(contentsOf: tokens)
+    }
+
+    let sourceCodeGenerator = GradientSourceCodeGenerator(tokens: tokens)
     let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
 
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)

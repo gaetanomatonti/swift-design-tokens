@@ -65,6 +65,25 @@ package struct DesignTokenTree {
 
     return (tokens, aliases)
   }
+
+  package func gradientTokens() -> [GradientToken] {
+    var tokens: [GradientToken] = []
+
+    root.depthFirstTraversal { node in
+      switch node.value {
+      case let .gradient(gradient):
+        let token = GradientToken(name: node.name, description: node.description, gradient: gradient, path: node.path)
+        tokens.append(token)
+
+      default:
+        break
+      }
+    }
+
+    tokens.sort()
+
+    return tokens
+  }
 }
 
 extension DesignTokenTree: Decodable {

@@ -18,11 +18,16 @@ struct ConfigurationTests {
         inputPath: "design-tokens-dimensions.json",
         outputPath: "Output/Dimensions/"
       )
+      .gradient(
+        inputPath: "design-tokens-gradients.json",
+        outputPath: "Output/Gradients/"
+      )
 
     #expect(configuration.inputPaths == ["design-tokens.json"])
     #expect(configuration.outputPath == "Output/")
     #expect(configuration.colorConfiguration == ColorConfiguration(inputPath: "design-tokens-colors.json", outputPath: "Output/Colors/", formats: [.swiftUI, .uiKit]))
     #expect(configuration.dimensionConfiguration == DimensionConfiguration(inputPath: "design-tokens-dimensions.json", outputPath: "Output/Dimensions/"))
+    #expect(configuration.gradientConfiguration == GradientConfiguration(inputPath: "design-tokens-gradients.json", outputPath: "Output/Gradients/"))
   }
   
   @Test
@@ -40,6 +45,10 @@ struct ConfigurationTests {
       .dimension(
         inputPath: "design-tokens-dimensions.json",
         outputPath: "Output/Dimensions/"
+      )
+      .gradient(
+        inputPath: "design-tokens-gradients.json",
+        outputPath: "Output/Gradients/"
       )
 
     let data = try #require(loadJSON(named: "configuration"))
@@ -67,12 +76,16 @@ struct ConfigurationTests {
         inputPath: "design-tokens-dimensions.json",
         outputPath: "Output/Dimensions/"
       )
+      .gradient(
+        inputPath: "design-tokens-gradients.json",
+        outputPath: "Output/Gradients/"
+      )
 
+    #expect(throws: Never.self) {
     let data = try encoder.encode(configuration)
 
     let decoder = JSONDecoder()
-    
-    #expect(throws: Never.self) {
+
       let result = try decoder.decode(Configuration.self, from: data)
       #expect(result == configuration)
     }

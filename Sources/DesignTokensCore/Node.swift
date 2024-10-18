@@ -87,7 +87,10 @@ extension Node: DecodableWithConfiguration {
       return
     }
 
-    let stringValue = try container.decode(String.self, forKey: .value)
-    self.value = try .from(stringValue, name: name, path: path, type: type)
+    self.value = try container.decode(
+      TokenValue.self,
+      forKey: .value,
+      configuration: TokenValueDecodingConfiguration(name: name, path: path, type: type)
+    )
   }
 }

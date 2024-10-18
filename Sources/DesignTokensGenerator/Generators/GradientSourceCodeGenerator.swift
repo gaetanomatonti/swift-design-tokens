@@ -2,16 +2,13 @@ import DesignTokensCore
 import Foundation
 import Stencil
 
-/// The object that generates source code for the dimension tokens.
-struct DimensionSourceCodeGenerator: SourceCodeGenerator {
-  
+/// The object that generates source code for the gradient tokens.
+struct GradientSourceCodeGenerator: SourceCodeGenerator {
+
   // MARK: - Stored Properties
   
-  /// The dimension tokens.
-  let tokens: [DimensionToken]
-  
-  /// The aliases for the tokens.
-  let aliases: [AliasToken]
+  /// The gradient tokens.
+  let tokens: [GradientToken]
 
   // MARK: - Functions
   
@@ -23,21 +20,19 @@ struct DimensionSourceCodeGenerator: SourceCodeGenerator {
       return []
     }
 
-    let file = try generate(tokens, aliases: aliases, in: environment)
+    let file = try generate(tokens, in: environment)
     return [file]
   }
 
   private func generate(
-    _ tokens: [DesignTokensCore.DimensionToken],
-    aliases: [DesignTokensCore.AliasToken],
+    _ tokens: [DesignTokensCore.GradientToken],
     in environment: Stencil.Environment
   ) throws -> SourceCodeFile {
     let context: [String: Any] = [
       "tokens": tokens,
-      "aliases": aliases,
     ]
 
-    let content = try environment.renderTemplate(name: "dimension+foundation.stencil", context: context)
-    return SourceCodeFile(name: "CGFloat+DesignToken.swift", content: content)
+    let content = try environment.renderTemplate(name: "gradient+swiftui.stencil", context: context)
+    return SourceCodeFile(name: "Gradient+DesignToken.swift", content: content)
   }
 }

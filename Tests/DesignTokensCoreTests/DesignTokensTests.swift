@@ -62,6 +62,26 @@ struct DesignTokenDecoding {
     )
   }
 
+  @Test func decodeGradientTokens() throws {
+    let data = try #require(loadJSON(named: "gradient"))
+    let tree = try decoder.decode(DesignTokenTree.self, from: data)
+
+    let expected = [
+      GradientToken(
+        name: "blue-to-red",
+        gradient: Gradient(
+          stops: [
+            Gradient.Stop(color: try Color("#0000ff"), position: 0),
+            Gradient.Stop(color: try Color("#ff0000"), position: 1),
+          ]
+        ),
+        path: ["blue-to-red"]
+      )
+    ]
+
+    #expect(tree.gradientTokens() == expected)
+  }
+
   fileprivate func loadJSON(named fileName: String) -> Data? {
     guard let url = Bundle.module.url(forResource: fileName, withExtension: "json") else {
       return nil
