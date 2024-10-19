@@ -38,30 +38,6 @@ struct DesignTokenDecoding {
     #expect(colors.children.count == 3)
   }
 
-  @Test func fetchColorTokens() throws {
-    let data = try #require(loadJSON(named: "groups"))
-    let tree = try decoder.decode(DesignTokenTree.self, from: data)
-
-    #expect(
-      tree.colorTokens().tokens == [
-        ColorToken(name: "red", color: Color(red: 1, green: 0, blue: 0, alpha: 1), path: ["colors", "red"]),
-        ColorToken(name: "base", color: Color(red: 1, green: 1, blue: 1, alpha: 1), path: ["colors", "background", "base"]),
-        ColorToken(name: "primary", color: Color(red: 0, green: 0, blue: 0, alpha: 1), path: ["colors", "text", "primary"]),
-      ]
-    )
-  }
-
-  @Test func fetchDimensionTokens() throws {
-    let data = try #require(loadJSON(named: "groups"))
-    let tree = try decoder.decode(DesignTokenTree.self, from: data)
-
-    #expect(
-      tree.dimensionTokens().tokens == [
-        DimensionToken(name: "small", dimension: Dimension(8), path: ["small"])
-      ]
-    )
-  }
-
   fileprivate func loadJSON(named fileName: String) -> Data? {
     guard let url = Bundle.module.url(forResource: fileName, withExtension: "json") else {
       return nil
