@@ -45,7 +45,7 @@ extension TokenValue {
     let stringValue = try stringValueContainer.decode(String.self)
 
     let alias = try Alias(stringValue)
-    return .alias(alias.path)
+    return .alias(alias.reference)
   }
 
   private static func decodeColor(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {

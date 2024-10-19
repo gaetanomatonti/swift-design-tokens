@@ -7,7 +7,7 @@ struct Alias {
   // MARK: - Stored Properties
 
   /// The path to the referenced token.
-  let path: [String]
+  let reference: [String]
 
   // MARK: - Init
 
@@ -34,6 +34,17 @@ struct Alias {
     }
     
     let (_, value) = match.output
-    self.path = value.components(separatedBy: ".")
+    self.reference = value.components(separatedBy: ".")
   }
 }
+
+extension Alias: Decodable {
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let stringValue = try container.decode(String.self)
+    
+    try self.init(stringValue)
+  }
+}
+
+extension Alias: Equatable {}
