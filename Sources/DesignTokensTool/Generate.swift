@@ -18,10 +18,12 @@ struct Generate: ParsableCommand {
       URL(filePath: $0)
     }
   )
-  var configurationURL: URL = URL(filePath: FileManager.default.currentDirectoryPath)
+  var configurationManifestURL: URL
 
   func run() throws {
-    let generator = OutputGenerator(configurationURL: configurationURL)
+    let configurationLocator = try ConfigurationLocator(configurationManifestURL: configurationManifestURL)
+
+    let generator = OutputGenerator(using: configurationLocator)
     try generator.generate()
   }
 }

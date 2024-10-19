@@ -11,7 +11,7 @@ import Foundation
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  static let {{ tokenName }}: {{tokenType}} = {{ token.dimension.value }}
+  public static let {{ tokenName }}: {{tokenType}} = {{ token.dimension.value }}
   {% endfor %}
 {% endmacro %}
 

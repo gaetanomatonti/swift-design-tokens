@@ -12,8 +12,8 @@ package struct OutputGenerator {
 
   // MARK: - Stored Properties
   
-  package init(configurationURL: URL) {
-    self.configurationLocator = ConfigurationLocator(configurationURL: configurationURL)
+  package init(using configurationLocator: ConfigurationLocator) {
+    self.configurationLocator = configurationLocator
   }
   
   // MARK: - Functions
@@ -111,12 +111,9 @@ package struct OutputGenerator {
     }
     
     let outputURL = outputURL(with: configurationLocator, for: outputPath)
-    
-    let (tokens, aliases): ([ColorToken], [AliasToken]) = trees.reduce(into: (resultingTokens: [], resultingAliases: [])) { result, tree in
-      let (tokens, aliases) = tree.colorTokens()
-      result.resultingTokens.append(contentsOf: tokens)
-      result.resultingAliases.append(contentsOf: aliases)
-    }
+
+    let reducer = TreeReducer(trees: trees)
+    let (tokens, aliases) = reducer.colors()
     
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
 
@@ -146,11 +143,8 @@ package struct OutputGenerator {
     
     let outputURL = outputURL(with: configurationLocator, for: outputPath)
 
-    let (tokens, aliases): ([DimensionToken], [AliasToken]) = trees.reduce(into: (resultingTokens: [], resultingAliases: [])) { result, tree in
-      let (tokens, aliases) = tree.dimensionTokens()
-      result.resultingTokens.append(contentsOf: tokens)
-      result.resultingAliases.append(contentsOf: aliases)
-    }
+    let reducer = TreeReducer(trees: trees)
+    let (tokens, aliases) = reducer.dimensions()
 
     let sourceCodeGenerator = DimensionSourceCodeGenerator(tokens: tokens, aliases: aliases)
     let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())

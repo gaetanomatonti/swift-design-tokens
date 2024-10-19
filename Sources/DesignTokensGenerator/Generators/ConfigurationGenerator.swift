@@ -4,20 +4,24 @@ import Foundation
 package struct ConfigurationGenerator {
   
   // MARK: - Stored Properties
-  
-  /// The locator for the configuration manifest.
-  private let configurationLocator: ConfigurationLocator
+
+  /// The name of the file to generate.
+  private let fileName: String
+
+  /// The directory where the configuration manifest will be generated.
+  private let configurationOutputURL: URL
 
   /// The path to the input design tokens file.
   private let inputPaths: [String]
 
-  /// The path to the directory where the output will be generated.
+  /// The path to the directory where the tokens' output will be generated.
   private let outputPath: String
 
   // MARK: - Init
   
-  package init(fileName: String?, configurationURL: URL, inputPaths: [String], outputPath: String) {
-    self.configurationLocator = ConfigurationLocator(fileName: fileName, configurationURL: configurationURL)
+  package init(fileName: String, configurationOutputURL: URL, inputPaths: [String], outputPath: String) {
+    self.fileName = fileName
+    self.configurationOutputURL = configurationOutputURL
     self.inputPaths = inputPaths
     self.outputPath = outputPath
   }
@@ -35,6 +39,11 @@ package struct ConfigurationGenerator {
     encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
 
     let data = try encoder.encode(configuration)
-    try data.write(to: configurationLocator.fileURL)
+
+    let outputURL = configurationOutputURL
+      .appending(path: fileName)
+      .appendingPathExtension("json")
+
+    try data.write(to: outputURL)
   }
 }

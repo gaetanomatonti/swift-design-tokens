@@ -11,7 +11,7 @@ import UIKit
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  static let {{ tokenName }} = {%+  call uiKitColor token.color +%}
+  public static let {{ tokenName }} = {%+  call uiKitColor token.color +%}
   {% endfor %}
 {% endmacro %}
 
