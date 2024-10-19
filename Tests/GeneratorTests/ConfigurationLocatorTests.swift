@@ -5,28 +5,35 @@ import Testing
 @Suite
 struct ConfigurationLocatorTests {
   @Test
-  func configurationManifestLocationFromFile() throws {
+  func initializationWithFileURLIsSuccessful() throws {
     let directoryURL = FileManager.default.temporaryDirectory
     let locationURL = directoryURL
       .appending(path: "configuration")
       .appendingPathExtension("json")
-    
-    let locator = ConfigurationLocator(fileName: "configuration", configurationURL: locationURL)
-    
-    #expect(locator.fileURL == locationURL)
-    #expect(locator.directoryURL == directoryURL)
+
+    #expect(throws: Never.self) {
+      try ConfigurationLocator(configurationManifestURL: locationURL)
+    }
   }
   
   @Test
-  func configurationManifestLocationFromDirectory() throws {
+  func initializationWithDirectoryURLFails() throws {
+    let directoryURL = FileManager.default.temporaryDirectory
+
+    #expect(throws: ConfigurationLocator.Failure.invalidManifestURL) {
+      try ConfigurationLocator(configurationManifestURL: directoryURL)
+    }
+  }
+
+  @Test
+  func directoryURLIsComputedCorrectly() throws {
     let directoryURL = FileManager.default.temporaryDirectory
     let locationURL = directoryURL
       .appending(path: "configuration")
       .appendingPathExtension("json")
+
+    let locator = try ConfigurationLocator(configurationManifestURL: locationURL)
     
-    let locator = ConfigurationLocator(fileName: "configuration", configurationURL: directoryURL)
-    
-    #expect(locator.fileURL == locationURL)
     #expect(locator.directoryURL == directoryURL)
   }
 }

@@ -12,8 +12,8 @@ package struct OutputGenerator {
 
   // MARK: - Stored Properties
   
-  package init(configurationURL: URL) {
-    self.configurationLocator = ConfigurationLocator(configurationURL: configurationURL)
+  package init(using configurationLocator: ConfigurationLocator) {
+    self.configurationLocator = configurationLocator
   }
   
   // MARK: - Functions
