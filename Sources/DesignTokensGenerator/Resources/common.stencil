@@ -25,7 +25,7 @@
         location: {{ stop.position.value }}
         {% endif %}
         {% if stop.position.alias %}
-        location: {%+ call referenceName stop.color.alias %}
+        location: {%+ call referenceName stop.position.alias +%}
         {% endif %}
       ),
       {% endfor %}
