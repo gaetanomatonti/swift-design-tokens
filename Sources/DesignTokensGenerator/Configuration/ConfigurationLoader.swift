@@ -19,7 +19,7 @@ struct ConfigurationLoader {
   /// Loads, and decodes the configuration manifest.
   /// - Returns: The decoded configuration manifest.
   func load() throws -> Configuration {
-    let data = try Data(contentsOf: configurationLocator.fileURL)
+    let data = try Data(contentsOf: configurationLocator.manifestURL)
     let decoder = JSONDecoder()
     return try decoder.decode(Configuration.self, from: data)
   }

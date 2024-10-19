@@ -1,43 +1,44 @@
 import Foundation
 
 /// An object that locates the configuration file.
-struct ConfigurationLocator {
+package struct ConfigurationLocator {
 
   // MARK: - Stored Properties
 
-  /// The name of the configuration manifest file.
-  private let fileName: String?
-
   /// The `URL` to the configuration manifest.
-  private let configurationURL: URL
+  let manifestURL: URL
 
   // MARK: - Computed Properties
 
-  /// The `URL` to the configuration file.
-  var fileURL: URL {
-    if configurationURL.isDirectory {
-      configurationURL
-        .appending(path: fileName ?? defaultConfigurationFileName)
-        .appendingPathExtension("json")
-    } else {
-      configurationURL
-    }
-  }
-
   /// The `URL` to the directory containing the configuration file.
   var directoryURL: URL {
-    if configurationURL.isDirectory {
-      configurationURL
-    } else {
-      configurationURL
-        .deletingLastPathComponent()
-    }
+    manifestURL
+      .deletingLastPathComponent()
   }
 
   // MARK: - Init
 
-  init(fileName: String? = nil, configurationURL: URL) {
-    self.fileName = fileName
-    self.configurationURL = configurationURL
+  package init(configurationManifestURL: URL) throws {
+    guard configurationManifestURL.pathExtension == "json" else {
+      throw Failure.invalidManifestURL
+    }
+    
+    self.manifestURL = configurationManifestURL
+  }
+}
+
+extension ConfigurationLocator {
+  enum Failure: Error {
+    /// The `URL` is not a valid configuration manifest URL.
+    case invalidManifestURL
+  }
+}
+
+extension ConfigurationLocator.Failure: LocalizedError {
+  var errorDescription: String? {
+    switch self {
+    case .invalidManifestURL:
+      return "The URL is not a valid configuration manifest URL."
+    }
   }
 }

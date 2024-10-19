@@ -21,7 +21,7 @@ struct Init: ParsableCommand {
       URL(filePath: $0)
     }
   )
-  var configurationURL: URL = URL(filePath: FileManager.default.currentDirectoryPath)
+  var configurationOutputURL: URL = URL(filePath: FileManager.default.currentDirectoryPath)
 
   @Option(
     name: [
@@ -44,7 +44,7 @@ struct Init: ParsableCommand {
   func run() throws {
     let configurationGenerator = ConfigurationGenerator(
       fileName: name,
-      configurationURL: configurationURL,
+      configurationOutputURL: configurationOutputURL,
       inputPaths: inputPaths,
       outputPath: outputPath
     )

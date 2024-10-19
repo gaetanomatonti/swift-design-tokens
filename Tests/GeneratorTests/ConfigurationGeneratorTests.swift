@@ -10,7 +10,7 @@ struct ConfigurationGeneratorTests {
     
     let configurationGenerator = ConfigurationGenerator(
       fileName: "configuration",
-      configurationURL: directoryURL,
+      configurationOutputURL: directoryURL,
       inputPaths: ["design-tokens.json"],
       outputPath: "Output/"
     )
@@ -24,7 +24,7 @@ struct ConfigurationGeneratorTests {
     
     #expect(fileExists)
     
-    let configurationLocator = ConfigurationLocator(configurationURL: outputURL)
+    let configurationLocator = try ConfigurationLocator(configurationManifestURL: outputURL)
     let configurationLoader = ConfigurationLoader(using: configurationLocator)
     
     #expect(throws: Never.self) {
