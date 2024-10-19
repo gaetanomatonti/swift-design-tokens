@@ -21,10 +21,12 @@ struct TreeReducerTests {
     tree.root.add(foundation)
     tree.root.add(background)
     tree.root.add(Node(name: "small", value: .alias(["foundation", "small"]), path: ["small"]))
+    tree.root.add(Node(name: "blue-to-red", value: .gradient(.blueToRed), path: ["blue-to-red"]))
 
     let reducer = TreeReducer(trees: [tree])
     let (colorTokens, colorAliases) = reducer.colors()
     let (dimensionTokens, dimensionAliases) = reducer.dimensions()
+    let gradientTokens = reducer.gradients()
 
     #expect(
       colorTokens == [
@@ -47,6 +49,12 @@ struct TreeReducerTests {
     #expect(
       dimensionAliases == [
         AliasToken(name: "small", path: ["small"], reference: ["foundation", "small"])
+      ]
+    )
+
+    #expect(
+      gradientTokens == [
+        GradientToken(name: "blue-to-red", gradient: .blueToRed, path: ["blue-to-red"])
       ]
     )
   }
@@ -69,10 +77,12 @@ struct TreeReducerTests {
     var tree = DesignTokenTree()
     tree.root.add(background)
     tree.root.add(Node(name: "small", value: .alias(["foundation", "small"]), path: ["small"]))
+    tree.root.add(Node(name: "blue-to-red", value: .gradient(.blueToRed), path: ["blue-to-red"]))
 
     let reducer = TreeReducer(trees: [foundationTree, tree])
     let (colorTokens, colorAliases) = reducer.colors()
     let (dimensionTokens, dimensionAliases) = reducer.dimensions()
+    let gradientTokens = reducer.gradients()
 
     #expect(
       colorTokens == [
@@ -95,6 +105,12 @@ struct TreeReducerTests {
     #expect(
       dimensionAliases == [
         AliasToken(name: "small", path: ["small"], reference: ["foundation", "small"])
+      ]
+    )
+
+    #expect(
+      gradientTokens == [
+        GradientToken(name: "blue-to-red", gradient: .blueToRed, path: ["blue-to-red"])
       ]
     )
   }

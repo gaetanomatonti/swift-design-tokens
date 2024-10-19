@@ -3,7 +3,7 @@ import Foundation
 // TODO: Check if we can handle an enum with Stencil
 
 /// A type that can contain either a token value, or an alias, but not both.
-struct AliasOr<Value> {
+struct AliasOr<Value>: Sendable where Value: Sendable {
 
   // MARK: - Stored Properties
 
@@ -21,6 +21,18 @@ struct AliasOr<Value> {
   init(alias: Alias) {
     self.value = nil
     self.alias = alias
+  }
+
+  static func alias(_ reference: Path) -> AliasOr<Value> {
+    AliasOr(alias: Alias(reference: reference))
+  }
+
+  static func color(_ value: Color) -> AliasOr<Color> {
+    AliasOr<Color>(value: value)
+  }
+
+  static func float(_ value: CGFloat) -> AliasOr<CGFloat> {
+    AliasOr<CGFloat>(value: value)
   }
 }
 

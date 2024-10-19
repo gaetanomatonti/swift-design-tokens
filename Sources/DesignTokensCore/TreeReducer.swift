@@ -43,7 +43,12 @@ package struct TreeReducer {
     return (tokens, aliases)
   }
 
-  func colorTokens() -> [ColorToken] {
+  package func gradients() -> [GradientToken] {
+    // TODO: Do gradients support aliases?
+    gradientTokens()
+  }
+
+  private func colorTokens() -> [ColorToken] {
     trees.reduce(into: []) { result, tree in
       tree.root.depthFirstTraversal { node in
         if case let .color(color) = node.value {
@@ -54,7 +59,7 @@ package struct TreeReducer {
     }
   }
 
-  func dimensionTokens() -> [DimensionToken] {
+  private func dimensionTokens() -> [DimensionToken] {
     trees.reduce(into: []) { result, tree in
       tree.root.depthFirstTraversal { node in
         if case let .dimension(dimension) = node.value {
@@ -65,7 +70,18 @@ package struct TreeReducer {
     }
   }
 
-  func aliasTokens(where predicate: (AliasToken) -> Bool) -> [AliasToken] {
+  private func gradientTokens() -> [GradientToken] {
+    trees.reduce(into: []) { result, tree in
+      tree.root.depthFirstTraversal { node in
+        if case let .gradient(gradient) = node.value {
+          let token = GradientToken(name: node.name, description: node.description, gradient: gradient, path: node.path)
+          result.append(token)
+        }
+      }
+    }
+  }
+
+  private func aliasTokens(where predicate: (AliasToken) -> Bool) -> [AliasToken] {
     trees.reduce(into: []) { result, tree in
       tree.root.depthFirstTraversal { node in
         if case let .alias(path) = node.value {

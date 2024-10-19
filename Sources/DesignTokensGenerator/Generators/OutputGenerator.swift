@@ -164,10 +164,8 @@ package struct OutputGenerator {
     
     let outputURL = outputURL(with: configurationLocator, for: outputPath)
 
-    let tokens: [GradientToken] = trees.reduce(into: []) { result, tree in
-      let tokens = tree.gradientTokens()
-      result.append(contentsOf: tokens)
-    }
+    let reducer = TreeReducer(trees: trees)
+    let tokens = reducer.gradients()
 
     let sourceCodeGenerator = GradientSourceCodeGenerator(tokens: tokens)
     let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())

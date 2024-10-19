@@ -1,9 +1,9 @@
 import Foundation
 
 /// A type representing a gradient.
-struct Gradient {
+struct Gradient: Sendable {
   /// A type representing the stops of a gradient.
-  struct Stop {
+  struct Stop: Sendable {
     /// The color of the stop in the gradient.
     let color: AliasOr<Color>
 
@@ -13,6 +13,15 @@ struct Gradient {
 
   /// The stops of the gradient.
   let stops: [Stop]
+}
+
+extension Gradient {
+  static let blueToRed = Gradient(
+    stops: [
+      Gradient.Stop(color: .color(.blue), position: .float(0)),
+      Gradient.Stop(color: .color(.red), position: .float(1)),
+    ]
+  )
 }
 
 extension Gradient: Decodable {

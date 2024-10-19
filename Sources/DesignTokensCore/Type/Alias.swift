@@ -7,9 +7,13 @@ struct Alias {
   // MARK: - Stored Properties
 
   /// The path to the referenced token.
-  let reference: [String]
+  let reference: Path
 
   // MARK: - Init
+
+  init(reference: Path) {
+    self.reference = reference
+  }
 
   init(_ stringValue: String) throws(AliasValueFailure) {
     let allowedNameCharacters: CharacterClass = .word.union(.digit).union(.generalCategory(.dashPunctuation))
