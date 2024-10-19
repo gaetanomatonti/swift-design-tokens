@@ -5,10 +5,10 @@ struct Gradient {
   /// A type representing the stops of a gradient.
   struct Stop {
     /// The color of the stop in the gradient.
-    let color: Color
+    let color: AliasOr<Color>
 
     /// The position of the stop in the gradient.
-    let position: CGFloat
+    let position: AliasOr<CGFloat>
   }
 
   /// The stops of the gradient.

@@ -11,7 +11,7 @@ import SwiftUI
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  static let {{ tokenName }} = {%+  call swiftUIGradient token.gradient +%}
+  public static let {{ tokenName }} = {%+  call swiftUIGradient token.gradient +%}
   {% endfor %}
 {% endmacro %}
 
