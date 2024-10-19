@@ -12,7 +12,7 @@ import UIKit
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  static let {{ tokenName }} = {%+  call colorValue token.color +%}
+  public static let {{ tokenName }} = {%+  call colorValue token.color +%}
   {% endfor %}
 {% endmacro %}
 
