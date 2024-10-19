@@ -42,11 +42,18 @@ struct DesignTokenDecoding {
     let data = try #require(loadJSON(named: "groups"))
     let tree = try decoder.decode(DesignTokenTree.self, from: data)
 
+    let (tokens, aliases) = tree.colorTokens()
+
     #expect(
-      tree.colorTokens().tokens == [
+      tokens == [
         ColorToken(name: "red", color: Color(red: 1, green: 0, blue: 0, alpha: 1), path: ["colors", "red"]),
-        ColorToken(name: "base", color: Color(red: 1, green: 1, blue: 1, alpha: 1), path: ["colors", "background", "base"]),
         ColorToken(name: "primary", color: Color(red: 0, green: 0, blue: 0, alpha: 1), path: ["colors", "text", "primary"]),
+      ]
+    )
+
+    #expect(
+      aliases == [
+        AliasToken(name: "base", path: ["colors", "background", "base"], reference: ["colors", "red"]),
       ]
     )
   }
@@ -55,11 +62,15 @@ struct DesignTokenDecoding {
     let data = try #require(loadJSON(named: "groups"))
     let tree = try decoder.decode(DesignTokenTree.self, from: data)
 
+    let (tokens, aliases) = tree.dimensionTokens()
+
     #expect(
-      tree.dimensionTokens().tokens == [
+      tokens == [
         DimensionToken(name: "small", dimension: Dimension(8), path: ["small"])
       ]
     )
+
+    #expect(aliases.isEmpty)
   }
 
   fileprivate func loadJSON(named fileName: String) -> Data? {
