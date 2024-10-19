@@ -18,7 +18,7 @@ struct Generate: ParsableCommand {
       URL(filePath: $0)
     }
   )
-  var configurationManifestURL: URL = URL(filePath: FileManager.default.currentDirectoryPath)
+  var configurationManifestURL: URL
 
   func run() throws {
     let configurationLocator = try ConfigurationLocator(configurationManifestURL: configurationManifestURL)
