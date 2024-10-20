@@ -69,6 +69,16 @@ extension CGFloat {
 }
 ```
 
+### Number
+
+Number tokens are generated as an extension on Foundation's `CGFloat` type.
+
+```swift
+extension CGFloat {
+  static let gradientStart: CGFloat = 0.0
+}
+```
+
 ### Gradient
 
 Gradient tokens do not currently support format customization, and will default to SwiftUI source code generation, by extending the `Gradient` type.
@@ -79,10 +89,10 @@ extension Gradient {
     stops: [
       Gradient.Stop(
         color: Color(red: 0.0, green: 0.0, blue: 1.0, opacity: 1.0),
-        location: 0.0
+        location: gradientStart
       ),
       Gradient.Stop(
-        color: Color(red: 1.0, green: 0.0, blue: 0.0, opacity: 1.0),
+        color: red,
         location: 1.0
       ),
     ]

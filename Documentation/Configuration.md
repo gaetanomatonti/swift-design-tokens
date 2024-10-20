@@ -11,6 +11,12 @@ The command line tool requires a configuration manifest file to generate source 
 - `dimensions`: The tool will generate outputs for any dimension tokens in the design tokens JSON.
   - `input`: The path to the input design token files. (default: global `input`)
   - `output`: The path of the directory where the output should be generated. (default: global `output`)
+- `numbers`: The tool will generate outputs for any number tokens in the design tokens JSON.
+  - `input`: The path to the input design token files. (default: global `input`)
+  - `output`: The path of the directory where the output should be generated. (default: global `output`)
+- `gradients`: The tool will generate outputs for any gradient tokens in the design tokens JSON. Requires `numbers` to be set.
+  - `input`: The path to the input design token files. (default: global `input`)
+  - `output`: The path of the directory where the output should be generated. (default: global `output`)
 
 ## Examples
 
