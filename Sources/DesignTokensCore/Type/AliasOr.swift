@@ -1,38 +1,12 @@
 import Foundation
 
-// TODO: Check if we can handle an enum with Stencil
-
-/// A type that can contain either a token value, or an alias, but not both.
-struct AliasOr<Value>: Sendable where Value: Sendable {
-
-  // MARK: - Stored Properties
-
-  let value: Value?
-
-  let alias: Alias?
-
-  // MARK: - Init
-
-  init(value: Value) {
-    self.value = value
-    self.alias = nil
-  }
-
-  init(alias: Alias) {
-    self.value = nil
-    self.alias = alias
-  }
+/// A type contains either a token value, or an alias.
+enum AliasOr<Value>: Sendable where Value: Sendable {
+  case value(Value)
+  case alias(Alias)
 
   static func alias(_ reference: Path) -> AliasOr<Value> {
-    AliasOr(alias: Alias(reference: reference))
-  }
-
-  static func color(_ value: Color) -> AliasOr<Color> {
-    AliasOr<Color>(value: value)
-  }
-
-  static func float(_ value: CGFloat) -> AliasOr<CGFloat> {
-    AliasOr<CGFloat>(value: value)
+    AliasOr.alias(Alias(reference: reference))
   }
 }
 
@@ -41,11 +15,11 @@ extension AliasOr: Decodable where Value: Decodable {
     let container = try decoder.singleValueContainer()
 
     do {
-      value = try container.decode(Value.self)
-      alias = nil
+      let value = try container.decode(Value.self)
+      self = .value(value)
     } catch {
-      value = nil
-      alias = try container.decode(Alias.self)
+      let alias = try container.decode(Alias.self)
+      self = .alias(alias)
     }
   }
 }

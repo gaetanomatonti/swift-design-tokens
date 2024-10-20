@@ -18,8 +18,8 @@ struct Gradient: Sendable {
 extension Gradient {
   static let blueToRed = Gradient(
     stops: [
-      Gradient.Stop(color: .color(.blue), position: .float(0)),
-      Gradient.Stop(color: .color(.red), position: .float(1)),
+      Gradient.Stop(color: .value(.blue), position: .value(0)),
+      Gradient.Stop(color: .value(.red), position: .value(1)),
     ]
   )
 }

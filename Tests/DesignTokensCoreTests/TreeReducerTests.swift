@@ -29,8 +29,8 @@ struct TreeReducerTests {
         value: .gradient(
           Gradient(
             stops: [
-              Gradient.Stop(color: .color(.blue), position: .alias(["gradient-start"])),
-              Gradient.Stop(color: .alias(["foundation", "red"]), position: .float(1)),
+              Gradient.Stop(color: .value(.blue), position: .alias(["gradient-start"])),
+              Gradient.Stop(color: .alias(["foundation", "red"]), position: .value(1)),
             ]
           )
         ),
@@ -83,8 +83,8 @@ struct TreeReducerTests {
           name: "blue-to-red",
           gradient: Gradient(
             stops: [
-              Gradient.Stop(color: .color(.blue), position: .alias(["gradient-start"])),
-              Gradient.Stop(color: .alias(["foundation", "red"]), position: .float(1)),
+              Gradient.Stop(color: .value(.blue), position: .alias(["gradient-start"])),
+              Gradient.Stop(color: .alias(["foundation", "red"]), position: .value(1)),
             ]
           ),
           path: ["blue-to-red"]
@@ -119,8 +119,8 @@ struct TreeReducerTests {
         value: .gradient(
           Gradient(
             stops: [
-              Gradient.Stop(color: .color(.blue), position: .alias(["gradient-start"])),
-              Gradient.Stop(color: .alias(["foundation", "red"]), position: .float(1)),
+              Gradient.Stop(color: .value(.blue), position: .alias(["gradient-start"])),
+              Gradient.Stop(color: .alias(["foundation", "red"]), position: .value(1)),
             ]
           )
         ),
@@ -173,8 +173,8 @@ struct TreeReducerTests {
           name: "blue-to-red",
           gradient: Gradient(
             stops: [
-              Gradient.Stop(color: .color(.blue), position: .alias(["gradient-start"])),
-              Gradient.Stop(color: .alias(["foundation", "red"]), position: .float(1)),
+              Gradient.Stop(color: .value(.blue), position: .alias(["gradient-start"])),
+              Gradient.Stop(color: .alias(["foundation", "red"]), position: .value(1)),
             ]
           ),
           path: ["blue-to-red"]
