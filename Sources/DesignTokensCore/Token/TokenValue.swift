@@ -1,58 +1,100 @@
 import Foundation
 
-package typealias Path = [String]
-
 /// The possible values of a design token.
-package enum TokenValue: Equatable {
+enum TokenValue: Equatable {
   case color(Color)
   case dimension(Dimension)
+  case number(CGFloat)
   case alias(Path)
+  case gradient(Gradient)
+}
+
+extension TokenValue: DecodableWithConfiguration {
+  init(from decoder: any Decoder, configuration: TokenValueDecodingConfiguration) throws {
+    do {
+      self = try Self.decodeAlias(from: decoder, with: configuration)
+    } catch {
+      self = try Self.decodeValue(from: decoder, with: configuration)
+    }
+  }
 }
 
 extension TokenValue {
-  /// Decodes the token value from its string value.
-  /// - Parameters:
-  ///   - stringValue: The string value of the token.
-  ///   - type: The type of the token.
-  /// - Returns: The decoded `TokenValue`.
-  static func from(_ stringValue: String, name: String, path: [String], type: TokenType?) throws(DecodingFailure) -> TokenValue {
-    do {
-      return try attemptAliasDecoding(stringValue, name: name, path: path)
-    } catch {
-      guard let type else {
-        do {
-          return try attemptAliasDecoding(stringValue, name: name, path: path)
-        } catch {
-          throw .missingType(tokenName: name, tokenPath: path)
-        }
+  private static func decodeValue(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    guard let type = configuration.type else {
+      do {
+        return try Self.decodeAlias(from: decoder, with: configuration)
+      } catch {
+        throw DecodingFailure.missingType(tokenName: configuration.name, tokenPath: configuration.path)
       }
-      
-      return try decodeValue(stringValue, of: type, name: name, path: path)
     }
-  }
-  
-  private static func decodeValue(_ stringValue: String, of type: TokenType, name: String, path: [String]) throws(DecodingFailure) -> TokenValue {
+
     switch type {
     case .color:
-      do {
-        let color = try Color(stringValue)
-        return .color(color)
-      } catch {
-        throw .invalidColorValue(tokenName: name, tokenPath: path, valueFailure: error)
-      }
-      
+      return try Self.decodeColor(from: decoder, with: configuration)
+
     case .dimension:
-      do {
-        let dimension = try Dimension(stringValue)
-        return .dimension(dimension)
-      } catch {
-        throw .invalidDimensionValue(tokenName: name, tokenPath: path, valueFailure: error)
-      }
+      return try Self.decodeDimension(from: decoder, with: configuration)
+
+    case .number:
+      return try Self.decodeNumber(from: decoder, with: configuration)
+
+    case .gradient:
+      return try Self.decodeGradient(from: decoder, with: configuration)
     }
   }
-  
-  private static func attemptAliasDecoding(_ stringValue: String, name: String, path: [String]) throws(AliasValueFailure) -> TokenValue {
+
+  private static func decodeAlias(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    let stringValueContainer = try decoder.singleValueContainer()
+    let stringValue = try stringValueContainer.decode(String.self)
+
     let alias = try Alias(stringValue)
-    return .alias(alias.path)
+    return .alias(alias.reference)
+  }
+
+  private static func decodeColor(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    let stringValueContainer = try decoder.singleValueContainer()
+    let stringValue = try stringValueContainer.decode(String.self)
+
+    do {
+      let color = try Color(stringValue)
+      return .color(color)
+    } catch {
+      throw DecodingFailure.invalidColorValue(tokenName: configuration.name, tokenPath: configuration.path, valueFailure: error)
+    }
+  }
+
+  private static func decodeDimension(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    let stringValueContainer = try decoder.singleValueContainer()
+    let stringValue = try stringValueContainer.decode(String.self)
+
+    do {
+      let dimension = try Dimension(stringValue)
+      return .dimension(dimension)
+    } catch {
+      throw DecodingFailure.invalidDimensionValue(tokenName: configuration.name, tokenPath: configuration.path, valueFailure: error)
+    }
+  }
+
+  private static func decodeNumber(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    let container = try decoder.singleValueContainer()
+
+    do {
+      let value = try container.decode(CGFloat.self)
+      return .number(value)
+    } catch {
+      throw DecodingFailure.invalidNumberValue(tokenName: configuration.name, tokenPath: configuration.path)
+    }
+  }
+
+  private static func decodeGradient(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    let container = try decoder.singleValueContainer()
+
+    do {
+      let gradient = try container.decode(Gradient.self)
+      return .gradient(gradient)
+    } catch {
+      throw DecodingFailure.invalidGradientValue(tokenName: configuration.name, tokenPath: configuration.path)
+    }
   }
 }

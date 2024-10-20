@@ -2,14 +2,14 @@ import DesignTokensCore
 import Foundation
 import Stencil
 
-/// The object that generates source code for dimension tokens.
-struct DimensionSourceCodeGenerator: SourceCodeGenerator {
-  
+/// The object that generates source code for number tokens.
+struct NumberSourceCodeGenerator: SourceCodeGenerator {
+
   // MARK: - Stored Properties
   
-  /// The dimension tokens.
-  let tokens: [DimensionToken]
-  
+  /// The number tokens.
+  let tokens: [NumberToken]
+
   /// The aliases for the tokens.
   let aliases: [AliasToken]
 
@@ -28,7 +28,7 @@ struct DimensionSourceCodeGenerator: SourceCodeGenerator {
   }
 
   private func generate(
-    _ tokens: [DesignTokensCore.DimensionToken],
+    _ tokens: [DesignTokensCore.NumberToken],
     aliases: [DesignTokensCore.AliasToken],
     in environment: Stencil.Environment
   ) throws -> SourceCodeFile {
@@ -37,7 +37,7 @@ struct DimensionSourceCodeGenerator: SourceCodeGenerator {
       "aliases": aliases,
     ]
 
-    let content = try environment.renderTemplate(name: "dimension+foundation.stencil", context: context)
-    return SourceCodeFile(name: "Dimension+DesignTokens.swift", content: content)
+    let content = try environment.renderTemplate(name: "number+foundation.stencil", context: context)
+    return SourceCodeFile(name: "Number+DesignTokens.swift", content: content)
   }
 }

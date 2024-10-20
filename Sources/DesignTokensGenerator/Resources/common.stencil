@@ -1,7 +1,34 @@
+{% macro referenceName alias %}{{alias.reference|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}{% endmacro %}
+
 {% macro aliasesBlock aliases aliasType %}
   {% for alias in aliases %}
   {% set aliasName %}{{alias.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}{% endset %}
-  {% set referenceName %}{{alias.reference|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}{% endset %}
-  public static var {{aliasName}}: {{aliasType}} { {{referenceName}} }
+  public static var {{aliasName}}: {{aliasType}} { {%+ call referenceName alias %} }
   {% endfor %}
+{% endmacro %}
+
+{% macro swiftUIColor color %}Color(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, opacity: {{ color.alpha }}){% endmacro %}
+
+{% macro uiKitColor color %}UIColor(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, alpha: {{ color.alpha }}){% endmacro %}
+
+{% macro swiftUIGradient gradient %}Gradient(
+    stops: [
+      {% for stop in gradient.stops %}
+      Gradient.Stop(
+        {% if stop.color.value %}
+        color: {%+ call swiftUIColor stop.color.value %},
+        {% endif %}
+        {% if stop.color.alias %}
+        color: {%+ call referenceName stop.color.alias %},
+        {% endif %}
+        {% if stop.position.value %}
+        location: {{ stop.position.value }}
+        {% endif %}
+        {% if stop.position.alias %}
+        location: {%+ call referenceName stop.position.alias +%}
+        {% endif %}
+      ),
+      {% endfor %}
+    ]
+  )
 {% endmacro %}

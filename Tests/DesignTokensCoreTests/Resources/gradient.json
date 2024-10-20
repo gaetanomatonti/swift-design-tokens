@@ -1,0 +1,15 @@
+{
+  "blue-to-red": {
+    "$type": "gradient",
+    "$value": [
+      {
+        "color": "#0000ff",
+        "position": 0
+      },
+      {
+        "color": "#ff0000",
+        "position": 1
+      }
+    ]
+  }
+}

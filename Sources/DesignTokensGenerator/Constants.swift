@@ -1,3 +1,3 @@
 import Foundation
 
-package let defaultConfigurationFileName = "design-tokens-configuration.json"
+package let defaultConfigurationFileName = "design-tokens-configuration"

@@ -1,7 +1,7 @@
 import Foundation
 
 /// A type representing a color.
-package struct Color {
+struct Color {
 
   // MARK: - Stored Properties
   
@@ -65,8 +65,19 @@ package struct Color {
   }
 }
 
+extension Color {
+  static let blue = Color(red: 0.0, green: 0.0, blue: 1.0, alpha: 1.0)
+  static let red = Color(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+  static let white = Color(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+}
+
 extension Color: Equatable {}
 
-extension Color {
-  static let white = Color(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+extension Color: Decodable {
+  init(from decoder: any Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let stringValue = try container.decode(String.self)
+
+    try self.init(stringValue)
+  }
 }

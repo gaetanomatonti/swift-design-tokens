@@ -5,14 +5,13 @@ import UIKit
 
 {% import "common.stencil" %}
 {% set tokenType %}UIColor{% endset %}
-{% macro colorValue color %}{{tokenType}}(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, alpha: {{ color.alpha }}){% endmacro %}
 {% macro tokensBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  public static let {{ tokenName }} = {%+  call colorValue token.color +%}
+  public static let {{ tokenName }} = {%+  call uiKitColor token.color +%}
   {% endfor %}
 {% endmacro %}
 

@@ -7,6 +7,8 @@ struct Configuration: ConfigurationProtocol, Equatable {
     case outputPath = "output"
     case colorConfiguration = "colors"
     case dimensionConfiguration = "dimensions"
+    case gradientConfiguration = "gradients"
+    case numberConfiguration = "numbers"
   }
   
   // MARK: - Stored Properties
@@ -23,6 +25,12 @@ struct Configuration: ConfigurationProtocol, Equatable {
   /// The configuration for the dimension tokens.
   private(set) var dimensionConfiguration: DimensionConfiguration?
 
+  /// The configuration for the gradient tokens.
+  private(set) var gradientConfiguration: GradientConfiguration?
+
+  /// The configuration for the number tokens.
+  private(set) var numberConfiguration: NumberConfiguration?
+
   // MARK: - Init
 
   init() {
@@ -30,6 +38,8 @@ struct Configuration: ConfigurationProtocol, Equatable {
     self.outputPath = nil
     self.colorConfiguration = nil
     self.dimensionConfiguration = nil
+    self.gradientConfiguration = nil
+    self.numberConfiguration = nil
   }
   
   // MARK: - Functions
@@ -81,14 +91,6 @@ struct Configuration: ConfigurationProtocol, Equatable {
     color(ColorConfiguration(inputPaths: [inputPath], outputPath: outputPath, formats: formats))
   }
 
-  /// Sets the configuration for the dimension tokens.
-  /// - Parameters:
-  ///   - path: The path of the directory where the output will be generated.
-  /// - Returns: The output configuration with a new dimension configuration.
-  func dimension(inputPath: String, outputPath: String? = nil) -> Configuration {
-    dimension(DimensionConfiguration(inputPaths: [inputPath], outputPath: outputPath))
-  }
-  
   /// Sets the configuration for the color tokens.
   /// - Parameters:
   ///   - inputPaths: The path of the input files.
@@ -101,11 +103,53 @@ struct Configuration: ConfigurationProtocol, Equatable {
 
   /// Sets the configuration for the dimension tokens.
   /// - Parameters:
+  ///   - path: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new dimension configuration.
+  func dimension(inputPath: String, outputPath: String? = nil) -> Configuration {
+    dimension(DimensionConfiguration(inputPaths: [inputPath], outputPath: outputPath))
+  }
+
+  /// Sets the configuration for the dimension tokens.
+  /// - Parameters:
   ///   - inputPaths: The path of the input files.
   ///   - outputPath: The path of the directory where the output will be generated.
   /// - Returns: The output configuration with a new dimension configuration.
   func dimension(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
     dimension(DimensionConfiguration(inputPaths: inputPaths, outputPath: outputPath))
+  }
+
+  /// Sets the configuration for the number tokens.
+  /// - Parameters:
+  ///   - path: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new number configuration.
+  func number(inputPath: String, outputPath: String? = nil) -> Configuration {
+    number(NumberConfiguration(inputPaths: [inputPath], outputPath: outputPath))
+  }
+
+  /// Sets the configuration for the number tokens.
+  /// - Parameters:
+  ///   - inputPaths: The path of the input files.
+  ///   - outputPath: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new number configuration.
+  func number(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
+    number(NumberConfiguration(inputPaths: inputPaths, outputPath: outputPath))
+  }
+
+  /// Sets the configuration for the gradient tokens.
+  /// - Parameters:
+  ///   - path: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new dimension configuration.
+  func gradient(inputPath: String, outputPath: String? = nil) -> Configuration {
+    gradient(GradientConfiguration(inputPaths: [inputPath], outputPath: outputPath))
+  }
+
+  /// Sets the configuration for the gradient tokens.
+  /// - Parameters:
+  ///   - inputPaths: The path of the input files.
+  ///   - outputPath: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new dimension configuration.
+  func gradient(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
+    gradient(GradientConfiguration(inputPaths: inputPaths, outputPath: outputPath))
   }
   
   private func color(_ colorConfiguration: ColorConfiguration) -> Configuration {
@@ -117,6 +161,18 @@ struct Configuration: ConfigurationProtocol, Equatable {
   private func dimension(_ dimensionConfiguration: DimensionConfiguration) -> Configuration {
     var configuration = self
     configuration.dimensionConfiguration = dimensionConfiguration
+    return configuration
+  }
+  
+  private func number(_ numberConfiguration: NumberConfiguration) -> Configuration {
+    var configuration = self
+    configuration.numberConfiguration = numberConfiguration
+    return configuration
+  }
+  
+  private func gradient(_ gradientConfiguration: GradientConfiguration) -> Configuration {
+    var configuration = self
+    configuration.gradientConfiguration = gradientConfiguration
     return configuration
   }
 }
@@ -138,6 +194,8 @@ extension Configuration {
     self.outputPath = try container.decodeIfPresent(String.self, forKey: .outputPath)
     self.colorConfiguration = try container.decodeIfPresent(ColorConfiguration.self, forKey: .colorConfiguration)
     self.dimensionConfiguration = try container.decodeIfPresent(DimensionConfiguration.self, forKey: .dimensionConfiguration)
+    self.gradientConfiguration = try container.decodeIfPresent(GradientConfiguration.self, forKey: .gradientConfiguration)
+    self.numberConfiguration = try container.decodeIfPresent(NumberConfiguration.self, forKey: .numberConfiguration)
   }
 }
 

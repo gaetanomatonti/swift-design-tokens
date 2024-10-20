@@ -63,19 +63,39 @@ Similarly to the SwiftUI format, the UIKit format extends the `UIColor` type.
 
 Dimension tokens do not support format customization, as the generated source code is always an extension on Foundation's `CGFloat` type.
 
-```json
-{
-  "small": {
-    "$type": "dimension",
-    "$value": "16 px"
-  }
-}
-```
-
-The resulting source code output is as follows:
-
 ```swift
 extension CGFloat {
   static let small: CGFloat = 16
+}
+```
+
+### Number
+
+Number tokens are generated as an extension on Foundation's `CGFloat` type.
+
+```swift
+extension CGFloat {
+  static let gradientStart: CGFloat = 0.0
+}
+```
+
+### Gradient
+
+Gradient tokens do not currently support format customization, and will default to SwiftUI source code generation, by extending the `Gradient` type.
+
+```swift
+extension Gradient {
+  static let blueToRed = Gradient(
+    stops: [
+      Gradient.Stop(
+        color: Color(red: 0.0, green: 0.0, blue: 1.0, opacity: 1.0),
+        location: gradientStart
+      ),
+      Gradient.Stop(
+        color: red,
+        location: 1.0
+      ),
+    ]
+  )
 }
 ```

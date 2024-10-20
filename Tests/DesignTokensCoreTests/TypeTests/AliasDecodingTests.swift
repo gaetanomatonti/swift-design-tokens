@@ -27,6 +27,6 @@ struct AliasDecoding {
   )
   func successfulAliasDecoding(reference: SUT<String, [String]>) throws {
     let alias = try Alias(reference.argument)
-    #expect(alias.path == reference.expected)
+    #expect(alias.reference == reference.expected)
   }
 }

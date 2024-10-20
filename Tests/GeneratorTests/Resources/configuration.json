@@ -12,5 +12,9 @@
   "dimensions": {
     "input": "design-tokens-dimensions.json",
     "output" : "Output/Dimensions/"
+  },
+  "gradients": {
+    "input": "design-tokens-gradients.json",
+    "output" : "Output/Gradients/"
   }
 }

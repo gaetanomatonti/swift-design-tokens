@@ -17,12 +17,16 @@ struct ConfigurationValidatorTests {
         .input("design-tokens.json")
         .output("Output/")
         .color(formats: .swiftUI)
-        .dimension(),
+        .dimension()
+        .gradient()
+        .number(),
       Configuration()
         .input("design-tokens.json")
         .output("Output/")
         .color(inputPath: "design-tokens.json", outputPath: "Output", formats: .swiftUI)
-        .dimension(inputPath: "design-tokens.json", outputPath: "Output"),
+        .dimension(inputPath: "design-tokens.json", outputPath: "Output")
+        .gradient(inputPath: "design-tokens.json", outputPath: "Output")
+        .number(inputPath: "design-tokens.json", outputPath: "Output"),
     ]
   )
   func configurationIsValid(_ configuration: Configuration) throws {
@@ -58,6 +62,20 @@ struct ConfigurationValidatorTests {
   )
   func configurationHasNoOutput(_ configuration: Configuration) throws {
     #expect(throws: ConfigurationValidationFailure.noOutputProvided) {
+      let validator = ConfigurationValidator(configuration: configuration)
+      try validator.validate()
+    }
+  }
+
+  @Test(
+    arguments: [
+      Configuration
+        .scaffold(inputPaths: ["design-tokens.json"], outputPath: "Output/")
+        .gradient(),
+    ]
+  )
+  func configurationHasNoNumberConfiguration(_ configuration: Configuration) throws {
+    #expect(throws: ConfigurationValidationFailure.gradientConfigurationRequiresNumberConfiguration) {
       let validator = ConfigurationValidator(configuration: configuration)
       try validator.validate()
     }
