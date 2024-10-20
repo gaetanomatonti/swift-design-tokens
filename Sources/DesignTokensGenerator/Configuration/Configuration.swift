@@ -118,6 +118,23 @@ struct Configuration: ConfigurationProtocol, Equatable {
     dimension(DimensionConfiguration(inputPaths: inputPaths, outputPath: outputPath))
   }
 
+  /// Sets the configuration for the number tokens.
+  /// - Parameters:
+  ///   - path: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new number configuration.
+  func number(inputPath: String, outputPath: String? = nil) -> Configuration {
+    number(NumberConfiguration(inputPaths: [inputPath], outputPath: outputPath))
+  }
+
+  /// Sets the configuration for the number tokens.
+  /// - Parameters:
+  ///   - inputPaths: The path of the input files.
+  ///   - outputPath: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new number configuration.
+  func number(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
+    number(NumberConfiguration(inputPaths: inputPaths, outputPath: outputPath))
+  }
+
   /// Sets the configuration for the gradient tokens.
   /// - Parameters:
   ///   - path: The path of the directory where the output will be generated.
@@ -144,6 +161,12 @@ struct Configuration: ConfigurationProtocol, Equatable {
   private func dimension(_ dimensionConfiguration: DimensionConfiguration) -> Configuration {
     var configuration = self
     configuration.dimensionConfiguration = dimensionConfiguration
+    return configuration
+  }
+  
+  private func number(_ numberConfiguration: NumberConfiguration) -> Configuration {
+    var configuration = self
+    configuration.numberConfiguration = numberConfiguration
     return configuration
   }
   
