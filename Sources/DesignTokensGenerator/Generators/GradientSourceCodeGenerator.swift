@@ -2,7 +2,7 @@ import DesignTokensCore
 import Foundation
 import Stencil
 
-/// The object that generates source code for the gradient tokens.
+/// The object that generates source code for gradient tokens.
 struct GradientSourceCodeGenerator: SourceCodeGenerator {
 
   // MARK: - Stored Properties
@@ -33,6 +33,6 @@ struct GradientSourceCodeGenerator: SourceCodeGenerator {
     ]
 
     let content = try environment.renderTemplate(name: "gradient+swiftui.stencil", context: context)
-    return SourceCodeFile(name: "Gradient+DesignToken.swift", content: content)
+    return SourceCodeFile(name: "Gradient+SwiftUI+DesignTokens.swift", content: content)
   }
 }

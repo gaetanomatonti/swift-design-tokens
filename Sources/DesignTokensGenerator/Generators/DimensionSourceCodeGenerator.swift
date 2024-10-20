@@ -2,7 +2,7 @@ import DesignTokensCore
 import Foundation
 import Stencil
 
-/// The object that generates source code for the dimension tokens.
+/// The object that generates source code for dimension tokens.
 struct DimensionSourceCodeGenerator: SourceCodeGenerator {
   
   // MARK: - Stored Properties
@@ -38,6 +38,6 @@ struct DimensionSourceCodeGenerator: SourceCodeGenerator {
     ]
 
     let content = try environment.renderTemplate(name: "dimension+foundation.stencil", context: context)
-    return SourceCodeFile(name: "CGFloat+DesignToken.swift", content: content)
+    return SourceCodeFile(name: "Dimension+DesignTokens.swift", content: content)
   }
 }

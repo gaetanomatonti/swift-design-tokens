@@ -2,7 +2,7 @@ import DesignTokensCore
 import Foundation
 import Stencil
 
-/// The object that generates source code for the color tokens.
+/// The object that generates source code for color tokens.
 struct ColorSourceCodeGenerator: SourceCodeGenerator {
   
   // MARK: - Stored Properties
@@ -44,11 +44,11 @@ struct ColorSourceCodeGenerator: SourceCodeGenerator {
     switch format {
     case .swiftUI:
       let content = try environment.renderTemplate(name: "color+swiftui.stencil", context: context)
-      return SourceCodeFile(name: "Color+DesignTokens.swift", content: content)
+      return SourceCodeFile(name: "Color+SwiftUI+DesignTokens.swift", content: content)
 
     case .uiKit:
       let content = try environment.renderTemplate(name: "color+uikit.stencil", context: context)
-      return SourceCodeFile(name: "UIColor+DesignTokens.swift", content: content)
+      return SourceCodeFile(name: "Color+UIKit+DesignTokens.swift", content: content)
     }
   }
 }
