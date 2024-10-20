@@ -3,7 +3,7 @@
 {% macro aliasesBlock aliases aliasType %}
   {% for alias in aliases %}
   {% set aliasName %}{{alias.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}{% endset %}
-  public static var {{aliasName}}: {{aliasType}} { {% call referenceName alias %} }
+  public static var {{aliasName}}: {{aliasType}} { {%+ call referenceName alias %} }
   {% endfor %}
 {% endmacro %}
 
