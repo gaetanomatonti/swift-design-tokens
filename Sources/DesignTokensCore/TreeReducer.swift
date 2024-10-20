@@ -19,30 +19,31 @@ package struct TreeReducer {
   /// - Returns: A tuple of `[ColorToken]`, and `[AliasToken]` that reference color tokens.
   package func colors() -> ([ColorToken], [AliasToken]) {
     let tokens = colorTokens()
-
-    let aliases = aliasTokens { alias in
-      tokens.contains { token in
-        token.path == alias.reference
-      }
-    }
+    let aliases = aliasTokens(for: tokens)
 
     return (tokens, aliases)
   }
 
   /// Reduces the trees into all dimension tokens, and matching aliases.
-  /// - Returns: A tuple of `[DimensionToken]`, and `[AliasToken]` that reference color tokens.
+  /// - Returns: A tuple of `[DimensionToken]`, and `[AliasToken]` that reference dimension tokens.
   package func dimensions() -> ([DimensionToken], [AliasToken]) {
     let tokens = dimensionTokens()
-
-    let aliases = aliasTokens { alias in
-      tokens.contains { token in
-        token.path == alias.reference
-      }
-    }
+    let aliases = aliasTokens(for: tokens)
 
     return (tokens, aliases)
   }
 
+  /// Reduces the trees into all number tokens, and matching aliases.
+  /// - Returns: A tuple of `[NumberToken]`, and `[AliasToken]` that reference number tokens.
+  package func numbers() -> ([NumberToken], [AliasToken]) {
+    let tokens = numberTokens()
+    let aliases = aliasTokens(for: tokens)
+
+    return (tokens, aliases)
+  }
+
+  /// Reduces the trees into all gradient tokens.
+  /// - Returns: An array of `NumberToken`.
   package func gradients() -> [GradientToken] {
     // TODO: Do gradients support aliases?
     gradientTokens()
@@ -70,6 +71,17 @@ package struct TreeReducer {
     }
   }
 
+  private func numberTokens() -> [NumberToken] {
+    trees.reduce(into: []) { result, tree in
+      tree.root.depthFirstTraversal { node in
+        if case let .number(number) = node.value {
+          let token = NumberToken(name: node.name, description: node.description, number: number, path: node.path)
+          result.append(token)
+        }
+      }
+    }
+  }
+
   private func gradientTokens() -> [GradientToken] {
     trees.reduce(into: []) { result, tree in
       tree.root.depthFirstTraversal { node in
@@ -77,6 +89,14 @@ package struct TreeReducer {
           let token = GradientToken(name: node.name, description: node.description, gradient: gradient, path: node.path)
           result.append(token)
         }
+      }
+    }
+  }
+
+  private func aliasTokens<T>(for sequence: [T]) -> [AliasToken] where T: Token {
+    aliasTokens { alias in
+      sequence.contains { token in
+        token.path == alias.reference
       }
     }
   }

@@ -33,6 +33,8 @@ package struct OutputGenerator {
     guard let inputPaths = configuration.inputPaths else {
       try generateColors(with: configuration)
       try generateDimensions(with: configuration)
+      try generateNumbers(with: configuration)
+      try generateGradients(with: configuration)
       return
     }
     
@@ -44,6 +46,7 @@ package struct OutputGenerator {
 
     try generateColors(with: configuration, from: trees)
     try generateDimensions(with: configuration, from: trees)
+    try generateNumbers(with: configuration, from: trees)
     try generateGradients(with: configuration, from: trees)
   }
   
@@ -81,6 +84,24 @@ package struct OutputGenerator {
     let trees = try designTokensDecoder.decode()
 
     try generateDimensions(with: configuration, from: trees)
+  }
+  
+  private func generateNumbers(with configuration: Configuration) throws {
+    guard let numberConfiguration = configuration.numberConfiguration else {
+      return
+    }
+    
+    guard let inputPaths = numberConfiguration.inputPaths else {
+      return
+    }
+
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
+    
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
+    try generateNumbers(with: configuration, from: trees)
   }
   
   private func generateGradients(with configuration: Configuration) throws {
@@ -168,6 +189,27 @@ package struct OutputGenerator {
     let tokens = reducer.gradients()
 
     let sourceCodeGenerator = GradientSourceCodeGenerator(tokens: tokens)
+    let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
+
+    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
+    try write(files, at: outputURL)
+  }
+  
+  private func generateNumbers(with configuration: Configuration, from trees: [DesignTokenTree]) throws {
+    guard let numberConfiguration = configuration.numberConfiguration else {
+      return
+    }
+    
+    guard let outputPath = numberConfiguration.outputPath ?? configuration.outputPath else {
+      return
+    }
+    
+    let outputURL = outputURL(with: configurationLocator, for: outputPath)
+
+    let reducer = TreeReducer(trees: trees)
+    let (tokens, aliases) = reducer.numbers()
+
+    let sourceCodeGenerator = NumberSourceCodeGenerator(tokens: tokens, aliases: aliases)
     let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
 
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)

@@ -4,6 +4,7 @@ import Foundation
 enum TokenValue: Equatable {
   case color(Color)
   case dimension(Dimension)
+  case number(CGFloat)
   case alias(Path)
   case gradient(Gradient)
 }
@@ -34,6 +35,9 @@ extension TokenValue {
 
     case .dimension:
       return try Self.decodeDimension(from: decoder, with: configuration)
+
+    case .number:
+      return try Self.decodeNumber(from: decoder, with: configuration)
 
     case .gradient:
       return try Self.decodeGradient(from: decoder, with: configuration)
@@ -69,6 +73,17 @@ extension TokenValue {
       return .dimension(dimension)
     } catch {
       throw DecodingFailure.invalidDimensionValue(tokenName: configuration.name, tokenPath: configuration.path, valueFailure: error)
+    }
+  }
+
+  private static func decodeNumber(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    let container = try decoder.singleValueContainer()
+
+    do {
+      let value = try container.decode(CGFloat.self)
+      return .number(value)
+    } catch {
+      throw DecodingFailure.invalidNumberValue(tokenName: configuration.name, tokenPath: configuration.path)
     }
   }
 

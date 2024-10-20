@@ -7,6 +7,9 @@ enum ConfigurationValidationFailure: Error {
   
   /// No output has been provided in the configuration.
   case noOutputProvided
+
+  /// The gradient configuration requires a number configuration to be set.
+  case gradientConfigurationRequiresNumberConfiguration
 }
 
 /// An object that validates the given `Configuration`.
@@ -30,6 +33,7 @@ struct ConfigurationValidator {
   func validate() throws(ConfigurationValidationFailure) {
     try validateInputs()
     try validateOutputs()
+    try validateConfigurations()
   }
   
   private func validateInputs() throws(ConfigurationValidationFailure) {
@@ -61,6 +65,12 @@ struct ConfigurationValidator {
     
     if !hasOutput {
       throw .noOutputProvided
+    }
+  }
+
+  private func validateConfigurations() throws(ConfigurationValidationFailure) {
+    if configuration.gradientConfiguration != nil && configuration.numberConfiguration == nil {
+      throw .gradientConfigurationRequiresNumberConfiguration
     }
   }
 }

@@ -8,6 +8,7 @@ struct Configuration: ConfigurationProtocol, Equatable {
     case colorConfiguration = "colors"
     case dimensionConfiguration = "dimensions"
     case gradientConfiguration = "gradients"
+    case numberConfiguration = "numbers"
   }
   
   // MARK: - Stored Properties
@@ -27,6 +28,9 @@ struct Configuration: ConfigurationProtocol, Equatable {
   /// The configuration for the gradient tokens.
   private(set) var gradientConfiguration: GradientConfiguration?
 
+  /// The configuration for the number tokens.
+  private(set) var numberConfiguration: NumberConfiguration?
+
   // MARK: - Init
 
   init() {
@@ -35,6 +39,7 @@ struct Configuration: ConfigurationProtocol, Equatable {
     self.colorConfiguration = nil
     self.dimensionConfiguration = nil
     self.gradientConfiguration = nil
+    self.numberConfiguration = nil
   }
   
   // MARK: - Functions
@@ -167,6 +172,7 @@ extension Configuration {
     self.colorConfiguration = try container.decodeIfPresent(ColorConfiguration.self, forKey: .colorConfiguration)
     self.dimensionConfiguration = try container.decodeIfPresent(DimensionConfiguration.self, forKey: .dimensionConfiguration)
     self.gradientConfiguration = try container.decodeIfPresent(GradientConfiguration.self, forKey: .gradientConfiguration)
+    self.numberConfiguration = try container.decodeIfPresent(NumberConfiguration.self, forKey: .numberConfiguration)
   }
 }
 

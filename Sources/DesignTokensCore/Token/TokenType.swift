@@ -8,6 +8,9 @@ package enum TokenType: String, Decodable, CaseIterable {
   /// The `"dimension"` type.
   case dimension
 
+  /// The `"number"` type.
+  case number
+
   /// The `"gradient"` type.
   case gradient
 }
