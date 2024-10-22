@@ -11,8 +11,7 @@ struct ConfigurationTests {
       .output("Output/")
       .color(
         inputPath: "design-tokens-colors.json",
-        outputPath: "Output/Colors/",
-        formats: .swiftUI, .uiKit
+        outputPath: "Output/Colors/"
       )
       .dimension(
         inputPath: "design-tokens-dimensions.json",
@@ -25,7 +24,7 @@ struct ConfigurationTests {
 
     #expect(configuration.inputPaths == ["design-tokens.json"])
     #expect(configuration.outputPath == "Output/")
-    #expect(configuration.colorConfiguration == ColorConfiguration(inputPath: "design-tokens-colors.json", outputPath: "Output/Colors/", formats: [.swiftUI, .uiKit]))
+    #expect(configuration.colorConfiguration == ColorConfiguration(inputPath: "design-tokens-colors.json", outputPath: "Output/Colors/"))
     #expect(configuration.dimensionConfiguration == DimensionConfiguration(inputPath: "design-tokens-dimensions.json", outputPath: "Output/Dimensions/"))
     #expect(configuration.gradientConfiguration == GradientConfiguration(inputPath: "design-tokens-gradients.json", outputPath: "Output/Gradients/"))
   }
@@ -39,8 +38,7 @@ struct ConfigurationTests {
       .output("Output/")
       .color(
         inputPath: "design-tokens-colors.json",
-        outputPath: "Output/Colors/",
-        formats: .swiftUI, .uiKit
+        outputPath: "Output/Colors/"
       )
       .dimension(
         inputPath: "design-tokens-dimensions.json",
@@ -69,8 +67,7 @@ struct ConfigurationTests {
       .output("Output/")
       .color(
         inputPath: "design-tokens-colors.json",
-        outputPath: "Output/Colors/",
-        formats: .swiftUI, .uiKit
+        outputPath: "Output/Colors/"
       )
       .dimension(
         inputPath: "design-tokens-dimensions.json",

@@ -1,5 +1,3 @@
-// Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
-
 {% import "common.stencil" %}
 {% set tokenType %}ColorToken{% endset %}
 {% macro tokensBlock tokens %}
@@ -11,6 +9,7 @@
   public static let {{ tokenName }} = {%+  call colorToken token.color +%}
   {% endfor %}
 {% endmacro %}
+// Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
 
 public struct ColorToken {
   let red: CGFloat
