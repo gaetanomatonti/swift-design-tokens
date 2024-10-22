@@ -1,2 +1,5 @@
 [tools]
 tuist = "4.30.0"
+
+[tasks]
+generate-tokens = "swift run -c release --package-path ../ design-tokens generate -c design-tokens-configuration.json"
