@@ -1,0 +1,15 @@
+{
+  "background": {
+    "$type": "gradient",
+    "$value": [
+      {
+        "color": "#1c1c1c",
+        "position": "{gradient-start}"
+      },
+      {
+        "color": "{black.900}",
+        "position": 1
+      }
+    ]
+  }
+}

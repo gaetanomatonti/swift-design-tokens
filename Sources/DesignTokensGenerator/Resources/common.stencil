@@ -9,21 +9,21 @@
 
 {% macro colorToken color %}ColorToken(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, alpha: {{ color.alpha }}){% endmacro %}
 
-{% macro swiftUIGradient gradient %}Gradient(
+{% macro gradientToken gradient %}GradientToken(
     stops: [
       {% for stop in gradient.stops %}
-      Gradient.Stop(
+      GradientToken.Stop(
         {% if stop.color.value %}
         color: {%+ call colorToken stop.color.value %},
         {% endif %}
         {% if stop.color.alias %}
-        color: {%+ call referenceName stop.color.alias %},
+        color: ColorToken.{%+ call referenceName stop.color.alias %},
         {% endif %}
         {% if stop.position.value %}
-        location: {{ stop.position.value }}
+        position: NumberToken(value: {{ stop.position.value }})
         {% endif %}
         {% if stop.position.alias %}
-        location: {%+ call referenceName stop.position.alias +%}
+        position: NumberToken.{%+ call referenceName stop.position.alias +%}
         {% endif %}
       ),
       {% endfor %}

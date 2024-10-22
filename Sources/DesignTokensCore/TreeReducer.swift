@@ -18,8 +18,8 @@ package struct TreeReducer {
   /// Reduces the trees into all color tokens, and matching aliases.
   /// - Returns: A tuple of `[ColorToken]`, and `[AliasToken]` that reference color tokens.
   package func colors() -> ([ColorToken], [AliasToken]) {
-    let tokens = colorTokens()
-    let aliases = aliasTokens(for: tokens)
+    let tokens = colorTokens().sorted()
+    let aliases = aliasTokens(for: tokens).sorted()
 
     return (tokens, aliases)
   }
@@ -27,8 +27,8 @@ package struct TreeReducer {
   /// Reduces the trees into all dimension tokens, and matching aliases.
   /// - Returns: A tuple of `[DimensionToken]`, and `[AliasToken]` that reference dimension tokens.
   package func dimensions() -> ([DimensionToken], [AliasToken]) {
-    let tokens = dimensionTokens()
-    let aliases = aliasTokens(for: tokens)
+    let tokens = dimensionTokens().sorted()
+    let aliases = aliasTokens(for: tokens).sorted()
 
     return (tokens, aliases)
   }
@@ -36,8 +36,8 @@ package struct TreeReducer {
   /// Reduces the trees into all number tokens, and matching aliases.
   /// - Returns: A tuple of `[NumberToken]`, and `[AliasToken]` that reference number tokens.
   package func numbers() -> ([NumberToken], [AliasToken]) {
-    let tokens = numberTokens()
-    let aliases = aliasTokens(for: tokens)
+    let tokens = numberTokens().sorted()
+    let aliases = aliasTokens(for: tokens).sorted()
 
     return (tokens, aliases)
   }
@@ -46,7 +46,7 @@ package struct TreeReducer {
   /// - Returns: An array of `NumberToken`.
   package func gradients() -> [GradientToken] {
     // TODO: Do gradients support aliases?
-    gradientTokens()
+    return gradientTokens().sorted()
   }
 
   private func colorTokens() -> [ColorToken] {

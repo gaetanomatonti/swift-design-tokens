@@ -2,10 +2,12 @@
   "colors" : {},
   "dimensions" : {},
   "numbers": {},
+  "gradients": {},
   "input" : [
     "color-base.tokens.json",
     "color-semantic.tokens.json",
     "dimension.tokens.json",
+    "gradient.tokens.json",
     "number.tokens.json",
   ],
   "output" : "DesignTokens/Sources/Tokens"

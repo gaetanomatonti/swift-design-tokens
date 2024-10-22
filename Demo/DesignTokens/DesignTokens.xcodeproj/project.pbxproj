@@ -13,6 +13,7 @@
 		9B6C93072CC7D8F700E27E9D /* Number+DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C93062CC7D8F700E27E9D /* Number+DesignTokens.swift */; };
 		9B6C93082CC7D8F700E27E9D /* Color+DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C93042CC7D8F700E27E9D /* Color+DesignTokens.swift */; };
 		9B6C93092CC7D8F700E27E9D /* Dimension+DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C93052CC7D8F700E27E9D /* Dimension+DesignTokens.swift */; };
+		9B6C930B2CC7DF2200E27E9D /* Gradient+DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6C930A2CC7DF2200E27E9D /* Gradient+DesignTokens.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		9B6C93042CC7D8F700E27E9D /* Color+DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+DesignTokens.swift"; sourceTree = "<group>"; };
 		9B6C93052CC7D8F700E27E9D /* Dimension+DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dimension+DesignTokens.swift"; sourceTree = "<group>"; };
 		9B6C93062CC7D8F700E27E9D /* Number+DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Number+DesignTokens.swift"; sourceTree = "<group>"; };
+		9B6C930A2CC7DF2200E27E9D /* Gradient+DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Gradient+DesignTokens.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 		9B6C92FC2CC7D88500E27E9D /* Tokens */ = {
 			isa = PBXGroup;
 			children = (
+				9B6C930A2CC7DF2200E27E9D /* Gradient+DesignTokens.swift */,
 				9B6C93042CC7D8F700E27E9D /* Color+DesignTokens.swift */,
 				9B6C93052CC7D8F700E27E9D /* Dimension+DesignTokens.swift */,
 				9B6C93062CC7D8F700E27E9D /* Number+DesignTokens.swift */,
@@ -146,6 +149,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B6C93022CC7D88500E27E9D /* ContentView.swift in Sources */,
+				9B6C930B2CC7DF2200E27E9D /* Gradient+DesignTokens.swift in Sources */,
 				9B6C93072CC7D8F700E27E9D /* Number+DesignTokens.swift in Sources */,
 				9B6C93082CC7D8F700E27E9D /* Color+DesignTokens.swift in Sources */,
 				9B6C93092CC7D8F700E27E9D /* Dimension+DesignTokens.swift in Sources */,
