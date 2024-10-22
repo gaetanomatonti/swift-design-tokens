@@ -41,14 +41,7 @@ struct ColorSourceCodeGenerator: SourceCodeGenerator {
       "aliases": aliases
     ]
 
-    switch format {
-    case .swiftUI:
-      let content = try environment.renderTemplate(name: "color+swiftui.stencil", context: context)
-      return SourceCodeFile(name: "Color+SwiftUI+DesignTokens.swift", content: content)
-
-    case .uiKit:
-      let content = try environment.renderTemplate(name: "color+uikit.stencil", context: context)
-      return SourceCodeFile(name: "Color+UIKit+DesignTokens.swift", content: content)
-    }
+    let content = try environment.renderTemplate(name: "color+token.stencil", context: context)
+    return SourceCodeFile(name: "Color+DesignTokens.swift", content: content)
   }
 }

@@ -7,16 +7,14 @@
   {% endfor %}
 {% endmacro %}
 
-{% macro swiftUIColor color %}Color(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, opacity: {{ color.alpha }}){% endmacro %}
-
-{% macro uiKitColor color %}UIColor(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, alpha: {{ color.alpha }}){% endmacro %}
+{% macro colorToken color %}ColorToken(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, alpha: {{ color.alpha }}){% endmacro %}
 
 {% macro swiftUIGradient gradient %}Gradient(
     stops: [
       {% for stop in gradient.stops %}
       Gradient.Stop(
         {% if stop.color.value %}
-        color: {%+ call swiftUIColor stop.color.value %},
+        color: {%+ call colorToken stop.color.value %},
         {% endif %}
         {% if stop.color.alias %}
         color: {%+ call referenceName stop.color.alias %},
