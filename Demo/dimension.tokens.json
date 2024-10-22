@@ -1,0 +1,10 @@
+{
+  "small": {
+    "$type": "dimension",
+    "$value": "8 px"
+  },
+  "medium": {
+    "$type": "dimension",
+    "$value": "16 px"
+  }
+}

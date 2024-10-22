@@ -1,16 +1,10 @@
 {
-  "colors" : {
-    "formats" : [
-      "SwiftUI",
-      "UIKit"
-    ]
-  },
-  "dimensions" : {
-
-  },
+  "colors" : {},
+  "dimensions" : {},
   "input" : [
-    "base.tokens.json",
-    "semantic.tokens.json"
+    "color-base.tokens.json",
+    "color-semantic.tokens.json",
+    "dimension.tokens.json",
   ],
   "output" : "Output"
 }

@@ -19,7 +19,7 @@ public struct ColorToken {
 }
 
 extension {{tokenType}} {
-{% if aliases.count > 1 %}
+{% if tokens.count > 1 %}
 
   // MARK: - Tokens
 

@@ -42,7 +42,7 @@ let package = Package(
       resources: [
         .copy("Resources/common.stencil"),
         .copy("Resources/color+token.stencil"),
-        .copy("Resources/dimension+foundation.stencil"),
+        .copy("Resources/dimension+token.stencil"),
         .copy("Resources/gradient+swiftui.stencil"),
         .copy("Resources/number+foundation.stencil"),
       ]
