@@ -12,9 +12,6 @@ struct ColorSourceCodeGenerator: SourceCodeGenerator {
   
   /// The aliases for the color tokens.
   let aliases: [AliasToken]
-
-  /// The format of the colors source code.
-  let format: ColorFormat
   
   // MARK: - Functions
 
@@ -26,14 +23,13 @@ struct ColorSourceCodeGenerator: SourceCodeGenerator {
       return []
     }
     
-    let file = try generate(tokens, aliases: aliases, for: format, in: environment)
+    let file = try generate(tokens, aliases: aliases, in: environment)
     return [file]
   }
 
   private func generate(
     _ tokens: [DesignTokensCore.ColorToken],
     aliases: [DesignTokensCore.AliasToken],
-    for format: ColorFormat,
     in environment: Stencil.Environment
   ) throws -> SourceCodeFile {
     let context: [String: Any] = [
@@ -41,14 +37,7 @@ struct ColorSourceCodeGenerator: SourceCodeGenerator {
       "aliases": aliases
     ]
 
-    switch format {
-    case .swiftUI:
-      let content = try environment.renderTemplate(name: "color+swiftui.stencil", context: context)
-      return SourceCodeFile(name: "Color+SwiftUI+DesignTokens.swift", content: content)
-
-    case .uiKit:
-      let content = try environment.renderTemplate(name: "color+uikit.stencil", context: context)
-      return SourceCodeFile(name: "Color+UIKit+DesignTokens.swift", content: content)
-    }
+    let content = try environment.renderTemplate(name: "color+token.stencil", context: context)
+    return SourceCodeFile(name: "Color+DesignTokens.swift", content: content)
   }
 }

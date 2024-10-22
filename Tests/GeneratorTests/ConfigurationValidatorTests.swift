@@ -8,22 +8,22 @@ struct ConfigurationValidatorTests {
     arguments: [
       Configuration.scaffold(inputPaths: ["design-tokens.json"], outputPath: "Output/"),
       Configuration().input("design-tokens.json").output("Output/"),
-      Configuration().color(inputPath: "design-tokens.json", outputPath: "Output", formats: .swiftUI),
+      Configuration().color(inputPath: "design-tokens.json", outputPath: "Output"),
       Configuration().dimension(inputPath: "design-tokens.json", outputPath: "Output"),
       Configuration()
-        .color(inputPath: "design-tokens.json", outputPath: "Output", formats: .swiftUI)
+        .color(inputPath: "design-tokens.json", outputPath: "Output")
         .dimension(inputPath: "design-tokens.json", outputPath: "Output"),
       Configuration()
         .input("design-tokens.json")
         .output("Output/")
-        .color(formats: .swiftUI)
+        .color()
         .dimension()
         .gradient()
         .number(),
       Configuration()
         .input("design-tokens.json")
         .output("Output/")
-        .color(inputPath: "design-tokens.json", outputPath: "Output", formats: .swiftUI)
+        .color(inputPath: "design-tokens.json", outputPath: "Output")
         .dimension(inputPath: "design-tokens.json", outputPath: "Output")
         .gradient(inputPath: "design-tokens.json", outputPath: "Output")
         .number(inputPath: "design-tokens.json", outputPath: "Output"),
@@ -40,8 +40,8 @@ struct ConfigurationValidatorTests {
     arguments: [
       Configuration().output("Output/"),
       Configuration().inputs([]).output("Output/"),
-      Configuration().color(outputPath: "Output", formats: .swiftUI),
-      Configuration().color(inputPaths: [], outputPath: "Output", formats: .swiftUI),
+      Configuration().color(outputPath: "Output"),
+      Configuration().color(inputPaths: [], outputPath: "Output"),
       Configuration().dimension(outputPath: "Output"),
       Configuration().dimension(inputPaths: [], outputPath: "Output"),
     ]
@@ -56,7 +56,7 @@ struct ConfigurationValidatorTests {
   @Test(
     arguments: [
       Configuration().input("design-tokens.json"),
-      Configuration().color(inputPath: "design-tokens.json", formats: .swiftUI),
+      Configuration().color(inputPath: "design-tokens.json"),
       Configuration().dimension(inputPath: "design-tokens.json"),
     ]
   )
@@ -76,6 +76,22 @@ struct ConfigurationValidatorTests {
   )
   func configurationHasNoNumberConfiguration(_ configuration: Configuration) throws {
     #expect(throws: ConfigurationValidationFailure.gradientConfigurationRequiresNumberConfiguration) {
+      let validator = ConfigurationValidator(configuration: configuration)
+      try validator.validate()
+    }
+  }
+
+  @Test(
+    arguments: [
+      Configuration()
+        .input("design-tokens.json")
+        .output("Output/")
+        .number()
+        .gradient(),
+    ]
+  )
+  func configurationHasNoColorConfiguration(_ configuration: Configuration) throws {
+    #expect(throws: ConfigurationValidationFailure.gradientConfigurationRequiresColorConfiguration) {
       let validator = ConfigurationValidator(configuration: configuration)
       try validator.validate()
     }

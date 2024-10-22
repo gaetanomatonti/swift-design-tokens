@@ -137,20 +137,14 @@ package struct OutputGenerator {
     let (tokens, aliases) = reducer.colors()
     
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
-
-    for format in colorConfiguration.formats {
-      switch format {
-      case .swiftUI, .uiKit:
-        let sourceCodeGenerator = ColorSourceCodeGenerator(
-          tokens: tokens,
-          aliases: aliases,
-          format: format
-        )
-        let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
-
-        try write(files, at: outputURL)
-      }
-    }
+    
+    let sourceCodeGenerator = ColorSourceCodeGenerator(
+      tokens: tokens,
+      aliases: aliases
+    )
+    let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
+    
+    try write(files, at: outputURL)
   }
   
   private func generateDimensions(with configuration: Configuration, from trees: [DesignTokenTree]) throws {

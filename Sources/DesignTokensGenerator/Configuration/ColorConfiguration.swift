@@ -5,7 +5,6 @@ struct ColorConfiguration: ConfigurationProtocol, Equatable {
   enum CodingKeys: String, CodingKey {
     case inputPaths = "input"
     case outputPath = "output"
-    case formats
   }
   
   // MARK: - Stored Properties
@@ -13,22 +12,17 @@ struct ColorConfiguration: ConfigurationProtocol, Equatable {
   private(set) var inputPaths: [String]?
 
   private(set) var outputPath: String?
-  
-  /// The formats of the output.
-  private(set) var formats: [ColorFormat]
-  
+    
   // MARK: - Init
 
-  init(inputPath: String, outputPath: String?, formats: [ColorFormat]) {
+  init(inputPath: String, outputPath: String?) {
     self.inputPaths = [inputPath]
     self.outputPath = outputPath
-    self.formats = formats
   }
 
-  init(inputPaths: [String]?, outputPath: String?, formats: [ColorFormat]) {
+  init(inputPaths: [String]?, outputPath: String?) {
     self.inputPaths = inputPaths
     self.outputPath = outputPath
-    self.formats = formats
   }
 }
 
@@ -47,6 +41,5 @@ extension ColorConfiguration {
     }
 
     self.outputPath = try container.decodeIfPresent(String.self, forKey: .outputPath)
-    self.formats = try container.decode([ColorFormat].self, forKey: .formats)
   }
 }

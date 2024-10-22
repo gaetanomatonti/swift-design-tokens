@@ -7,7 +7,6 @@ The command line tool requires a configuration manifest file to generate source 
 - `colors`: The tool will generate outputs for any color tokens in the design tokens JSON.
   - `input`: The path to the input design token files. (default: global `input`)
   - `output`: The path of the directory where the output should be generated. (default: global `output`)
-  - `formats`: The list of formats for the generated outputs. (Possible values: SwiftUI, UIKit).
 - `dimensions`: The tool will generate outputs for any dimension tokens in the design tokens JSON.
   - `input`: The path to the input design token files. (default: global `input`)
   - `output`: The path of the directory where the output should be generated. (default: global `output`)
@@ -26,11 +25,7 @@ The following manifest configures the command line tool to generate tokens from 
 {
   "input": "design-tokens.json",
   "output": "Output/",
-  "colors": {
-    "formats": [
-      "SwiftUI"
-    ]
-  }
+  "colors": {}
 }
 ```
 
@@ -40,10 +35,7 @@ The following manifest configures the command line tool to generate tokens from 
 {
   "colors": {
     "input": "design-tokens-colors.json",
-    "output": "Output/Colors/",
-    "formats": [
-      "SwiftUI"
-    ]
+    "output": "Output/Colors/"
   }
 }
 ```
@@ -56,10 +48,7 @@ Specific token configurations can inherit the global input, or output, if no spe
   "output": "Output/",
   "colors": {
     "input": "design-tokens-colors.json",
-    "output": "Output/Colors/",
-    "formats": [
-      "SwiftUI"
-    ]
+    "output": "Output/Colors/"
   },
   "dimensions": {}
 }
@@ -76,10 +65,7 @@ Multiple inputs can be provided globally, or for each token-specific configurati
       "design-tokens-color-foundations.json", 
       "design-tokens-color-brand.json"
     ],
-    "output": "Output/Colors/",
-    "formats": [
-      "SwiftUI"
-    ]
+    "output": "Output/Colors/"
   }
 }
 ```

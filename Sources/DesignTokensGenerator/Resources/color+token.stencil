@@ -1,0 +1,68 @@
+{% import "common.stencil" %}
+{% set tokenType %}ColorToken{% endset %}
+{% macro tokensBlock tokens %}
+  {% for token in tokens %}
+  {% if token.description %}
+  /// {{ token.description }}
+  {% endif %}
+  {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
+  public static let {{ tokenName }} = {%+  call colorToken token.color +%}
+  {% endfor %}
+{% endmacro %}
+// Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
+
+public struct ColorToken {
+  let red: CGFloat
+  let green: CGFloat
+  let blue: CGFloat
+  let alpha: CGFloat
+}
+
+extension {{tokenType}} {
+{% if tokens.count > 0 %}
+
+  // MARK: - Tokens
+
+{% call tokensBlock tokens %}
+{% endif %}
+{% if aliases.count > 0 %}
+
+  // MARK: - Aliases
+
+{% call aliasesBlock aliases tokenType %}
+{% endif %}
+}
+
+#if canImport(SwiftUI)
+import SwiftUI
+
+public extension Color {
+  init(token: ColorToken) {
+    self.init(red: token.red, green: token.green, blue: token.blue, opacity: token.alpha)
+  }
+  
+  static func token(_ token: ColorToken) -> Color {
+    Color(token: token)
+  }
+}
+
+public extension ShapeStyle where Self == Color {
+  static func token(_ token: ColorToken) -> Color {
+    Color(token: token)
+  }
+}
+#endif
+
+#if canImport(UIKit)
+import UIKit
+
+public extension UIColor {
+  convenience init(token: ColorToken) {
+    self.init(red: token.red, green: token.green, blue: token.blue, alpha: token.alpha)
+  }
+  
+  static func token(_ token: ColorToken) -> UIColor {
+    UIColor(token: token)
+  }
+}
+#endif

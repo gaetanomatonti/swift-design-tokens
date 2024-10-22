@@ -41,11 +41,10 @@ let package = Package(
       ],
       resources: [
         .copy("Resources/common.stencil"),
-        .copy("Resources/color+swiftui.stencil"),
-        .copy("Resources/color+uikit.stencil"),
-        .copy("Resources/dimension+foundation.stencil"),
-        .copy("Resources/gradient+swiftui.stencil"),
-        .copy("Resources/number+foundation.stencil"),
+        .copy("Resources/color+token.stencil"),
+        .copy("Resources/dimension+token.stencil"),
+        .copy("Resources/gradient+token.stencil"),
+        .copy("Resources/number+token.stencil"),
       ]
     ),
     .testTarget(

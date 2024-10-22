@@ -25,4 +25,17 @@ extension Array where Element: Token {
       return $0.path.count < $1.path.count
     }
   }
+  
+  /// Sorts the tokens in place by the length of their paths, and lexicographic order.
+  func sorted() -> [Element] {
+    var array = self
+    array.sort {
+      guard $0.path.count != $1.path.count else {
+        return $0.path.lexicographicallyPrecedes($1.path)
+      }
+      
+      return $0.path.count < $1.path.count
+    }
+    return array
+  }
 }

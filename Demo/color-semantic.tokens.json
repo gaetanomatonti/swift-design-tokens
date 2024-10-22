@@ -1,0 +1,22 @@
+{
+  "background": {
+    "base": {
+      "$type": "color",
+      "$value": "{black.900}"
+    },
+    "container": {
+      "$type": "color",
+      "$value": "{black.800}"
+    }
+  },
+  "text": {
+    "primary": {
+      "$type": "color",
+      "$value": "{white}"
+    },
+    "link": {
+      "$type": "color",
+      "$value": "{purple.200}"
+    }
+  }
+}

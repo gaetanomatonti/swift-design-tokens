@@ -6,3 +6,8 @@ DerivedData/
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
+/Demo/Output
+*.xcodeproj
+*.xcworkspace
+/Demo/Derived/InfoPlists/Demo-Info.plist
+/Demo/App/Sources/Tokens

@@ -1,0 +1,41 @@
+{% import "common.stencil" %}
+{% set tokenType %}DimensionToken{% endset %}
+{% macro tokensBlock tokens %}
+  {% for token in tokens %}
+  {% if token.description %}
+  /// {{ token.description }}
+  {% endif %}
+  {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
+  public static let {{ tokenName }} = DimensionToken(value: {{ token.dimension.value }})
+  {% endfor %}
+{% endmacro %}
+// Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
+
+public struct DimensionToken {
+  let value: CGFloat
+}
+
+extension {{tokenType}} {
+{% if tokens.count > 0 %}
+
+  // MARK: - Tokens
+
+{% call tokensBlock tokens %}
+{% endif %}
+{% if aliases.count > 0 %}
+
+  // MARK: - Aliases
+
+{% call aliasesBlock aliases tokenType %}
+{% endif %}
+}
+
+#if canImport(Foundation)
+import Foundation
+
+public extension CGFloat {
+  static func token(dimension: DimensionToken) -> CGFloat {
+    dimension.value
+  }
+}
+#endif

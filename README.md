@@ -61,10 +61,6 @@ The command line tool generates source code as the resulting output of the desig
 {
   "input": "design-tokens.json",
   "colors": {
-    "formats": [
-      "SwiftUI",
-      "UIKit"
-    ],
     "output": "Output/Colors/"
   },
   "dimensions": {

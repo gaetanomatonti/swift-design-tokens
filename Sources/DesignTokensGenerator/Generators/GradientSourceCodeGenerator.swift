@@ -32,7 +32,7 @@ struct GradientSourceCodeGenerator: SourceCodeGenerator {
       "tokens": tokens,
     ]
 
-    let content = try environment.renderTemplate(name: "gradient+swiftui.stencil", context: context)
-    return SourceCodeFile(name: "Gradient+SwiftUI+DesignTokens.swift", content: content)
+    let content = try environment.renderTemplate(name: "gradient+token.stencil", context: context)
+    return SourceCodeFile(name: "Gradient+DesignTokens.swift", content: content)
   }
 }

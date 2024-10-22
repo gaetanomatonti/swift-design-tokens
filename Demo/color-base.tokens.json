@@ -1,0 +1,26 @@
+{
+  "purple": {
+    "200": {
+      "$type": "color",
+      "$value": "#BEABF8"
+    },
+    "500": {
+      "$type": "color",
+      "$value": "#8962FD"
+    }
+  },
+  "black": {
+    "800": {
+      "$type": "color",
+      "$value": "#1C1C1C"
+    },
+    "900": {
+      "$type": "color",
+      "$value": "#141414"
+    }
+  },
+  "white": {
+    "$type": "color",
+    "$value": "#F7F5FB"
+  }
+}

@@ -85,20 +85,18 @@ struct Configuration: ConfigurationProtocol, Equatable {
   /// - Parameters:
   ///   - inputPath: The path of the input file.
   ///   - outputPath: The path of the directory where the output will be generated.
-  ///   - formats: The formats of the output.
   /// - Returns: The output configuration with a new color configuration.
-  func color(inputPath: String , outputPath: String? = nil, formats: ColorFormat...) -> Configuration {
-    color(ColorConfiguration(inputPaths: [inputPath], outputPath: outputPath, formats: formats))
+  func color(inputPath: String , outputPath: String? = nil) -> Configuration {
+    color(ColorConfiguration(inputPaths: [inputPath], outputPath: outputPath))
   }
 
   /// Sets the configuration for the color tokens.
   /// - Parameters:
   ///   - inputPaths: The path of the input files.
   ///   - outputPath: The path of the directory where the output will be generated.
-  ///   - formats: The formats of the output.
   /// - Returns: The output configuration with a new color configuration.
-  func color(inputPaths: [String]? = nil , outputPath: String? = nil, formats: ColorFormat...) -> Configuration {
-    color(ColorConfiguration(inputPaths: inputPaths, outputPath: outputPath, formats: formats))
+  func color(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
+    color(ColorConfiguration(inputPaths: inputPaths, outputPath: outputPath))
   }
 
   /// Sets the configuration for the dimension tokens.
@@ -205,9 +203,7 @@ extension Configuration {
     Configuration()
       .inputs(inputPaths)
       .output(outputPath)
-      .color(
-        formats: .swiftUI, .uiKit
-      )
+      .color()
       .dimension()
   }
 }

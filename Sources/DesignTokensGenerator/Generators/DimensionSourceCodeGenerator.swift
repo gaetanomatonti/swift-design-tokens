@@ -37,7 +37,7 @@ struct DimensionSourceCodeGenerator: SourceCodeGenerator {
       "aliases": aliases,
     ]
 
-    let content = try environment.renderTemplate(name: "dimension+foundation.stencil", context: context)
+    let content = try environment.renderTemplate(name: "dimension+token.stencil", context: context)
     return SourceCodeFile(name: "Dimension+DesignTokens.swift", content: content)
   }
 }
