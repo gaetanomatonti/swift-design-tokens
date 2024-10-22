@@ -1,14 +1,3 @@
-{% import "common.stencil" %}
-{% set tokenType %}ColorToken{% endset %}
-{% macro tokensBlock tokens %}
-  {% for token in tokens %}
-  {% if token.description %}
-  /// {{ token.description }}
-  {% endif %}
-  {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  public static let {{ tokenName }} = {%+  call colorToken token.color +%}
-  {% endfor %}
-{% endmacro %}
 // Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
 
 public struct ColorToken {
@@ -18,19 +7,21 @@ public struct ColorToken {
   let alpha: CGFloat
 }
 
-extension {{tokenType}} {
-{% if tokens.count > 0 %}
+extension ColorToken {
 
   // MARK: - Tokens
 
-{% call tokensBlock tokens %}
-{% endif %}
-{% if aliases.count > 0 %}
+  public static let black800 = ColorToken(red: 0.10980392156862745, green: 0.10980392156862745, blue: 0.10980392156862745, alpha: 1.0)
+  public static let black900 = ColorToken(red: 0.0784313725490196, green: 0.0784313725490196, blue: 0.0784313725490196, alpha: 1.0)
+  public static let white = ColorToken(red: 0.9686274509803922, green: 0.9607843137254902, blue: 0.984313725490196, alpha: 1.0)
+  public static let purple200 = ColorToken(red: 0.7450980392156863, green: 0.6705882352941176, blue: 0.9725490196078431, alpha: 1.0)
 
   // MARK: - Aliases
 
-{% call aliasesBlock aliases tokenType %}
-{% endif %}
+  public static var backgroundContainer: ColorToken { black800 }
+  public static var backgroundBase: ColorToken { black900 }
+  public static var textPrimary: ColorToken { white }
+  public static var textLink: ColorToken { purple200 }
 }
 
 #if canImport(SwiftUI)

@@ -8,5 +8,5 @@
     "dimension.tokens.json",
     "number.tokens.json",
   ],
-  "output" : "Output"
+  "output" : "DesignTokens/Sources/Tokens"
 }
