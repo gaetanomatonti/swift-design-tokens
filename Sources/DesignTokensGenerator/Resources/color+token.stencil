@@ -19,13 +19,13 @@ public struct ColorToken {
 }
 
 extension {{tokenType}} {
-{% if tokens.count > 1 %}
+{% if tokens.count > 0 %}
 
   // MARK: - Tokens
 
 {% call tokensBlock tokens %}
 {% endif %}
-{% if aliases.count > 1 %}
+{% if aliases.count > 0 %}
 
   // MARK: - Aliases
 

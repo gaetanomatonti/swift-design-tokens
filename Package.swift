@@ -44,7 +44,7 @@ let package = Package(
         .copy("Resources/color+token.stencil"),
         .copy("Resources/dimension+token.stencil"),
         .copy("Resources/gradient+swiftui.stencil"),
-        .copy("Resources/number+foundation.stencil"),
+        .copy("Resources/number+token.stencil"),
       ]
     ),
     .testTarget(

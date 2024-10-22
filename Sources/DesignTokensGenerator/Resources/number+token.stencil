@@ -1,17 +1,17 @@
 {% import "common.stencil" %}
-{% set tokenType %}DimensionToken{% endset %}
+{% set tokenType %}NumberToken{% endset %}
 {% macro tokensBlock tokens %}
   {% for token in tokens %}
   {% if token.description %}
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  public static let {{ tokenName }} = DimensionToken(value: {{ token.dimension.value }})
+  public static let {{ tokenName }} = NumberToken(value: {{ token.number }})
   {% endfor %}
 {% endmacro %}
 // Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
 
-public struct DimensionToken {
+public struct NumberToken {
   let value: CGFloat
 }
 
@@ -34,11 +34,11 @@ extension {{tokenType}} {
 import Foundation
 
 public extension CGFloat {
-  init(dimension: DimensionToken) {
-    self = dimension.value
+  init(number: NumberToken) {
+    self = number.value
   }
   
-  static func dimension(_ token: DimensionToken) -> CGFloat {
+  static func number(_ token: NumberToken) -> CGFloat {
     token.value
   }
 }

@@ -1,10 +1,12 @@
 {
   "colors" : {},
   "dimensions" : {},
+  "numbers": {},
   "input" : [
     "color-base.tokens.json",
     "color-semantic.tokens.json",
     "dimension.tokens.json",
+    "number.tokens.json",
   ],
   "output" : "Output"
 }

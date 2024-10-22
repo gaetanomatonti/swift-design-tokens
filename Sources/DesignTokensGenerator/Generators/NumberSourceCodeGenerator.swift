@@ -37,7 +37,7 @@ struct NumberSourceCodeGenerator: SourceCodeGenerator {
       "aliases": aliases,
     ]
 
-    let content = try environment.renderTemplate(name: "number+foundation.stencil", context: context)
+    let content = try environment.renderTemplate(name: "number+token.stencil", context: context)
     return SourceCodeFile(name: "Number+DesignTokens.swift", content: content)
   }
 }
