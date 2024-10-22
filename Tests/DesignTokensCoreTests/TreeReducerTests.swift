@@ -46,8 +46,8 @@ struct TreeReducerTests {
 
     #expect(
       colorTokens == [
-        ColorToken(name: "white", color: .white, path: ["foundation", "white"]),
         ColorToken(name: "red", color: .red, path: ["foundation", "red"]),
+        ColorToken(name: "white", color: .white, path: ["foundation", "white"]),
       ]
     )
 
@@ -136,8 +136,8 @@ struct TreeReducerTests {
 
     #expect(
       colorTokens == [
-        ColorToken(name: "white", color: .white, path: ["foundation", "white"]),
         ColorToken(name: "red", color: .red, path: ["foundation", "red"]),
+        ColorToken(name: "white", color: .white, path: ["foundation", "white"]),
       ]
     )
 
