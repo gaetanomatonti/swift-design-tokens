@@ -80,4 +80,20 @@ struct ConfigurationValidatorTests {
       try validator.validate()
     }
   }
+
+  @Test(
+    arguments: [
+      Configuration()
+        .input("design-tokens.json")
+        .output("Output/")
+        .number()
+        .gradient(),
+    ]
+  )
+  func configurationHasNoColorConfiguration(_ configuration: Configuration) throws {
+    #expect(throws: ConfigurationValidationFailure.gradientConfigurationRequiresColorConfiguration) {
+      let validator = ConfigurationValidator(configuration: configuration)
+      try validator.validate()
+    }
+  }
 }
