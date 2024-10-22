@@ -43,7 +43,7 @@ public extension Gradient {
 
 public extension Gradient.Stop {
   init(token: GradientToken.Stop) {
-    self.init(color: .token(token.color), location: .number(token.position))
+    self.init(color: .token(token.color), location: .token(number: token.position))
   }
 }
 #endif

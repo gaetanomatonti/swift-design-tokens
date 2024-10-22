@@ -10,10 +10,10 @@ import SwiftUI
 struct ContentView: View {
   var body: some View {
     ZStack {
-      Color(token: .backgroundBase)
+      Color.token(.backgroundBase)
         .ignoresSafeArea()
       
-      VStack(spacing: .dimension(.medium)) {
+      VStack(spacing: .token(dimension: .medium)) {
         Image(systemName: "globe")
           .imageScale(.large)
           .foregroundStyle(.token(.textLink))
@@ -23,7 +23,7 @@ struct ContentView: View {
       }
       .padding()
       .background(
-        in: .rect(cornerRadius: .dimension(.small))
+        in: .rect(cornerRadius: .token(dimension: .small))
       )
       .backgroundStyle(
         .linearGradient(

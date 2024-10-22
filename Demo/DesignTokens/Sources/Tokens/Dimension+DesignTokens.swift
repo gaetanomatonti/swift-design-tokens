@@ -16,12 +16,8 @@ extension DimensionToken {
 import Foundation
 
 public extension CGFloat {
-  init(dimension: DimensionToken) {
-    self = dimension.value
-  }
-  
-  static func dimension(_ token: DimensionToken) -> CGFloat {
-    token.value
+  static func token(dimension: DimensionToken) -> CGFloat {
+    dimension.value
   }
 }
 #endif

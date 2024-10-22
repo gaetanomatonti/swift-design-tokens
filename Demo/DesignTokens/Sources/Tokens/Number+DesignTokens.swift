@@ -15,12 +15,8 @@ extension NumberToken {
 import Foundation
 
 public extension CGFloat {
-  init(number: NumberToken) {
-    self = number.value
-  }
-  
-  static func number(_ token: NumberToken) -> CGFloat {
-    token.value
+  static func token(number: NumberToken) -> CGFloat {
+    number.value
   }
 }
 #endif
