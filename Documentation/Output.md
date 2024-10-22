@@ -1,10 +1,11 @@
 #  Output
 
-The command line tool generates source code as the resulting output of the design tokens translation. Some tokens also support several formats for source code customization.
+The command line tool generates source code as the resulting output of the design tokens translation. 
+To avoid conflicts with system types, and properties, `swift-design-tokens` also generates a set of APIs to facilitate the usage of the design tokens.
 
 ## Name spacing
 
-To prevent naming conflicts between tokens, `design-tokens` preserves the name space (or token path) of the token, and uses a prettified version of the token path as its name.
+To prevent naming conflicts between tokens, we preserve the name space (or token path) of the token, and use a prettified version of the token path as its name.
 
 ```json
 {
@@ -23,7 +24,7 @@ To prevent naming conflicts between tokens, `design-tokens` preserves the name s
 
 For example, the generated source code output for the above color tokens will contain a property named `black` for the `black` color token, and `textPrimary` for the token at path `"text" / "primary"`. 
 
-## Token Formats
+## Token Types
 
 ### Aliases
 
@@ -31,71 +32,56 @@ Alias tokens will always use the format of their referenced token's type, and wi
 
 ### Colors
 
-Color tokens support different source code formats for SwiftUI, and UIKit.
-
-#### SwiftUI
-
-The SwiftUI format extends the `Color` type with static properties generated from the color token values, and aliases.
+`swift-design-tokens` generates the `ColorToken` type, and extends it with static properties to access the tokens. 
 
 ```swift
-  extension Color {
-    static let black = Color(red: 0, green: 0, blue: 0, opacity: 0)
-    
-    static var textPrimary: Color { black }
+extension ColorToken {
+  static let textPrimary = ColorToken(...)
+  ...
+}
+```
+
+The tool does this to avoid conflicts with system-defined colors, like SwiftUI's `red`, `green`, etc. 
+This means that all color tokens can only be accessed with a custom set of APIs.
+
+The generated source code provides the `Color(token:)` initializer, together with a `.token(_:)` static function to access a color from the `ColorToken` extension.
+
+```swift
+var body: some View {
+  Text("Hello World!")
+    .foregroundStyle(.token(.textPrimary))
+}
+```
+
+A similar set of APIs is available for UIKit as well.
+
+### Dimensions and numbers
+
+Similarly to color tokens, dimensions, and numbers, also have their custom type, and set of APIs.
+However, because both values translates to a floating-point type, the APIs need to be more specific about the type of token we want to use.
+
+For dimension tokens, we provide the `.token(dimension:)` static function, while number tokens can be accessed through the `.token(number:)` function.
+
+```swift
+var body: some View {
+  VStack(spacing: .token(dimension: .small)) {
+    ...
   }
 }
-```
+``` 
 
-#### UIKit
+### Gradients
 
-Similarly to the SwiftUI format, the UIKit format extends the `UIColor` type.
-
-```swift
-  extension UIColor {
-    static let black = UIColor(red: 0, green: 0, blue: 0, alpha: 0)
-    
-    static var textPrimary: UIColor { black }
-  }
-}
-```
-
-### Dimension
-
-Dimension tokens do not support format customization, as the generated source code is always an extension on Foundation's `CGFloat` type.
+Gradient tokens translate into the `GradientToken` custom type. Similarly to previous types, gradients can be accessed via the `.token(_:)` static function.
 
 ```swift
-extension CGFloat {
-  static let small: CGFloat = 16
-}
-```
-
-### Number
-
-Number tokens are generated as an extension on Foundation's `CGFloat` type.
-
-```swift
-extension CGFloat {
-  static let gradientStart: CGFloat = 0.0
-}
-```
-
-### Gradient
-
-Gradient tokens do not currently support format customization, and will default to SwiftUI source code generation, by extending the `Gradient` type.
-
-```swift
-extension Gradient {
-  static let blueToRed = Gradient(
-    stops: [
-      Gradient.Stop(
-        color: Color(red: 0.0, green: 0.0, blue: 1.0, opacity: 1.0),
-        location: gradientStart
-      ),
-      Gradient.Stop(
-        color: red,
-        location: 1.0
-      ),
-    ]
+var body: some View {
+  .backgroundStyle(
+    .linearGradient(
+      .token(.background),
+      startPoint: .topLeading,
+      endPoint: .bottomTrailing
+    )
   )
 }
 ```

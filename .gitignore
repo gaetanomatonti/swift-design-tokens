@@ -10,3 +10,4 @@ DerivedData/
 *.xcodeproj
 *.xcworkspace
 /Demo/Derived/InfoPlists/Demo-Info.plist
+/Demo/App/Sources/Tokens
