@@ -3,6 +3,10 @@
     "200": {
       "$type": "color",
       "$value": "#BEABF8"
+    },
+    "500": {
+      "$type": "color",
+      "$value": "#8962FD"
     }
   },
   "black": {

@@ -6,5 +6,9 @@
   "medium": {
     "$type": "dimension",
     "$value": "16 px"
+  },
+  "large": {
+    "$type": "dimension",
+    "$value": "32 px"
   }
 }

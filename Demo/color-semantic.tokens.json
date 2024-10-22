@@ -2,21 +2,21 @@
   "background": {
     "base": {
       "$type": "color",
-      "$value": "{black.900}",
+      "$value": "{black.900}"
     },
     "container": {
       "$type": "color",
-      "$value": "{black.800}",
+      "$value": "{black.800}"
     }
   },
   "text": {
     "primary": {
       "$type": "color",
-      "$value": "{white}",
+      "$value": "{white}"
     },
     "link": {
       "$type": "color",
-      "$value": "{purple.200}",
+      "$value": "{purple.200}"
     }
   }
 }
