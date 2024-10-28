@@ -8,6 +8,7 @@ struct Configuration: ConfigurationProtocol, Equatable {
     case colorConfiguration = "colors"
     case dimensionConfiguration = "dimensions"
     case gradientConfiguration = "gradients"
+    case shadowConfiguration = "shadows"
     case numberConfiguration = "numbers"
   }
   
@@ -27,6 +28,9 @@ struct Configuration: ConfigurationProtocol, Equatable {
 
   /// The configuration for the gradient tokens.
   private(set) var gradientConfiguration: GradientConfiguration?
+
+  /// The configuration for the shadow tokens.
+  private(set) var shadowConfiguration: ShadowConfiguration?
 
   /// The configuration for the number tokens.
   private(set) var numberConfiguration: NumberConfiguration?
@@ -193,6 +197,7 @@ extension Configuration {
     self.colorConfiguration = try container.decodeIfPresent(ColorConfiguration.self, forKey: .colorConfiguration)
     self.dimensionConfiguration = try container.decodeIfPresent(DimensionConfiguration.self, forKey: .dimensionConfiguration)
     self.gradientConfiguration = try container.decodeIfPresent(GradientConfiguration.self, forKey: .gradientConfiguration)
+    self.shadowConfiguration = try container.decodeIfPresent(ShadowConfiguration.self, forKey: .shadowConfiguration)
     self.numberConfiguration = try container.decodeIfPresent(NumberConfiguration.self, forKey: .numberConfiguration)
   }
 }

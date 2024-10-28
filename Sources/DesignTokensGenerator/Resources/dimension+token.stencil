@@ -6,7 +6,7 @@
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  public static let {{ tokenName }} = DimensionToken(value: {{ token.dimension.value }})
+  public static let {{ tokenName }} = {%+ call dimensionToken token.dimension +%}
   {% endfor %}
 {% endmacro %}
 // Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens

@@ -1,0 +1,71 @@
+{% import "common.stencil" %}
+{% set tokenType %}ShadowToken{% endset %}
+{% macro tokensBlock tokens %}
+  {% for token in tokens %}
+  {% if token.description %}
+  /// {{ token.description }}
+  {% endif %}
+  {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
+  public static let {{ tokenName }} = {%+  call shadowToken token.shadow +%}
+  {% endfor %}
+{% endmacro %}
+// Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens
+
+public struct ShadowToken {
+  let color: ColorToken
+  let x: DimensionToken
+  let y: DimensionToken
+  let radius: DimensionToken
+  let spread: DimensionToken
+  var inset: Bool = false
+}
+
+extension {{tokenType}} {
+{% if tokens.count > 0 %}
+
+  // MARK: - Tokens
+
+{% call tokensBlock tokens %}
+{% endif %}
+{% if aliases.count > 0 %}
+
+  // MARK: - Aliases
+
+{% call aliasesBlock aliases tokenType %}
+{% endif %}
+}
+
+#if canImport(SwiftUI)
+import SwiftUI
+
+public extension View {
+  func shadow(_ token: ShadowToken) -> some View {
+    shadow(
+      color: .token(token.color),
+      radius: .token(dimension: token.radius),
+      x: .token(dimension: token.x),
+      y: .token(dimension: token.y)
+    )
+  }
+}
+
+public extension ShapeStyle {
+  static func shadow(token: ShadowToken) -> some ShapeStyle {
+    .shadow(
+      token.inset ?
+        .inner(
+          color: .token(token.color),
+          radius: .token(dimension: token.radius),
+          x: .token(dimension: token.x),
+          y: .token(dimension: token.y)
+        ) :
+        .drop(
+          color: .token(token.color),
+          radius: .token(dimension: token.radius),
+          x: .token(dimension: token.x),
+          y: .token(dimension: token.y)
+        )
+    )
+  }
+}
+#endif

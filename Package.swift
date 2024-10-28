@@ -45,6 +45,7 @@ let package = Package(
         .copy("Resources/dimension+token.stencil"),
         .copy("Resources/gradient+token.stencil"),
         .copy("Resources/number+token.stencil"),
+        .copy("Resources/shadow+token.stencil"),
       ]
     ),
     .testTarget(

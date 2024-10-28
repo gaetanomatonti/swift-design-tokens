@@ -8,26 +8,41 @@
 import SwiftUI
 
 struct ContentView: View {
+  @State private var isPressed = false
+
   var body: some View {
     ZStack {
       Color.token(.backgroundBase)
         .ignoresSafeArea()
 
-      Text("Hello World! Check out [swift-design-tokens](https://github.com/gaetanomatonti/swift-design-tokens).")
-        .foregroundStyle(.token(.textPrimary))
-        .tint(.token(.textLink))
-        .padding(.token(dimension: .medium))
-        .background(
-          in: .rect(cornerRadius: .token(dimension: .small))
-        )
-        .backgroundStyle(
-          .linearGradient(
-            .token(.background),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-          )
-        )
+      Button {
+        
+      } label: {
+        Text("Hello World! Check out [swift-design-tokens](https://github.com/gaetanomatonti/swift-design-tokens).")
+      }
+        .buttonStyle(CardButtonStyle())
     }
+  }
+}
+
+struct CardButtonStyle: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .foregroundStyle(.token(.textPrimary))
+      .tint(.token(.textLink))
+      .padding(.token(dimension: .medium))
+      .background(
+        in: .rect(cornerRadius: .token(dimension: .small))
+      )
+      .backgroundStyle(
+        .linearGradient(
+          .token(.background),
+          startPoint: .topLeading,
+          endPoint: .bottomTrailing
+        )
+      )
+      .shadow(configuration.isPressed ? .cardPressed : .cardDrop)
+      .animation(.spring, value: configuration.isPressed)
   }
 }
 
