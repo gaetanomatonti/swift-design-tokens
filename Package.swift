@@ -57,6 +57,7 @@ let package = Package(
         .copy("Resources/groups.json"),
         .copy("Resources/missingTypeFailure.json"),
         .copy("Resources/missingTypeWithAlias.json"),
+        .copy("Resources/shadow.json"),
       ]
     ),
     .testTarget(

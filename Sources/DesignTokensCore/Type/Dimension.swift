@@ -44,4 +44,13 @@ package struct Dimension {
   }
 }
 
+extension Dimension: Decodable {
+  package init(from decoder: any Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let stringValue = try container.decode(String.self)
+
+    try self.init(stringValue)
+  }
+}
+
 extension Dimension: Equatable {}

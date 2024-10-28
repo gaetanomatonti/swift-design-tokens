@@ -1,0 +1,13 @@
+{
+  "inner-shadow": {
+    "$type": "shadow",
+    "$value": {
+      "color": "#00000010",
+      "offsetX": "2px",
+      "offsetY": "2px",
+      "blur": "4px",
+      "spread": "0px",
+      "inset": true
+    }
+  }
+}

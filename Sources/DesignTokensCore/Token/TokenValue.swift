@@ -7,6 +7,15 @@ enum TokenValue: Equatable {
   case number(CGFloat)
   case alias(Path)
   case gradient(Gradient)
+  case shadow(Shadow)
+
+  var shadow: Shadow? {
+    if case let .shadow(shadow) = self {
+      return shadow
+    }
+
+    return nil
+  }
 }
 
 extension TokenValue: DecodableWithConfiguration {
@@ -41,6 +50,9 @@ extension TokenValue {
 
     case .gradient:
       return try Self.decodeGradient(from: decoder, with: configuration)
+
+    case .shadow:
+      return try Self.decodeShadow(from: decoder, with: configuration)
     }
   }
 
@@ -95,6 +107,17 @@ extension TokenValue {
       return .gradient(gradient)
     } catch {
       throw DecodingFailure.invalidGradientValue(tokenName: configuration.name, tokenPath: configuration.path)
+    }
+  }
+
+  private static func decodeShadow(from decoder: any Decoder, with configuration: DecodingConfiguration) throws -> TokenValue {
+    let container = try decoder.singleValueContainer()
+
+    do {
+      let shadow = try container.decode(Shadow.self)
+      return .shadow(shadow)
+    } catch {
+      throw DecodingFailure.invalidShadowValue(tokenName: configuration.name, tokenPath: configuration.path)
     }
   }
 }
