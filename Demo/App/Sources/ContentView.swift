@@ -20,7 +20,7 @@ struct ContentView: View {
       } label: {
         Text("Hello World! Check out [swift-design-tokens](https://github.com/gaetanomatonti/swift-design-tokens).")
       }
-        .buttonStyle(CardButtonStyle())
+      .buttonStyle(CardButtonStyle())
     }
   }
 }
@@ -34,15 +34,10 @@ struct CardButtonStyle: ButtonStyle {
       .background(
         in: .rect(cornerRadius: .token(dimension: .small))
       )
-      .backgroundStyle(
-        .linearGradient(
-          .token(.background),
-          startPoint: .topLeading,
-          endPoint: .bottomTrailing
-        )
-      )
+      .backgroundStyle(.token(.backgroundContainer))
+      .compositingGroup()
       .shadow(configuration.isPressed ? .cardPressed : .cardDrop)
-      .animation(.spring, value: configuration.isPressed)
+      .animation(.interactiveSpring, value: configuration.isPressed)
   }
 }
 

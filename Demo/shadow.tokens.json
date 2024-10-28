@@ -3,7 +3,7 @@
     "pressed": {
       "$type": "shadow",
       "$value": {
-        "color": "#00000010",
+        "color": "#07070940",
         "offsetX": "0 px",
         "offsetY": "2 px",
         "blur": "4 px",
@@ -14,10 +14,10 @@
     "drop": {
       "$type": "shadow",
       "$value": {
-        "color": "#00000010",
+        "color": "#07070940",
         "offsetX": "0 px",
         "offsetY": "8 px",
-        "blur": "12 px",
+        "blur": "16 px",
         "spread": "0 px",
         "inset": false
       }
