@@ -153,6 +153,23 @@ struct Configuration: ConfigurationProtocol, Equatable {
   func gradient(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
     gradient(GradientConfiguration(inputPaths: inputPaths, outputPath: outputPath))
   }
+
+  /// Sets the configuration for the gradient tokens.
+  /// - Parameters:
+  ///   - path: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new dimension configuration.
+  func shadow(inputPath: String, outputPath: String? = nil) -> Configuration {
+    shadow(ShadowConfiguration(inputPaths: [inputPath], outputPath: outputPath))
+  }
+
+  /// Sets the configuration for the gradient tokens.
+  /// - Parameters:
+  ///   - inputPaths: The path of the input files.
+  ///   - outputPath: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new dimension configuration.
+  func shadow(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
+    shadow(ShadowConfiguration(inputPaths: inputPaths, outputPath: outputPath))
+  }
   
   private func color(_ colorConfiguration: ColorConfiguration) -> Configuration {
     var configuration = self
@@ -175,6 +192,12 @@ struct Configuration: ConfigurationProtocol, Equatable {
   private func gradient(_ gradientConfiguration: GradientConfiguration) -> Configuration {
     var configuration = self
     configuration.gradientConfiguration = gradientConfiguration
+    return configuration
+  }
+  
+  private func shadow(_ shadowConfiguration: ShadowConfiguration) -> Configuration {
+    var configuration = self
+    configuration.shadowConfiguration = shadowConfiguration
     return configuration
   }
 }

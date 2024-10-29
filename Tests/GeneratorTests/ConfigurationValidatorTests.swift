@@ -75,7 +75,23 @@ struct ConfigurationValidatorTests {
     ]
   )
   func configurationHasNoNumberConfiguration(_ configuration: Configuration) throws {
-    #expect(throws: ConfigurationValidationFailure.gradientConfigurationRequiresNumberConfiguration) {
+    #expect(throws: ConfigurationValidationFailure.configurationRequiresNumberConfiguration) {
+      let validator = ConfigurationValidator(configuration: configuration)
+      try validator.validate()
+    }
+  }
+
+  @Test(
+    arguments: [
+      Configuration()
+        .input("design-tokens.json")
+        .output("Output/")
+        .color()
+        .shadow(),
+    ]
+  )
+  func configurationHasNoDimensionConfiguration(_ configuration: Configuration) throws {
+    #expect(throws: ConfigurationValidationFailure.configurationRequiresDimensionConfiguration) {
       let validator = ConfigurationValidator(configuration: configuration)
       try validator.validate()
     }
@@ -88,10 +104,15 @@ struct ConfigurationValidatorTests {
         .output("Output/")
         .number()
         .gradient(),
+      Configuration()
+        .input("design-tokens.json")
+        .output("Output/")
+        .number()
+        .shadow(),
     ]
   )
   func configurationHasNoColorConfiguration(_ configuration: Configuration) throws {
-    #expect(throws: ConfigurationValidationFailure.gradientConfigurationRequiresColorConfiguration) {
+    #expect(throws: ConfigurationValidationFailure.configurationRequiresColorConfiguration) {
       let validator = ConfigurationValidator(configuration: configuration)
       try validator.validate()
     }
