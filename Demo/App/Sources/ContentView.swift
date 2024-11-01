@@ -34,7 +34,7 @@ struct CardButtonStyle: ButtonStyle {
       .background(.token(.backgroundContainer), in: .containerRelative)
       .shadow(configuration.isPressed ? .cardPressed : .cardDrop)
       .containerShape(.rect(cornerRadius: .token(dimension: .small)))
-      .animation(.spring, value: configuration.isPressed)
+      .animation(.interactiveSpring, value: configuration.isPressed)
   }
 }
 
