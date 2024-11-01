@@ -18,6 +18,8 @@ package struct Dimension {
   init(_ valueString: String) throws(DimensionValueFailure) {
     let regex = Regex {
       Capture {
+        Optionally("-")
+
         OneOrMore(.digit)
       } transform: {
         Double($0)

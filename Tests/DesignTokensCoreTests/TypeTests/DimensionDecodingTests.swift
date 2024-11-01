@@ -19,6 +19,7 @@ struct DimensionDecoding {
     arguments: [
       SUT("8 px", expected: Dimension(8.0)),
       SUT("1 rem", expected: Dimension(1.0)),
+      SUT("-2 px", expected: Dimension(-2.0)),
     ]
   )
   func successfulDimensionDecoding(dimension: SUT<String, Dimension>) throws {
