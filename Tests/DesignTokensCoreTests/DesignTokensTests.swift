@@ -37,12 +37,4 @@ struct DesignTokenDecoding {
     let colors = try #require(tree.root.search(name: "colors"))
     #expect(colors.children.count == 3)
   }
-
-  fileprivate func loadJSON(named fileName: String) -> Data? {
-    guard let url = Bundle.module.url(forResource: fileName, withExtension: "json") else {
-      return nil
-    }
-
-    return try? Data(contentsOf: url)
-  }
 }

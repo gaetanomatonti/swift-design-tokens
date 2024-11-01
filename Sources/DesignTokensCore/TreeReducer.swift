@@ -43,10 +43,17 @@ package struct TreeReducer {
   }
 
   /// Reduces the trees into all gradient tokens.
-  /// - Returns: An array of `NumberToken`.
+  /// - Returns: An array of `GradientToken`.
   package func gradients() -> [GradientToken] {
     // TODO: Do gradients support aliases?
     return gradientTokens().sorted()
+  }
+
+  /// Reduces the trees into all shadow tokens.
+  /// - Returns: An array of `ShadowToken`.
+  package func shadows() -> [ShadowToken] {
+    // TODO: Do shadows support aliases?
+    return shadowTokens().sorted()
   }
 
   private func colorTokens() -> [ColorToken] {
@@ -87,6 +94,17 @@ package struct TreeReducer {
       tree.root.depthFirstTraversal { node in
         if case let .gradient(gradient) = node.value {
           let token = GradientToken(name: node.name, description: node.description, gradient: gradient, path: node.path)
+          result.append(token)
+        }
+      }
+    }
+  }
+
+  private func shadowTokens() -> [ShadowToken] {
+    trees.reduce(into: []) { result, tree in
+      tree.root.depthFirstTraversal { node in
+        if case let .shadow(shadow) = node.value {
+          let token = ShadowToken(name: node.name, description: node.description, shadow: shadow, path: node.path)
           result.append(token)
         }
       }

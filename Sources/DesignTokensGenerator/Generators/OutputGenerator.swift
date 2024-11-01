@@ -35,6 +35,7 @@ package struct OutputGenerator {
       try generateDimensions(with: configuration)
       try generateNumbers(with: configuration)
       try generateGradients(with: configuration)
+      try generateShadows(with: configuration)
       return
     }
     
@@ -48,6 +49,7 @@ package struct OutputGenerator {
     try generateDimensions(with: configuration, from: trees)
     try generateNumbers(with: configuration, from: trees)
     try generateGradients(with: configuration, from: trees)
+    try generateShadows(with: configuration, from: trees)
   }
   
   private func generateColors(with configuration: Configuration) throws {
@@ -122,6 +124,24 @@ package struct OutputGenerator {
     try generateGradients(with: configuration, from: trees)
   }
   
+  private func generateShadows(with configuration: Configuration) throws {
+    guard let shadowConfiguration = configuration.shadowConfiguration else {
+      return
+    }
+    
+    guard let inputPaths = shadowConfiguration.inputPaths else {
+      return
+    }
+
+    let inputLocator = InputLocator(inputPaths: inputPaths)
+    let inputURLs = inputLocator.locate(using: configurationLocator)
+    
+    let designTokensDecoder = DesignTokensDecoder(inputURLs: inputURLs)
+    let trees = try designTokensDecoder.decode()
+
+    try generateShadows(with: configuration, from: trees)
+  }
+  
   private func generateColors(with configuration: Configuration, from trees: [DesignTokenTree]) throws {
     guard let colorConfiguration = configuration.colorConfiguration else {
       return
@@ -183,6 +203,27 @@ package struct OutputGenerator {
     let tokens = reducer.gradients()
 
     let sourceCodeGenerator = GradientSourceCodeGenerator(tokens: tokens)
+    let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
+
+    try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)
+    try write(files, at: outputURL)
+  }
+  
+  private func generateShadows(with configuration: Configuration, from trees: [DesignTokenTree]) throws {
+    guard let shadowConfiguration = configuration.shadowConfiguration else {
+      return
+    }
+    
+    guard let outputPath = shadowConfiguration.outputPath ?? configuration.outputPath else {
+      return
+    }
+    
+    let outputURL = outputURL(with: configurationLocator, for: outputPath)
+
+    let reducer = TreeReducer(trees: trees)
+    let tokens = reducer.shadows()
+
+    let sourceCodeGenerator = ShadowSourceCodeGenerator(tokens: tokens)
     let files = try sourceCodeGenerator.generate(with: StencilEnvironmentProvider.swift())
 
     try FileManager.default.createDirectory(at: outputURL, withIntermediateDirectories: true)

@@ -8,11 +8,14 @@ enum ConfigurationValidationFailure: Error {
   /// No output has been provided in the configuration.
   case noOutputProvided
 
-  /// The gradient configuration requires a color configuration to be set.
-  case gradientConfigurationRequiresColorConfiguration
+  /// The configuration requires a color configuration to be set.
+  case configurationRequiresColorConfiguration
 
-  /// The gradient configuration requires a number configuration to be set.
-  case gradientConfigurationRequiresNumberConfiguration
+  /// The configuration requires a dimension configuration to be set.
+  case configurationRequiresDimensionConfiguration
+
+  /// The configuration requires a number configuration to be set.
+  case configurationRequiresNumberConfiguration
 }
 
 /// An object that validates the given `Configuration`.
@@ -74,11 +77,21 @@ struct ConfigurationValidator {
   private func validateConfigurations() throws(ConfigurationValidationFailure) {
     if configuration.gradientConfiguration != nil {
       if configuration.colorConfiguration == nil {
-        throw .gradientConfigurationRequiresColorConfiguration
+        throw .configurationRequiresColorConfiguration
       }
 
       if configuration.numberConfiguration == nil {
-        throw .gradientConfigurationRequiresNumberConfiguration
+        throw .configurationRequiresNumberConfiguration
+      }
+    }
+
+    if configuration.shadowConfiguration != nil {
+      if configuration.colorConfiguration == nil {
+        throw .configurationRequiresColorConfiguration
+      }
+
+      if configuration.dimensionConfiguration == nil {
+        throw .configurationRequiresDimensionConfiguration
       }
     }
   }

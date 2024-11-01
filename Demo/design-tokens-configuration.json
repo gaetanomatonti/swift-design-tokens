@@ -3,12 +3,14 @@
   "dimensions": {},
   "numbers": {},
   "gradients": {},
+  "shadows": {},
   "input": [
     "color-base.tokens.json",
     "color-semantic.tokens.json",
     "dimension.tokens.json",
     "gradient.tokens.json",
-    "number.tokens.json"
+    "number.tokens.json",
+    "shadow.tokens.json",
   ],
   "output": "App/Sources/Tokens"
 }

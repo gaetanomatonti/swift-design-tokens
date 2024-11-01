@@ -13,21 +13,26 @@ struct ContentView: View {
       Color.token(.backgroundBase)
         .ignoresSafeArea()
 
-      Text("Hello World! Check out [swift-design-tokens](https://github.com/gaetanomatonti/swift-design-tokens).")
-        .foregroundStyle(.token(.textPrimary))
-        .tint(.token(.textLink))
-        .padding(.token(dimension: .medium))
-        .background(
-          in: .rect(cornerRadius: .token(dimension: .small))
-        )
-        .backgroundStyle(
-          .linearGradient(
-            .token(.background),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-          )
-        )
+      Button {
+        
+      } label: {
+        Text("Hello World! Check out [swift-design-tokens](https://github.com/gaetanomatonti/swift-design-tokens).")
+      }
+      .buttonStyle(CardButtonStyle())
     }
+  }
+}
+
+struct CardButtonStyle: ButtonStyle {
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .foregroundStyle(.token(.textPrimary))
+      .tint(.token(.textLink))
+      .padding(.token(dimension: .medium))
+      .background(.token(.backgroundContainer), in: .containerRelative)
+      .shadow(configuration.isPressed ? .cardPressed : .cardDrop)
+      .containerShape(.rect(cornerRadius: .token(dimension: .small)))
+      .animation(.interactiveSpring, value: configuration.isPressed)
   }
 }
 

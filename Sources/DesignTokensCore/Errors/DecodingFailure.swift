@@ -22,6 +22,9 @@ enum DecodingFailure: Error {
   
   /// The decoded gradient value is invalid.
   case invalidGradientValue(tokenName: String, tokenPath: [String])
+  
+  /// The decoded shadow value is invalid.
+  case invalidShadowValue(tokenName: String, tokenPath: [String])
 }
 
 extension DecodingFailure: Equatable {}
@@ -59,6 +62,11 @@ extension DecodingFailure: LocalizedError {
       """
 
     case let .invalidGradientValue(tokenName, tokenPath):
+      return """
+      The decoded value for token '\(tokenName) at path \(tokenPath) is invalid.
+      """
+
+    case let .invalidShadowValue(tokenName, tokenPath):
       return """
       The decoded value for token '\(tokenName) at path \(tokenPath) is invalid.
       """

@@ -6,7 +6,7 @@
   /// {{ token.description }}
   {% endif %}
   {% set tokenName %}{{ token.path|join:", "|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords }}{% endset %}
-  public static let {{ tokenName }} = {%+  call colorToken token.color +%}
+  public static let {{ tokenName }} = {%+ call colorToken token.color +%}
   {% endfor %}
 {% endmacro %}
 // Generated with swift-design-tokens – https://github.com/gaetanomatonti/swift-design-tokens

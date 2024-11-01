@@ -2,17 +2,17 @@
   "background": {
     "base": {
       "$type": "color",
-      "$value": "{black.900}"
+      "$value": "#ECEBF0"
     },
     "container": {
       "$type": "color",
-      "$value": "{black.800}"
+      "$value": "#ffffff"
     }
   },
   "text": {
     "primary": {
       "$type": "color",
-      "$value": "{white}"
+      "$value": "#0C0C0D"
     },
     "link": {
       "$type": "color",

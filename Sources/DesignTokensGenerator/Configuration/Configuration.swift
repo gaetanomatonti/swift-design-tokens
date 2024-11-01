@@ -8,6 +8,7 @@ struct Configuration: ConfigurationProtocol, Equatable {
     case colorConfiguration = "colors"
     case dimensionConfiguration = "dimensions"
     case gradientConfiguration = "gradients"
+    case shadowConfiguration = "shadows"
     case numberConfiguration = "numbers"
   }
   
@@ -27,6 +28,9 @@ struct Configuration: ConfigurationProtocol, Equatable {
 
   /// The configuration for the gradient tokens.
   private(set) var gradientConfiguration: GradientConfiguration?
+
+  /// The configuration for the shadow tokens.
+  private(set) var shadowConfiguration: ShadowConfiguration?
 
   /// The configuration for the number tokens.
   private(set) var numberConfiguration: NumberConfiguration?
@@ -149,6 +153,23 @@ struct Configuration: ConfigurationProtocol, Equatable {
   func gradient(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
     gradient(GradientConfiguration(inputPaths: inputPaths, outputPath: outputPath))
   }
+
+  /// Sets the configuration for the gradient tokens.
+  /// - Parameters:
+  ///   - path: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new dimension configuration.
+  func shadow(inputPath: String, outputPath: String? = nil) -> Configuration {
+    shadow(ShadowConfiguration(inputPaths: [inputPath], outputPath: outputPath))
+  }
+
+  /// Sets the configuration for the gradient tokens.
+  /// - Parameters:
+  ///   - inputPaths: The path of the input files.
+  ///   - outputPath: The path of the directory where the output will be generated.
+  /// - Returns: The output configuration with a new dimension configuration.
+  func shadow(inputPaths: [String]? = nil , outputPath: String? = nil) -> Configuration {
+    shadow(ShadowConfiguration(inputPaths: inputPaths, outputPath: outputPath))
+  }
   
   private func color(_ colorConfiguration: ColorConfiguration) -> Configuration {
     var configuration = self
@@ -173,6 +194,12 @@ struct Configuration: ConfigurationProtocol, Equatable {
     configuration.gradientConfiguration = gradientConfiguration
     return configuration
   }
+  
+  private func shadow(_ shadowConfiguration: ShadowConfiguration) -> Configuration {
+    var configuration = self
+    configuration.shadowConfiguration = shadowConfiguration
+    return configuration
+  }
 }
 
 extension Configuration {
@@ -193,6 +220,7 @@ extension Configuration {
     self.colorConfiguration = try container.decodeIfPresent(ColorConfiguration.self, forKey: .colorConfiguration)
     self.dimensionConfiguration = try container.decodeIfPresent(DimensionConfiguration.self, forKey: .dimensionConfiguration)
     self.gradientConfiguration = try container.decodeIfPresent(GradientConfiguration.self, forKey: .gradientConfiguration)
+    self.shadowConfiguration = try container.decodeIfPresent(ShadowConfiguration.self, forKey: .shadowConfiguration)
     self.numberConfiguration = try container.decodeIfPresent(NumberConfiguration.self, forKey: .numberConfiguration)
   }
 }

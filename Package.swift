@@ -45,6 +45,7 @@ let package = Package(
         .copy("Resources/dimension+token.stencil"),
         .copy("Resources/gradient+token.stencil"),
         .copy("Resources/number+token.stencil"),
+        .copy("Resources/shadow+token.stencil"),
       ]
     ),
     .testTarget(
@@ -57,6 +58,7 @@ let package = Package(
         .copy("Resources/groups.json"),
         .copy("Resources/missingTypeFailure.json"),
         .copy("Resources/missingTypeWithAlias.json"),
+        .copy("Resources/shadow.json"),
       ]
     ),
     .testTarget(

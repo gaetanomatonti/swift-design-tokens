@@ -1,0 +1,26 @@
+{
+  "card": {
+    "pressed": {
+      "$type": "shadow",
+      "$value": {
+        "color": "#07070933",
+        "offsetX": "0 px",
+        "offsetY": "2 px",
+        "blur": "2 px",
+        "spread": "-2 px",
+        "inset": false
+      }
+    },
+    "drop": {
+      "$type": "shadow",
+      "$value": {
+        "color": "#07070933",
+        "offsetX": "0 px",
+        "offsetY": "4 px",
+        "blur": "8 px",
+        "spread": "-2 px",
+        "inset": false
+      }
+    }
+  }
+}

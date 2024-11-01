@@ -13,4 +13,7 @@ package enum TokenType: String, Decodable, CaseIterable {
 
   /// The `"gradient"` type.
   case gradient
+
+  /// The `"shadow"` type.
+  case shadow
 }

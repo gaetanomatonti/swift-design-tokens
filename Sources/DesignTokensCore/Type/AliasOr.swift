@@ -18,8 +18,12 @@ extension AliasOr: Decodable where Value: Decodable {
       let value = try container.decode(Value.self)
       self = .value(value)
     } catch {
-      let alias = try container.decode(Alias.self)
-      self = .alias(alias)
+      do {
+        let alias = try container.decode(Alias.self)
+        self = .alias(alias)
+      } catch {
+        throw error
+      }
     }
   }
 }

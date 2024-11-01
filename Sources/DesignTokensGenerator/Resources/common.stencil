@@ -9,6 +9,8 @@
 
 {% macro colorToken color %}ColorToken(red: {{ color.red }}, green: {{ color.green }}, blue: {{ color.blue }}, alpha: {{ color.alpha }}){% endmacro %}
 
+{% macro dimensionToken dimension %}DimensionToken(value: {{ dimension.value }}){% endmacro %}
+
 {% macro gradientToken gradient %}GradientToken(
     stops: [
       {% for stop in gradient.stops %}
@@ -28,5 +30,40 @@
       ),
       {% endfor %}
     ]
+  )
+{% endmacro %}
+
+{% macro shadowToken shadow %}ShadowToken(
+    {% if shadow.color.value %}
+    color: {%+ call colorToken shadow.color.value %},
+    {% endif %}
+    {% if shadow.color.alias %}
+    color: ColorToken.{%+ call referenceName shadow.color.alias %},
+    {% endif %}
+    {% if shadow.offsetX.value %}
+    x: {%+ call dimensionToken shadow.offsetX.value %},
+    {% endif %}
+    {% if shadow.offsetX.alias %}
+    x: DimensionToken.{%+ call referenceName shadow.offsetX.alias %},
+    {% endif %}
+    {% if shadow.offsetY.value %}
+    y: {%+ call dimensionToken shadow.offsetY.value %},
+    {% endif %}
+    {% if shadow.offsetY.alias %}
+    y: DimensionToken.{%+ call referenceName shadow.offsetY.alias %},
+    {% endif %}
+    {% if shadow.blur.value %}
+    radius: {%+ call dimensionToken shadow.blur.value %},
+    {% endif %}
+    {% if shadow.blur.alias %}
+    radius: DimensionToken.{%+ call referenceName shadow.blur.alias %},
+    {% endif %}
+    {% if shadow.spread.value %}
+    spread: {%+ call dimensionToken shadow.spread.value %},
+    {% endif %}
+    {% if shadow.spread.alias %}
+    spread: DimensionToken.{%+ call referenceName shadow.spread.alias %},
+    {% endif %}
+    inset: {{ shadow.inset }}
   )
 {% endmacro %}
