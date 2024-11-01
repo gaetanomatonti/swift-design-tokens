@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-  @State private var isPressed = false
-
   var body: some View {
     ZStack {
       Color.token(.backgroundBase)

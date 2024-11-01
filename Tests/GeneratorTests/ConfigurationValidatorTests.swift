@@ -27,6 +27,12 @@ struct ConfigurationValidatorTests {
         .dimension(inputPath: "design-tokens.json", outputPath: "Output")
         .gradient(inputPath: "design-tokens.json", outputPath: "Output")
         .number(inputPath: "design-tokens.json", outputPath: "Output"),
+      Configuration()
+        .input("design-tokens.json")
+        .output("Output/")
+        .color(inputPath: "design-tokens.json", outputPath: "Output")
+        .dimension(inputPath: "design-tokens.json", outputPath: "Output")
+        .shadow(inputPath: "design-tokens.json", outputPath: "Output")
     ]
   )
   func configurationIsValid(_ configuration: Configuration) throws {
