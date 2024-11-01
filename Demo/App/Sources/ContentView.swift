@@ -31,13 +31,10 @@ struct CardButtonStyle: ButtonStyle {
       .foregroundStyle(.token(.textPrimary))
       .tint(.token(.textLink))
       .padding(.token(dimension: .medium))
-      .background(
-        in: .rect(cornerRadius: .token(dimension: .small))
-      )
-      .backgroundStyle(.token(.backgroundContainer))
-      .compositingGroup()
+      .background(.token(.backgroundContainer), in: .containerRelative)
       .shadow(configuration.isPressed ? .cardPressed : .cardDrop)
-      .animation(.interactiveSpring, value: configuration.isPressed)
+      .containerShape(.rect(cornerRadius: .token(dimension: .small)))
+      .animation(.spring, value: configuration.isPressed)
   }
 }
 

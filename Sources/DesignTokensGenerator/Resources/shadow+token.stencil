@@ -40,12 +40,19 @@ import SwiftUI
 
 public extension View {
   func shadow(_ token: ShadowToken) -> some View {
-    shadow(
-      color: .token(token.color),
-      radius: .token(dimension: token.radius),
-      x: .token(dimension: token.x),
-      y: .token(dimension: token.y)
-    )
+    ZStack {
+      SpreadContainerRelativeShape(spread: .token(dimension: token.spread))
+        .fill(.token(token.color))
+        .blur(radius: .token(dimension: token.radius))
+        .offset(
+          x: .token(dimension: token.x),
+          y: .token(dimension: token.y)
+        )
+        .layoutPriority(0)
+
+      self
+        .layoutPriority(1)
+    }
   }
 }
 
@@ -66,6 +73,26 @@ public extension ShapeStyle {
           y: .token(dimension: token.y)
         )
     )
+  }
+}
+
+fileprivate struct SpreadContainerRelativeShape: Shape {
+  let spread: CGFloat
+
+  func path(in rect: CGRect) -> Path {
+    ContainerRelativeShape()
+      .path(
+        in: CGRect(
+          origin: CGPoint(
+            x: rect.origin.x - spread,
+            y: rect.origin.y - spread
+          ),
+          size: CGSize(
+            width: rect.size.width + spread * 2,
+            height: rect.size.height + spread * 2
+          )
+        )
+      )
   }
 }
 #endif
